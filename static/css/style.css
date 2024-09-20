@@ -1,0 +1,16 @@
+@charset "UTF-8";
+
+.block1,
+.block2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 10%;
+    width: 50%;
+    border: solid #a7a7a7 2px;
+}
+
+.block-logo {
+    height: 10em;
+    user-select: none;
+}
