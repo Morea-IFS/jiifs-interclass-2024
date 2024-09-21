@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{% static 'css/cadastro-jogadores' %}" />
+    <link rel="stylesheet" href="{% static 'css/cadastro-jogadores.css' %}" />
     <link rel="stylesheet" href="{% static 'css/layout.css' %}">
     <title>JIIFS ADMIN</title>
 </head>
@@ -53,9 +53,35 @@
             </section>
             <div class="all-blocks">
                 <section class="block1">
+                    <div class="title">
+                        <h1>CADASTRO DE JOGADORES</h1>
+                    </div>
+                    <section class="block1-inputs">
+                        <form class="block1-inputs-form">
+                            <input type="text" autocomplete="on" autocorrect="on" placeholder="Nome do jogador"></input>
+                            <input type="number" placeholder="Número do jogador" max="99" min="1"></input>
+                            <select id="cursos" name="cursos">
+                                <option selected disabled>Selecione o curso</option>
+                                <option value="irc">IRC</option>
+                                <option value="iaut">IAUT </option>
+                                <option value="ieltm">IELTM</option>
+                                <option value="iedf">IEDF</option>
+                            </select>
+                            <select id="turmas" name="turmas">
+                                <option selected disabled>Selecione a turma</option>
+                                <option value="one">Primeiro ano</option>
+                                <option value="two">Segundo ano</option>
+                                <option value="three">Terceiro ano</option>
+                            </select>
+                            <div>
+                                <input type="submit" value="Confirmar"></input>
+                            </div>
+                        </form>
+                    </section>
                 </section>
                 <section class="block2">
-
+                    <img class="block-logo" src="{% static 'images/logo-morea.svg' %}" alt="Logo Morea">
+                    <img class="block-logo" src="{% static 'images/logo-ifs-black.svg' %}" alt="Logo IFS">
                 </section>
             </div>
         </div>
