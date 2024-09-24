@@ -56,28 +56,27 @@
                     <div class="title">
                         <h1>CADASTRO DE JOGADORES</h1>
                     </div>
-                    <section class="block1-inputs">
-                        <form class="block1-inputs-form">
-                            <input type="text" autocomplete="on" autocorrect="on" placeholder="Nome do jogador"></input>
-                            <input type="number" placeholder="Número do jogador" max="99" min="1"></input>
-                            <select id="cursos" name="cursos">
-                                <option selected disabled>Selecione o curso</option>
-                                <option value="irc">IRC</option>
-                                <option value="iaut">IAUT </option>
-                                <option value="ieltm">IELTM</option>
-                                <option value="iedf">IEDF</option>
-                            </select>
-                            <select id="turmas" name="turmas">
-                                <option selected disabled>Selecione a turma</option>
-                                <option value="one">Primeiro ano</option>
-                                <option value="two">Segundo ano</option>
-                                <option value="three">Terceiro ano</option>
-                            </select>
+                    <form class="block1-inputs">
+                        <div class="block1-inputs-form">
+                            <div>
+                                <input type="text" autocomplete="on" autocorrect="on"
+                                    placeholder="Nome do jogador"></input>
+                                <input type="text" autocomplete="on" autocorrect="on"
+                                    placeholder="Instagram do jogador"></input>
+                                <select id="sexos" name="sexos">
+                                    <option selected disabled>Selecione o Sexo</option>
+                                    <option value="masculino">Masculino</option>
+                                    <option value="feminino">Feminino</option>
+                                </select>
+                                <label for="foto-jogador" id="label-foto" class="custom-file-button">Adicione uma imagem <img class="input-icon" src="{% static 'images/icon-folder.svg' %}" alt=""></label>
+                                <input type="file" name="foto-jogador" id="foto-jogador" accept=".jpg, .jpeg, .png" onchange="trocarTextoLabel()">
+                            </div>
                             <div>
                                 <input type="submit" value="Confirmar"></input>
                             </div>
-                        </form>
-                    </section>
+                        </div>
+                    </form>
+                </section>
                 </section>
                 <section class="block2">
                     <img class="block-logo" src="{% static 'images/logo-morea.svg' %}" alt="Logo Morea">
