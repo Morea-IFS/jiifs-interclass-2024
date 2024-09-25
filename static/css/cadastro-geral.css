@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+.title {
+    display: flex;
+    align-items: center;
+    height: 8em;
+}
+
+.title h1 {
+    text-align: center;
+    color: var(--global-secondary-color);
+    font-size: 1.8em;
+}

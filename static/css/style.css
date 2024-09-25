@@ -7,7 +7,7 @@
     justify-content: center;
     opacity: 10%;
     width: 50%;
-    border: solid #a7a7a7 2px;
+    border: solid var(--global-primary-color) 2px;
 }
 
 .block-logo {
