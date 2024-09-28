@@ -4,12 +4,12 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name = "Home"),
-    path('gerenciamento-jogadores/', views.gerenciamento, name = "Gerenciamento"),
-    path('gerenciamento-times/', views.gerenciamentotimes, name = "Gerenciamento-Times"),
-    path('cadastro-jogadores/', views.cadastrojogadores, name = "Cadastro-Jogadores"),
-    path('cadastro-times/', views.cadastrotimes, name = "Cadastro-Times"),
-    path('editar-jogadores/', views.editarjogadores, name = "Editar-Jogadores"),
-    path('editar-times/', views.editartimes, name = "Editar-Times"),
-    path('jogo/', views.jogo, name = "Jogo"),
-    path('esportes/', views.esportes, name = "Esportes"),
+    path('jogador/gerenciar', views.player_manage, name = "player_manage"),
+    path('jogador/cadastrar', views.player_register, name = "player_register"),
+    path('jogador/editar', views.player_edit, name = "player_edit"),
+    path('time/gerenciar', views.team_manage, name = "team_manage"),
+    path('time/cadastrar', views.team_register, name = "team_register"),
+    path('time/editar', views.team_edit, name = "team_edit"),
+    path('jogo', views.game, name = "game"),
+    path('esportes', views.sport, name = "sport"),
 ]
