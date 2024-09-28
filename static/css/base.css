@@ -36,16 +36,17 @@ button {
 .block1 {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     width: 100%;
 }
 
-.block1-inputs {
+.block-inputs {
     display: flex;
     justify-content: center;
 }
 
-.block1-inputs-form {
+.block-inputs-form {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -53,7 +54,7 @@ button {
     width: 80%;
 }
 
-.block1-inputs-form select {
+.block-inputs-form select {
     background-color: var(--global-secondary-color);
     color: var(--global-primary-color);
 }
@@ -75,20 +76,21 @@ input[type=file] {
 
 .custom-file-button {
     display: flex;
-    padding-block: 1em;
     border: none;
     width: 100%;
+    text-align: center;
+    padding-block: 1em;
     font-size: 15px;
     justify-content: center;
     background-color: var(--global-secondary-color);
     color: var(--global-primary-color);
     user-select: none;
 }
-
 .green-button {
     background-color: #00AB11;
     border-radius: 1em;
     border: none;
     color: white;
     padding: 1em;
+    width: 7em;
 }

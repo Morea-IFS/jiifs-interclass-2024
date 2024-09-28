@@ -4,26 +4,26 @@ from django.shortcuts import render
 def index(request):
     return render(request, 'index.html')
 
-def gerenciamento(request):
+def player_manage(request):
     return render(request, 'gerenciamento-jogadores.html')
 
-def gerenciamentotimes(request):
+def team_manage(request):
     return render(request, 'gerenciamento-times.html')
 
-def cadastrojogadores(request):
+def player_register(request):
     return render(request, 'cadastro-jogadores.html')
 
-def cadastrotimes(request):
+def team_register(request):
     return render(request, 'cadastro-times.html')
 
-def editarjogadores(request):
+def player_edit(request):
     return render(request, 'editar-jogadores.html')
 
-def editartimes(request):
+def team_edit(request):
     return render(request, 'editar-times.html')
 
-def jogo(request):
+def game(request):
     return render(request, 'jogo.html')
 
-def esportes(request):
+def sport(request):
     return render(request, 'esportes.html')
