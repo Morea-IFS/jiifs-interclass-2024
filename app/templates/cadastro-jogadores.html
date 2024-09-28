@@ -22,13 +22,13 @@
                         <a href="{% url 'Home' %}">
                             <button class="side-bar-buttons-items">HOME</button>
                         </a>
-                        <a href="{% url 'Gerenciamento' %}">
+                        <a href="{% url 'player_manage' %}">
                             <button class="side-bar-buttons-items">JOGADORES</button>
                         </a>
-                        <a href="{% url 'Gerenciamento-Times' %}">
+                        <a href="{% url 'team_manage' %}">
                             <button class="side-bar-buttons-items">TIMES</button>
                         </a>
-                        <a href="{% url 'Esportes' %}">
+                        <a href="{% url 'sport' %}">
                             <button class="side-bar-buttons-items">ESPORTES</button>
                         </a>
                     </div>
@@ -37,7 +37,7 @@
                     <section class="side-bar-register">
                         <h3 class="side-bar-register-title">CADASTRO</h3>
                         <button class="side-bar-buttons-items2">
-                            <a href="{% url 'Cadastro-Jogadores' %}">Adicionar</a>
+                            <a href="{% url 'player_register' %}">Adicionar</a>
                         </button>
                     </section>
                     <div class="logos">
@@ -54,20 +54,24 @@
                     <div class="title">
                         <h1>CADASTRO DE JOGADORES</h1>
                     </div>
-                    <form class="block1-inputs">
-                        <div class="block1-inputs-form">
+                    <form id="function_validate_form" class="block-inputs">
+                        <div class="block-inputs-form">
                             <div>
                                 <input type="text" autocomplete="on" autocorrect="on"
                                     placeholder="Nome do jogador"></input>
                                 <input type="text" autocomplete="on" autocorrect="on"
                                     placeholder="Instagram do jogador"></input>
+                                <input type="text" autocomplete="on" autocorrect="on"
+                                    placeholder="Número do jogador"></input>
                                 <select id="sexos" name="sexos">
                                     <option selected disabled>Selecione o Sexo</option>
                                     <option value="masculino">Masculino</option>
                                     <option value="feminino">Feminino</option>
                                 </select>
-                                <label for="foto-jogador" id="label-foto" class="custom-file-button">Adicione uma imagem</label>
-                                <input type="file" name="foto-jogador" id="foto-jogador" accept=".jpg, .jpeg, .png" onchange="trocarTextoLabel()">
+                                <label for="foto-jogador" id="label-foto" class="custom-file-button">Adicione uma
+                                    imagem</label>
+                                <input type="file" name="foto-jogador" id="foto-jogador" accept=".jpg, .jpeg, .png"
+                                    onchange="trocarTextoLabel()">
                             </div>
                             <div>
                                 <input class="green-button" type="submit" value="Confirmar"></input>
