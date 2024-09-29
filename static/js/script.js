@@ -27,3 +27,10 @@ document.getElementById('function_validate_form_delete').addEventListener('submi
         event.preventDefault();
     }
 });
+
+function toggle(source) {
+    checkboxes = document.getElementsByName('input-checkbox');
+    for(i = 0, n = checkboxes.length; i < n; i++) {
+        checkboxes[i].checked = source.checked;
+    }
+};
