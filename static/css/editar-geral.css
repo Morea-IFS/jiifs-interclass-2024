@@ -14,6 +14,16 @@
     font-size: 1.8em;
 }
 
+.input-data{
+    background-color: var(--global-secondary-color);
+    color: var(--global-primary-color);
+    text-align: center;
+    color-scheme: dark;
+    padding-block: 1em;
+    width: 100%;
+
+}
+
 .input-delete {
     background-color: var(--global-seventh-color);
     border-radius: 1em;
