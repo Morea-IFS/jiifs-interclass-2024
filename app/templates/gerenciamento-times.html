@@ -28,6 +28,9 @@
                         <a href="{% url 'team_manage' %}">
                             <button class="side-bar-buttons-items">TIMES</button>
                         </a>
+                        <a href="{% url 'matches_manage' %}">
+                            <button class="side-bar-buttons-items">PARTIDAS</button>
+                        </a>
                         <a href="{% url 'sport' %}">
                             <button class="side-bar-buttons-items">ESPORTES</button>
                         </a>
@@ -54,8 +57,10 @@
                     <div class="title">
                         <h1>GERENCIAMENTO DOS TIMES</h1>
                     </div>
+                    <input type="search" id="search-input" onkeyup="search_table()" 
+                        placeholder="Pesquisar os times" />
                     <section class="all-table">
-                        <table>
+                        <table id="matches-table">
                             <tr>
                                 <th>NOME</th>
                                 <th>COLOR-HEX</th>
@@ -64,22 +69,22 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <a href="{% url 'team_edit' %}">2° IRC</a>
+                                    <a href="{% url 'team_edit' %}">2 IRC</a>
                                 </td>
                                 <td>------</td>
                                 <td>MASCULINO</td>
                                 <td>
-                                    <a href="{% url 'manage_team_players' %}">ACESSAR</a>
+                                    <a href="{% url 'team_players_manage' %}">ACESSAR</a>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <a href="{% url 'team_edit' %}">4° IRC</a>
+                                    <a href="{% url 'team_edit' %}">4 IRC</a>
                                 </td>
                                 <td>------</td>
                                 <td>FEMININO</td>
                                 <td>
-                                    <a href="{% url 'manage_team_players' %}">ACESSAR</a>
+                                    <a href="{% url 'team_players_manage' %}">ACESSAR</a>
                                 </td>
                             </tr>
                             <tr>
@@ -89,7 +94,7 @@
                                 <td>SLAS</td>
                                 <td>MASCULINO</td>
                                 <td>
-                                    <a href="{% url 'manage_team_players' %}">ACESSAR</a>
+                                    <a href="{% url 'team_players_manage' %}">ACESSAR</a>
                                 </td>
                             </tr>
                             <tr>
@@ -99,7 +104,7 @@
                                 <td>SLAS</td>
                                 <td>MASCULINO</td>
                                 <td>
-                                    <a href="{% url 'manage_team_players' %}">ACESSAR</a>
+                                    <a href="{% url 'team_players_manage' %}">ACESSAR</a>
                                 </td>
                             </tr>
                             <tr>
@@ -109,7 +114,7 @@
                                 <td>SLAS</td>
                                 <td>MASCULINO</td>
                                 <td>
-                                    <a href="{% url 'manage_team_players' %}">ACESSAR</a>
+                                    <a href="{% url 'team_players_manage' %}">ACESSAR</a>
                                 </td>
                             </tr>
                         </table>
