@@ -10,10 +10,20 @@ def player_manage(request):
 def team_manage(request):
     return render(request, 'gerenciamento-times.html')
 
-
-def manage_team_players(request):
+def team_players_manage(request):
     return render(request, 'gerenciamento-jogadores-times.html')
 
+def matches_manage(request):
+    return render(request, 'gerenciamento-partidas.html')
+
+def matches_edit(request):
+    return render(request, 'editar-partidas.html')
+
+def matches_register(request):
+    return render(request, 'cadastro-partidas.html')
+
+def add_player_team(request):
+    return render(request, 'adicionar-jogadores-time.html')
 
 def player_register(request):
     return render(request, 'cadastro-jogadores.html')
