@@ -28,6 +28,9 @@
                         <a href="{% url 'team_manage' %}">
                             <button class="side-bar-buttons-items">TIMES</button>
                         </a>
+                        <a href="{% url 'matches_manage' %}">
+                            <button class="side-bar-buttons-items">PARTIDAS</button>
+                        </a>
                         <a href="{% url 'sport' %}">
                             <button class="side-bar-buttons-items">ESPORTES</button>
                         </a>
@@ -37,7 +40,7 @@
                     <section class="side-bar-register">
                         <h3 class="side-bar-register-title">CADASTRO</h3>
                         <button class="side-bar-buttons-items2">
-                            <a href="{% url 'team_register' %}">Adicionar</a>
+                            <a href="{% url 'add_player_team' %}">Adicionar</a>
                         </button>
                     </section>
                     <div class="logos">
@@ -59,9 +62,9 @@
                             <div class="block-inputs-div">
                                 <select class="select-action" name="select-action" id="select-action">
                                     <option selected disabled>Selecione a ação</option>
-                                    <option value="excluir">Excluir Jogadores</option>
-                                    <option value="excluir">Excluir Jogadores</option>
-                                    <option value="excluir">Excluir Jogadores</option>
+                                    <option value="excluir">Excluir jogadores</option>
+                                    <option value="reserva">Tornar reserva</option>
+                                    <option value="titular">Tornar titular</option>
                                 </select>
                                 <div>
                                     <input class="green-button" type="submit" value="Confirmar">
