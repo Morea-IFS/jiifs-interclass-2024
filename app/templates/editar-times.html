@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{% static 'css/navbar-cadastro.css' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <link rel="stylesheet" href="{% static 'css/cadastro-geral.css' %}">
+    <link rel="stylesheet" href="{% static 'css/editar-geral.css' %}" />
     <title>JIIFS ADMIN</title>
 </head>
 
@@ -40,7 +40,7 @@
                     <section class="side-bar-register">
                         <h3 class="side-bar-register-title">CADASTRO</h3>
                         <button class="side-bar-buttons-items2">
-                            <a href="{% url 'player_register' %}">Adicionar</a>
+                            <a href="{% url 'team_register' %}">Adicionar</a>
                         </button>
                     </section>
                     <div class="logos">
@@ -55,38 +55,40 @@
             <div class="all-block">
                 <section class="block1">
                     <div class="title">
-                        <h1>CADASTRO DE JOGADORES</h1>
+                        <h1>EDITAR TIME</h1>
                     </div>
+                <div>
                     <form id="function_validate_form" class="block-inputs">
                         <div class="block-inputs-form">
                             <div>
                                 <input type="text" autocomplete="on" autocorrect="on"
-                                    placeholder="Nome do jogador">
+                                    placeholder="Digite o nome do time">
                                 <input type="text" autocomplete="on" autocorrect="on"
-                                    placeholder="Instagram do jogador">
-                                <input type="text" autocomplete="on" autocorrect="on"
-                                    placeholder="Número do jogador">
-
+                                    placeholder="Informe a cor em Hexadecimal">
                                 <select id="sexos" name="sexos">
                                     <option selected disabled>Selecione o sexo</option>
                                     <option value="masculino">Masculino</option>
                                     <option value="feminino">Feminino</option>
                                 </select>
-                                <label for="fotos" id="label-foto" class="custom-file-button">Adicione uma
-                                    imagem</label>
-                                <input type="file" name="foto-jogador" id="fotos" accept=".jpg, .jpeg, .png"
-
-                                    onchange="trocarTextoLabel()">
+                                <label for="fotos" id="label-foto" class="custom-file-button">Adicione a imagem do time</label>
+                                <input type="file" name="foto-time" id="fotos" accept=".jpg, .jpeg, .png" onchange="trocarTextoLabel()">
                             </div>
                             <div>
-                                <input class="green-button" type="submit" value="Confirmar"></input>
+                                <input class="green-button" type="submit" value="Confirmar">
                             </div>
                         </div>
                     </form>
+                    <form id="function_validate_form_delete" class="block-inputs" action="">
+                        <div class="block-inputs-form" >
+                            <input class="input-delete" type="submit" value="Excluir">
+                        </div>
+                    </form>
+                </div>
                 </section>
             </div>
         </div>
     </main>
+
     <script src="{% static 'js/script.js' %}"></script>
 </body>
 

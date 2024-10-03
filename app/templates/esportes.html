@@ -6,9 +6,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{% static 'css/simple-navbar.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/navbar-cadastro.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/esportes.css' %}">
     <title>JIIFS ADMIN</title>
 </head>
 
@@ -23,14 +23,29 @@
                             <button class="side-bar-buttons-items">HOME</button>
                         </a>
                         <a href="{% url 'player_manage' %}">
-                            <button class="side-bar-buttons-items">GERENCIAMENTO</button>
+                            <button class="side-bar-buttons-items">JOGADORES</button>
                         </a>
-                        <a href="{% url 'game' %}">
-                            <button class="side-bar-buttons-items">JOGO</button>
+                        <a href="{% url 'team_manage' %}">
+                            <button class="side-bar-buttons-items">TIMES</button>
+                        </a>
+                        <a href="{% url 'sport' %}">
+                            <button class="side-bar-buttons-items">ESPORTES</button>
                         </a>
                     </div>
                 </div>
                 <div class="side-bar-bottom">
+                    <section class="side-bar-register">
+                        <h3 class="side-bar-register-title">CADASTRO</h3>
+                        <button class="side-bar-buttons-items2">
+                            <a href="{% url 'player_manage' %}">Jogadores</a>
+                        </button>
+                        <button class="side-bar-buttons-items2">
+                            <a href="">Times</a>
+                        </button>
+                        <button class="side-bar-buttons-items2">
+                            <a href="">Partidas</a>
+                        </button>
+                    </section>
                     <div class="logos">
                         <img class="logos-items" src="{% static 'images/logo-morea.svg' %}" alt="Logo Morea">
                         <img class="logos-items" src="{% static 'images/logo-ifs-black.svg' %}" alt="Logo IFS">
@@ -41,12 +56,7 @@
                 </div>
             </section>
             <div class="all-block">
-                <section class="block1">
-                    <img class="block-logo" src="{% static 'images/logo-morea.svg' %}" alt="Logo Morea">
-                </section>
-                <section class="block2">
-                    <img class="block-logo" src="{% static 'images/logo-ifs-black.svg' %}" alt="Logo IFS">
-                </section>
+                
             </div>
         </div>
     </main>

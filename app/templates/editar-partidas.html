@@ -1,0 +1,125 @@
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/navbar-cadastro.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/editar-geral.css' %}" />
+    <title>JIIFS ADMIN</title>
+</head>
+
+<body>
+    <main>
+        <div class="all">
+            <section class="side-bar">
+                <div class="side-bar-top">
+                    <img class="side-bar-logo" src="{% static 'images/logo-jiifs-2024.svg' %}" alt="Logo JIIFS24">
+                    <div class="side-bar-buttons">
+                        <a href="{% url 'Home' %}">
+                            <button class="side-bar-buttons-items">HOME</button>
+                        </a>
+                        <a href="{% url 'player_manage' %}">
+                            <button class="side-bar-buttons-items">JOGADORES</button>
+                        </a>
+                        <a href="{% url 'team_manage' %}">
+                            <button class="side-bar-buttons-items">TIMES</button>
+                        </a>
+                        <a href="{% url 'matches_manage' %}">
+                            <button class="side-bar-buttons-items">PARTIDAS</button>
+                        </a>
+                        <a href="{% url 'sport' %}">
+                            <button class="side-bar-buttons-items">ESPORTES</button>
+                        </a>
+                    </div>
+                </div>
+                <div class="side-bar-bottom">
+                    <section class="side-bar-register">
+                        <h3 class="side-bar-register-title">CADASTRO</h3>
+                        <button class="side-bar-buttons-items2">
+                            <a href="{% url 'matches_register' %}">Adicionar</a>
+                        </button>
+                    </section>
+                    <div class="logos">
+                        <img class="logos-items" src="{% static 'images/logo-morea.svg' %}" alt="Logo Morea">
+                        <img class="logos-items" src="{% static 'images/logo-ifs-black.svg' %}" alt="Logo IFS">
+                    </div>
+                    <button class="side-bar-buttons-items2">
+                        <a href="">Sair</a>
+                    </button>
+                </div>
+            </section>
+            <div class="all-block">
+                <section class="block1">
+                    <div class="title">
+                        <h1>EDITAR PARTIDAS</h1>
+                    </div>
+                <div>
+                    <form id="function_validate_form" class="block-inputs">
+                        <div class="block-inputs-form">
+                            <div>
+                                <select id="esporte" name="esporte">
+                                    <option selected disabled>Selecione o esporte</option>
+                                    <option value="masculino">Voleibol</option>
+                                    <option value="feminino">Futsal</option>
+                                </select>
+                                <select id="sexos" name="sexos">
+                                    <option selected disabled>Selecione o sexo</option>
+                                    <option value="masculino">Masculino</option>
+                                    <option value="feminino">Feminino</option>
+                                </select>
+                                <select id="time-a" name="time-a">
+                                    <option selected disabled>Selecione o time</option>
+                                    <option value="1-irc">1° IRC</option>
+                                    <option value="2-irc">2° IRC</option>
+                                    <option value="3-irc">3° IRC</option>
+                                    <option value="1-iaut">1° IAUT</option>
+                                    <option value="2-iaut">2° IAUT</option>
+                                    <option value="3-iaut">3° IAUT</option>
+                                    <option value="1-iedf">1° IEDF</option>
+                                    <option value="2-iedf">2° IEDF</option>
+                                    <option value="3-iedf">3° IEDF</option>
+                                    <option value="1-ieltm">1° IELTM</option>
+                                    <option value="2-ieltm">2° IELTM</option>
+                                    <option value="3-ieltm">3° IELTM</option>
+                                </select>
+                                <select id="times-b" name="times-b">
+                                    <option selected disabled>Selecione o time</option>
+                                    <option value="1-irc">1° IRC</option>
+                                    <option value="2-irc">2° IRC</option>
+                                    <option value="3-irc">3° IRC</option>
+                                    <option value="1-iaut">1° IAUT</option>
+                                    <option value="2-iaut">2° IAUT</option>
+                                    <option value="3-iaut">3° IAUT</option>
+                                    <option value="1-iedf">1° IEDF</option>
+                                    <option value="2-iedf">2° IEDF</option>
+                                    <option value="3-iedf">3° IEDF</option>
+                                    <option value="1-ieltm">1° IELTM</option>
+                                    <option value="2-ieltm">2° IELTM</option>
+                                    <option value="3-ieltm">3° IELTM</option>
+                                </select>
+                                <input class="input-data" type="datetime-local" name="date-game" id="date-game">
+                            </div>
+                            <div>
+                                <input class="green-button" type="submit" value="Confirmar">
+                            </div>
+                        </div>
+                    </form>
+                    <form id="function_validate_form_delete" class="block-inputs" action="">
+                        <div class="block-inputs-form" >
+                            <input class="input-delete" type="submit" value="Excluir">
+                        </div>
+                    </form>
+                </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+
+</html>

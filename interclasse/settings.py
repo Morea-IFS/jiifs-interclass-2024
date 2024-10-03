@@ -13,6 +13,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 
+from dotenv import load_dotenv
+load_dotenv()
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,12 +25,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-1is45gd*#tpckh*v2dyv@phqo$nt3p0m0n^$d_&417_a!$&%g5'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [os.getenv('HOST')]
 
 
 # Application definition
@@ -75,12 +79,26 @@ WSGI_APPLICATION = 'interclasse.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if (os.getenv("DBTYPE") == "MySQL" or os.getenv("DBTYPE") == "mysql"):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.getenv("DBNAME"),
+            'USER': os.getenv("DBUSER"),
+            'PASSWORD': os.getenv("DBPASSWORD"),
+            # Or an IP Address that your DB is hosted on
+            'HOST': os.getenv("DBHOST"),
+            'PORT': os.getenv("DBPORT"),
+        }
     }
-}
+
+elif (os.getenv("DBTYPE") == "SQLite3" or os.getenv("DBTYPE") == "sqlite3"):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR / 'db.sqlite3'),
+        }
+    }
 
 
 # Password validation
@@ -117,9 +135,26 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-STATIC_URL = '/static/' 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_URL = 'static/'
+MEDIA_URL = '/media/'
+
+if (os.getenv("ENVIRONMENT") == 'DEV' or os.getenv("ENVIRONMENT") == 'dev'):
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'static/')
+    ]
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+elif (os.getenv("ENVIRONMENT") == 'PROD' or os.getenv("ENVIRONMENT") == 'prod'):
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'static/')
+    ]
+    MEDIA_ROOT = '/var/www/html/trancadura/media/'
+    STATIC_ROOT = '/var/www/html/trancadura/static'
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+CSRF_COOKIE_SECURE = False
+CSRF_TRUSTED_ORIGINS = ['http://'+os.getenv('HOST'), 'https://'+os.getenv('HOST')]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

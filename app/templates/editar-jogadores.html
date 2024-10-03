@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{% static 'css/navbar-cadastro.css' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <link rel="stylesheet" href="{% static 'css/cadastro-geral.css' %}">
+    <link rel="stylesheet" href="{% static 'css/editar-geral.css' %}" />
     <title>JIIFS ADMIN</title>
 </head>
 
@@ -55,38 +55,43 @@
             <div class="all-block">
                 <section class="block1">
                     <div class="title">
-                        <h1>CADASTRO DE JOGADORES</h1>
+                        <h1>EDITAR JOGADOR</h1>
                     </div>
-                    <form id="function_validate_form" class="block-inputs">
-                        <div class="block-inputs-form">
-                            <div>
-                                <input type="text" autocomplete="on" autocorrect="on"
-                                    placeholder="Nome do jogador">
-                                <input type="text" autocomplete="on" autocorrect="on"
-                                    placeholder="Instagram do jogador">
-                                <input type="text" autocomplete="on" autocorrect="on"
-                                    placeholder="Número do jogador">
-
-                                <select id="sexos" name="sexos">
-                                    <option selected disabled>Selecione o sexo</option>
-                                    <option value="masculino">Masculino</option>
-                                    <option value="feminino">Feminino</option>
-                                </select>
-                                <label for="fotos" id="label-foto" class="custom-file-button">Adicione uma
-                                    imagem</label>
-                                <input type="file" name="foto-jogador" id="fotos" accept=".jpg, .jpeg, .png"
-
-                                    onchange="trocarTextoLabel()">
+                    <div>
+                        <form id="function_validate_form" class="block-inputs">
+                            <div class="block-inputs-form">
+                                <div>
+                                    <input type="text" autocomplete="on" autocorrect="on"
+                                        placeholder="Nome do jogador">
+                                    <input type="text" autocomplete="on" autocorrect="on"
+                                        placeholder="Instagram do jogador">
+                                    <input type="text" autocomplete="on" autocorrect="on"
+                                        placeholder="Número do jogador">
+                                    <select id="sexos" name="sexos">
+                                        <option selected disabled>Selecione o sexo</option>
+                                        <option value="masculino">Masculino</option>
+                                        <option value="feminino">Feminino</option>
+                                    </select>
+                                    <label for="fotos" id="label-foto" class="custom-file-button">Adicione uma imagem</label>
+                                    <input type="file" name="foto-jogador" id="fotos" accept=".jpg, .jpeg, .png" onchange="trocarTextoLabel()">
+                                </div>
+                                <div>
+                                    <input class="green-button" type="submit" value="Confirmar">
+                                </div>
                             </div>
-                            <div>
-                                <input class="green-button" type="submit" value="Confirmar"></input>
+                        </form>
+                        <form id="function_validate_form_delete" class="block-inputs" action="">
+                            <div class="block-inputs-form">
+                                <input type="hidden" name="" id="">
+                                <input class="input-delete" type="submit" value="Excluir">
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </section>
             </div>
         </div>
     </main>
+
     <script src="{% static 'js/script.js' %}"></script>
 </body>
 

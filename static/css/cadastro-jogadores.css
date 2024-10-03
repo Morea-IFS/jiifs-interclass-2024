@@ -1,8 +1,0 @@
-@charset "UTF-8";
-
-.block1,
-.block2 {
-    display: flex;
-    justify-content: center;
-    width: 50%;
-}

@@ -1,0 +1,35 @@
+@charset "UTF-8";
+
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 6em;
+    width: 100%;
+}
+
+.title h1 {
+    text-align: center;
+    color: var(--global-secondary-color);
+    font-size: 1.8em;
+}
+
+.input-data{
+    background-color: var(--global-secondary-color);
+    color: var(--global-primary-color);
+    text-align: center;
+    color-scheme: dark;
+    padding-block: 1em;
+    width: 100%;
+
+}
+
+.input-delete {
+    background-color: var(--global-seventh-color);
+    border-radius: 1em;
+    border: none;
+    color: white;
+    padding: 1em;
+    width: 7em;
+    margin-top: 2em;
+}
