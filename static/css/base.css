@@ -104,7 +104,6 @@ input[type=file] {
     color: var(--global-primary-color);
     user-select: none;
 }
-
 .green-button {
     background-color: var(--global-eighth-color);
     border-radius: 1em;

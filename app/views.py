@@ -24,7 +24,6 @@ def matches_register(request):
 
 def add_player_team(request):
     return render(request, 'adicionar-jogadores-time.html')
-
 def player_register(request):
     return render(request, 'cadastro-jogadores.html')
 
