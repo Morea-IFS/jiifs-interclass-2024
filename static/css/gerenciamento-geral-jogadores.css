@@ -19,6 +19,51 @@ a {
   font-size: 1.8em;
 }
 
+.block-inputs {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 2em;
+}
+
+.block-inputs-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5%;
+  width: 100%;
+}
+
+.block-inputs-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2em;
+  width: 100%;
+}
+
+.block-inputs-div select {
+  background-color: var(--global-secondary-color);
+  color: var(--global-primary-color);
+  max-width: 20em;
+}
+
+input[type="text"],
+select {
+  padding-block: 1em;
+  border: none;
+  width: 100%;
+  font-size: 15px;
+  margin: 0;
+  text-align-last: center;
+  background-color: var(--global-sixth-color);
+}
+
+input[type=search] {
+  width: 100%;
+  margin: 0;
+}
+
 .all-table {
   text-align: center;
   max-height: 75vh;

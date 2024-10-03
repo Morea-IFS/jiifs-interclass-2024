@@ -27,3 +27,32 @@ document.getElementById('function_validate_form_delete').addEventListener('submi
         event.preventDefault();
     }
 });
+
+function toggle(source) {
+    checkboxes = document.getElementsByName('input-checkbox');
+    for(i = 0, n = checkboxes.length; i < n; i++) {
+        checkboxes[i].checked = source.checked;
+    }
+};
+
+function search_table() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("search-input");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("matches-table");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 1; i < tr.length; i++) {  // Começa em 1 para pular o cabeçalho
+        tr[i].style.display = "none";  // Oculta a linha por padrão
+        td = tr[i].getElementsByTagName("td");
+        for (var j = 0; j < td.length; j++) {
+            if (td[j]) {
+                txtValue = td[j].textContent || td[j].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";  // Mostra a linha se houver correspondência
+                    break;
+                }
+            }
+        }
+    }
+}

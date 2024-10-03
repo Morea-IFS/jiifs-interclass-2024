@@ -28,6 +28,9 @@
                         <a href="{% url 'team_manage' %}">
                             <button class="side-bar-buttons-items">TIMES</button>
                         </a>
+                        <a href="{% url 'matches_manage' %}">
+                            <button class="side-bar-buttons-items">PARTIDAS</button>
+                        </a>
                         <a href="{% url 'sport' %}">
                             <button class="side-bar-buttons-items">ESPORTES</button>
                         </a>
@@ -58,19 +61,21 @@
                         <div class="block-inputs-form">
                             <div>
                                 <input type="text" autocomplete="on" autocorrect="on"
-                                    placeholder="Nome do jogador"></input>
+                                    placeholder="Nome do jogador">
                                 <input type="text" autocomplete="on" autocorrect="on"
-                                    placeholder="Instagram do jogador"></input>
+                                    placeholder="Instagram do jogador">
                                 <input type="text" autocomplete="on" autocorrect="on"
-                                    placeholder="Número do jogador"></input>
+                                    placeholder="Número do jogador">
+
                                 <select id="sexos" name="sexos">
-                                    <option selected disabled>Selecione o Sexo</option>
+                                    <option selected disabled>Selecione o sexo</option>
                                     <option value="masculino">Masculino</option>
                                     <option value="feminino">Feminino</option>
                                 </select>
-                                <label for="foto-jogador" id="label-foto" class="custom-file-button">Adicione uma
+                                <label for="fotos" id="label-foto" class="custom-file-button">Adicione uma
                                     imagem</label>
-                                <input type="file" name="foto-jogador" id="foto-jogador" accept=".jpg, .jpeg, .png"
+                                <input type="file" name="foto-jogador" id="fotos" accept=".jpg, .jpeg, .png"
+
                                     onchange="trocarTextoLabel()">
                             </div>
                             <div>

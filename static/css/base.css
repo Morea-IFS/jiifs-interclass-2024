@@ -9,8 +9,15 @@
 }
 
 :root {
-    --global-primary-color: #606060;
+    --global-primary-color: #8b8b8b;
     --global-secondary-color: #3C3D3C;
+    --global-third-color: #CBCBCB;
+    --global-fourth-color: #e0e0e0;
+    --global-fifth-color: #d4d4d4;
+    --global-sixth-color: #B4B4B4;
+    --global-seventh-color: #AB0000;
+    --global-eighth-color: #00AB11;
+    --global-ninth-color: #525352;
 }
 
 a {
@@ -30,7 +37,8 @@ button {
 .all-block {
     display: flex;
     width: calc(100vw - 9em);
-    background-color: #CBCBCB;
+    background-color: var(--global-third-color);
+    ;
 }
 
 .block1 {
@@ -67,7 +75,17 @@ select {
     font-size: 15px;
     margin-bottom: 1em;
     text-align-last: center;
-    background-color: #B4B4B4;
+    background-color: var(--global-sixth-color);
+}
+
+input[type=search] {
+    text-align: center;
+    width: 48%;
+    padding: 1em;
+    margin-bottom: 2em;
+    border-radius: 1em;
+    border: solid black 1px;
+    background-color: var(--global-sixth-color);
 }
 
 input[type=file] {
@@ -87,7 +105,7 @@ input[type=file] {
     user-select: none;
 }
 .green-button {
-    background-color: #00AB11;
+    background-color: var(--global-eighth-color);
     border-radius: 1em;
     border: none;
     color: white;

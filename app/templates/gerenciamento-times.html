@@ -28,6 +28,9 @@
                         <a href="{% url 'team_manage' %}">
                             <button class="side-bar-buttons-items">TIMES</button>
                         </a>
+                        <a href="{% url 'matches_manage' %}">
+                            <button class="side-bar-buttons-items">PARTIDAS</button>
+                        </a>
                         <a href="{% url 'sport' %}">
                             <button class="side-bar-buttons-items">ESPORTES</button>
                         </a>
@@ -54,8 +57,10 @@
                     <div class="title">
                         <h1>GERENCIAMENTO DOS TIMES</h1>
                     </div>
+                    <input type="search" id="search-input" onkeyup="search_table()" 
+                        placeholder="Pesquisar os times" />
                     <section class="all-table">
-                        <table>
+                        <table id="matches-table">
                             <tr>
                                 <th>NOME</th>
                                 <th>COLOR-HEX</th>
@@ -64,45 +69,54 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <a href="{% url 'team_edit' %}">2° IRC</a>
+                                    <a href="{% url 'team_edit' %}">2 IRC</a>
                                 </td>
                                 <td>------</td>
-                                <td>81</td>
-                                <td>JOGADORES</td>
+                                <td>MASCULINO</td>
+                                <td>
+                                    <a href="{% url 'team_players_manage' %}">ACESSAR</a>
+                                </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <a href="{% url 'team_edit' %}">Coisinha</a>
+                                    <a href="{% url 'team_edit' %}">4 IRC</a>
                                 </td>
                                 <td>------</td>
-                                <td>15</td>
-                                <td>JOGADORES</td>
+                                <td>FEMININO</td>
+                                <td>
+                                    <a href="{% url 'team_players_manage' %}">ACESSAR</a>
+                                </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <a href="{% url 'team_edit' %}">SILAS</a>
+                                    <a href="{% url 'team_edit' %}">CORINTIAS</a>
                                 </td>
                                 <td>SLAS</td>
-                                <td>24</td>
-                                <td>JOGADORES</td>
+                                <td>MASCULINO</td>
+                                <td>
+                                    <a href="{% url 'team_players_manage' %}">ACESSAR</a>
+                                </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <a href="{% url 'team_edit' %}">SILAS</a>
+                                    <a href="{% url 'team_edit' %}">FLAMENGO</a>
                                 </td>
                                 <td>SLAS</td>
-                                <td>24</td>
-                                <td>JOGADORES</td>
+                                <td>MASCULINO</td>
+                                <td>
+                                    <a href="{% url 'team_players_manage' %}">ACESSAR</a>
+                                </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <a href="{% url 'team_edit' %}">SILAS</a>
+                                    <a href="{% url 'team_edit' %}">SÃO PAULO</a>
                                 </td>
                                 <td>SLAS</td>
-                                <td>24</td>
-                                <td>JOGADORES</td>
+                                <td>MASCULINO</td>
+                                <td>
+                                    <a href="{% url 'team_players_manage' %}">ACESSAR</a>
+                                </td>
                             </tr>
-              
                         </table>
                     </section>
                 </div>

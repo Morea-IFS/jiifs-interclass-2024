@@ -30,7 +30,7 @@
 
 .side-bar-buttons-items {
     border: none;
-    background-color: #525352;
+    background-color: var(--global-ninth-color);
     padding-block: 0.5em;
     width: 9em;
 }
@@ -47,7 +47,7 @@
 }
 
 .side-bar-buttons-items2 {
-    background-color: #00AB11;
+    background-color: var(--global-eighth-color);
     padding: 0.5em 1em;
     border: none;
 }
