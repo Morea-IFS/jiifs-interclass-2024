@@ -58,32 +58,32 @@
                         <h1>EDITAR JOGADOR</h1>
                     </div>
                     <div>
-                        <form id="function_validate_form" class="block-inputs">
+                        <form id="function_validate_form" class="block-inputs" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
                             <div class="block-inputs-form">
                                 <div>
-                                    <input type="text" autocomplete="on" autocorrect="on"
-                                        placeholder="Nome do jogador">
-                                    <input type="text" autocomplete="on" autocorrect="on"
-                                        placeholder="Instagram do jogador">
-                                    <input type="text" autocomplete="on" autocorrect="on"
-                                        placeholder="Número do jogador">
-                                    <select id="sexos" name="sexos">
-                                        <option selected disabled>Selecione o sexo</option>
-                                        <option value="masculino">Masculino</option>
-                                        <option value="feminino">Feminino</option>
+                                    <input type="text" autocomplete="on" autocorrect="on" name="name" placeholder="{{ player.name }}" value="{{ player.name }}" required>
+                                    <input type="text" autocomplete="on" autocorrect="on" name="instagram" placeholder="{{ player.instagram }}" value="{{ player.instagram }}">
+                                    <input type="text" autocomplete="on" autocorrect="on" name="number" placeholder="{{ player.number }}" value="{{ player.number }}" required>
+                                    
+                                    <select id="sexos" name="sexo" required>
+                                        <option {% if player.sexo != 0 or 1 %} selected disabled {% endif %} value="2">Selecione o sexo</option>
+                                        <option {% if player.sexo == 0 %} selected {% endif %} value="0">Masculino</option>
+                                        <option {% if player.sexo == 1 %} selected {% endif %} value="1">Feminino</option>
                                     </select>
-                                    <label for="fotos" id="label-foto" class="custom-file-button">Adicione uma imagem</label>
-                                    <input type="file" name="foto-jogador" id="fotos" accept=".jpg, .jpeg, .png" onchange="trocarTextoLabel()">
+                                    <label for="fotos" id="label-foto" class="custom-file-button">{% if player.photo %} Trocar imagem {% else %} Adicione uma imagem {% endif %}</label>
+                                    <input type="file" name="photo" id="fotos" accept=".jpg, .jpeg, .png" onchange="trocarTextoLabel()">
+                                                                    
                                 </div>
                                 <div>
                                     <input class="green-button" type="submit" value="Confirmar">
                                 </div>
                             </div>
                         </form>
-                        <form id="function_validate_form_delete" class="block-inputs" action="">
+                        <form id="function_validate_form_delete" class="block-inputs" method="post">
                             <div class="block-inputs-form">
-                                <input type="hidden" name="" id="">
-                                <input class="input-delete" type="submit" value="Excluir">
+                                {% csrf_token %}
+                                <input class="input-delete" type="submit" value="excluir" name="excluir">
                             </div>
                         </form>
                     </div>

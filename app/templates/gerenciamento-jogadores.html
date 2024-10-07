@@ -67,46 +67,16 @@
                                 <th>NÚMERO</th>
                                 <th>SEXO</th>
                             </tr>
+                            {% for player in player %}
                             <tr>
                                 <td>
-                                    <a href="{% url 'player_edit' %}">JULIANO DOS SANTOS CHARGAS NASCIMENTO</a>
+                                    <a href="{% url 'player_edit' player.id %}">{{ player.name }}</a>
                                 </td>
-                                <td>------</td>
-                                <td>81</td>
-                                <td>MASCULINO</td>
+                                <td>{% if player.instagram %} {{ player.instagram }} {% else %} ---- {% endif %} </td>
+                                <td>{{ player.number }}</td>
+                                <td>{% if player.sexo == 0 %} Masculino {% elif player.sexo == 1 %} Feminino {% else %} ---- {% endif %}</td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <a href="{% url 'player_edit' %}">Coisinha</a>
-                                </td>
-                                <td>------</td>
-                                <td>15</td>
-                                <td>FEMININO</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="{% url 'player_edit' %}">SILAS</a>
-                                </td>
-                                <td>SLAS</td>
-                                <td>24</td>
-                                <td>MASCULINO</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="{% url 'player_edit' %}">SILAS</a>
-                                </td>
-                                <td>SLAS</td>
-                                <td>24</td>
-                                <td>MASCULINO</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="{% url 'player_edit' %}">SILAS</a>
-                                </td>
-                                <td>SLAS</td>
-                                <td>24</td>
-                                <td>MASCULINO</td>
-                            </tr>
+                            {% endfor %}
                         </table>
                     </section>
                 </div>
