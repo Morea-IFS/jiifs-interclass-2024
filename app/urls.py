@@ -16,5 +16,7 @@ urlpatterns = [
     path('adicionar/jogador/time', views.add_player_team, name = "add_player_team"),
     path('cadastrar/partidas', views.matches_register, name = "matches_register"),
     path('jogo', views.game, name = "game"),
-    path('esportes', views.sport, name = "sport"),
+    path('gerenciar/esporte', views.sport_manage, name = "sport_manage"),
+    path('cadastrar/esporte', views.sport_register, name = "sport_register"),
+    path('editar/esporte', views.sport_edit, name = "sport_edit"),
 ]

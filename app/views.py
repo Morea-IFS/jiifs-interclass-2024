@@ -39,5 +39,11 @@ def team_edit(request):
 def game(request):
     return render(request, 'jogo.html')
 
-def sport(request):
-    return render(request, 'esportes.html')
+def sport_manage(request):
+    return render(request, 'gerenciamento-esportes.html')
+
+def sport_edit(request):
+    return render(request, 'editar-esportes.html')
+
+def sport_register(request):
+    return render(request, 'cadastro-esportes.html')
