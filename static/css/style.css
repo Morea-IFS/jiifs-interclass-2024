@@ -15,3 +15,22 @@
     height: 10em;
     user-select: none;
 }
+
+
+
+/*Media screen*/
+
+
+
+@media screen and (max-width: 700px) {
+
+    .all-block{
+        width: calc(100vw - 7em);  
+    }
+
+    .block-logo {
+        height: 7em;
+    }
+
+
+}
