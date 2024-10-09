@@ -18,11 +18,14 @@
     --global-seventh-color: #AB0000;
     --global-eighth-color: #00AB11;
     --global-ninth-color: #525352;
+    --global-tenth-color: #2727c2;
+    --global-eleventh-color: #004903;
 }
 
 a {
+    color: var(--global-tenth-color);
     text-decoration: none;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 button {
@@ -47,6 +50,32 @@ button {
     justify-content: center;
     align-items: center;
     width: 100%;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10em;
+    width: 100%;
+}
+
+.title h1 {
+    text-align: center;
+    color: var(--global-secondary-color);
+    font-size: 2.5em;
+}
+
+
+
+/* CSS CADASTRO | EDIÇÃO */
+
+
+
+.all-manage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .block-inputs {
@@ -78,16 +107,6 @@ select {
     background-color: var(--global-sixth-color);
 }
 
-input[type=search] {
-    text-align: center;
-    width: 48%;
-    padding: 1em;
-    margin-bottom: 2em;
-    border-radius: 1em;
-    border: solid black 1px;
-    background-color: var(--global-sixth-color);
-}
-
 input[type=file] {
     display: none;
 }
@@ -104,11 +123,216 @@ input[type=file] {
     color: var(--global-primary-color);
     user-select: none;
 }
-.green-button {
+
+.input-data {
+    background-color: var(--global-secondary-color);
+    color: var(--global-primary-color);
+    text-align: center;
+    color-scheme: dark;
+    padding-block: 1em;
+    width: 100%;
+
+}
+
+.input-confirm {
     background-color: var(--global-eighth-color);
     border-radius: 1em;
     border: none;
     color: white;
     padding: 1em;
     width: 7em;
+}
+
+.input-delete {
+    background-color: var(--global-seventh-color);
+    border-radius: 1em;
+    border: none;
+    color: white;
+    padding: 1em;
+    width: 7em;
+    margin-top: 2em;
+}
+
+
+
+/* CSS GERENCIAMENTO */
+
+
+
+input[type=search] {
+    text-align: center;
+    width: 80%;
+    padding: 1em;
+    margin-bottom: 2em;
+    border-radius: 1em;
+    border: solid black 1px;
+    background-color: var(--global-sixth-color);
+}
+
+.all-table {
+    text-align: center;
+    max-height: 75vh;
+    max-width: calc(80vw - 9em);
+    overflow: auto;
+}
+
+table,
+th,
+td {
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 0.8em;
+    font-weight: bold;
+}
+
+th {
+    color: white;
+    background-color: var(--global-ninth-color);
+}
+
+td {
+    color: var(--global-ninth-color);
+}
+
+tr:nth-child(odd) {
+    background-color: var(--global-fourth-color);
+}
+
+tr:nth-child(even) {
+    background-color: var(--global-fifth-color);
+}
+
+
+
+/* CSS DOS JOGOS */
+
+
+
+.games {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.game-section {
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    height: 12em;
+    width: 70%;
+    margin-bottom: 4em;
+}
+
+.game-block1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    min-width: 15em;
+}
+
+.game-block2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    min-width: 14em;
+}
+
+.game-block2 p {
+    font-weight: bold;
+}
+
+.game-block2 h2 {
+    color: var(--global-tenth-color);
+}
+
+.game-title {
+    text-align: center;
+    color: #03009F;
+}
+
+.game-score {
+    background-color: #03009F;
+    color: white;
+    font-size: 2em;
+    padding: 0.2em 0.5em;
+}
+
+.games-config-item {
+    display: flex;
+    background-color: #00154B;
+    height: 50%;
+    width: 5em;
+    justify-content: center;
+    align-items: center;
+}
+
+.games-config-item-active {
+    background-color: var(--global-eleventh-color);
+}
+
+.games-config-item-desactive {
+    background-color: var(--global-seventh-color);
+}
+
+.games-config-item-img {
+    width: 1.5em;
+}
+
+
+
+/*Media screen*/
+
+@media screen and (max-width: 925px) {
+
+    .all-block {
+        width: calc(100vw - 7em);
+    }
+
+    .title h1 {
+        font-size: 1.5em;
+    }
+
+    /*games area*/
+
+    .game-section {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        height: 100%;
+    }
+
+    .game-block1 {
+        padding: 1em;
+        min-width: 5em;
+    }
+
+    .game-block2 {
+        padding: 1em;
+        min-width: 0;
+    }
+
+    .game-block2 p {
+        font-size: 16px;
+    }
+
+    .game-block2 h2 {
+        font-size: 20px;
+    }
+
+    .games-config {
+        display: flex;
+
+    }
+
+    .games-config-item {
+        height: 100%;
+        height: 5em;
+        width: 50%;
+    }
 }

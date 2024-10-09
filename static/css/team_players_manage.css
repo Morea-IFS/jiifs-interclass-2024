@@ -1,24 +1,5 @@
 @charset "UTF-8";
 
-a {
-  color: rgb(39, 39, 194);
-  font-size: 16px;
-}
-
-.title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 10em;
-  width: 100%;
-}
-
-.title h1 {
-  text-align: center;
-  color: var(--global-secondary-color);
-  font-size: 1.8em;
-}
-
 .block-inputs {
   display: flex;
   align-items: center;
