@@ -263,8 +263,6 @@ tr:nth-child(even) {
     padding: 0.2em 0.5em;
 }
 
-.games-config {}
-
 .games-config-item {
     display: flex;
     background-color: #00154B;
