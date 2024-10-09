@@ -6,15 +6,16 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{% static 'css/navbar-cadastro.css' %}">
+    <link rel="shortcut icon" href="/static/images/icon-jiifs.png" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/navbar-layout.css' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <link rel="stylesheet" href="{% static 'css/cadastro-geral.css' %}">
     <title>JIIFS ADMIN</title>
 </head>
 
 <body>
     <main>
         <div class="all">
+            <div class="invisible-navbar"></div>
             <section class="side-bar">
                 <div class="side-bar-top">
                     <img class="side-bar-logo" src="{% static 'images/logo-jiifs-2024.svg' %}" alt="Logo JIIFS24">
@@ -40,7 +41,7 @@
                     <section class="side-bar-register">
                         <h3 class="side-bar-register-title">CADASTRO</h3>
                         <button class="side-bar-buttons-items2">
-                            <a href="{% url 'player_register' %}">Adicionar</a>
+                            <a href="{% url 'team_register' %}">Adicionar</a>
                         </button>
                     </section>
                     <div class="logos">
@@ -55,34 +56,42 @@
             <div class="all-block">
                 <section class="block1">
                     <div class="title">
-                        <h1>CADASTRO DE JOGADORES</h1>
+                        <h1>EDITAR TIME</h1>
                     </div>
-                    <form id="function_validate_form" class="block-inputs">
-                        <div class="block-inputs-form">
-                            <div>
-                                <input type="text" autocomplete="on" autocorrect="on" placeholder="Nome do jogador">
-                                <input type="text" autocomplete="on" autocorrect="on"
-                                    placeholder="Instagram do jogador">
-                                <input type="text" autocomplete="on" autocorrect="on" placeholder="Número do jogador">
-                                <select id="sexos" name="sexos">
-                                    <option selected disabled>Selecione o sexo</option>
-                                    <option value="masculino">Masculino</option>
-                                    <option value="feminino">Feminino</option>
-                                </select>
-                                <label for="fotos" id="label-foto" class="custom-file-button">Adicione uma
-                                    imagem</label>
-                                <input type="file" name="foto-jogador" id="fotos" accept=".jpg, .jpeg, .png"
-                                    onchange="trocarTextoLabel()">
+                    <div>
+                        <form id="function_validate_form" class="block-inputs">
+                            <div class="block-inputs-form">
+                                <div>
+                                    <input type="text" autocomplete="on" autocorrect="on"
+                                        placeholder="Digite o nome do time">
+                                    <input type="text" autocomplete="on" autocorrect="on"
+                                        placeholder="Informe a cor em Hexadecimal">
+                                    <select id="sexos" name="sexos">
+                                        <option selected disabled>Selecione o sexo</option>
+                                        <option value="masculino">Masculino</option>
+                                        <option value="feminino">Feminino</option>
+                                    </select>
+                                    <label for="fotos" id="label-foto" class="custom-file-button">Adicione a imagem do
+                                        time</label>
+                                    <input type="file" name="foto-time" id="fotos" accept=".jpg, .jpeg, .png"
+                                        onchange="trocarTextoLabel()">
+                                </div>
+                                <div>
+                                    <input class="input-confirm" type="submit" value="Confirmar">
+                                </div>
                             </div>
-                            <div>
-                                <input class="green-button" type="submit" value="Confirmar"></input>
+                        </form>
+                        <form id="function_validate_form_delete" class="block-inputs" action="">
+                            <div class="block-inputs-form">
+                                <input class="input-delete" type="submit" value="Excluir">
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </section>
             </div>
         </div>
     </main>
+
     <script src="{% static 'js/script.js' %}"></script>
 </body>
 

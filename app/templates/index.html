@@ -6,7 +6,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{% static 'css/simple-navbar.css' %}" />
+    <link rel="shortcut icon" href="/static/images/icon-jiifs.png" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/navbar-layout.css' %}" />
     <link rel="stylesheet" href="{% static 'css/base.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <title>JIIFS ADMIN</title>
@@ -15,6 +16,7 @@
 <body>
     <main>
         <div class="all">
+            <div class="invisible-navbar"></div>
             <section class="side-bar">
                 <div class="side-bar-top">
                     <img class="side-bar-logo" src="{% static 'images/logo-jiifs-2024.svg' %}" alt="Logo JIIFS24">
@@ -25,8 +27,8 @@
                         <a href="{% url 'player_manage' %}">
                             <button class="side-bar-buttons-items">GERENCIAMENTO</button>
                         </a>
-                        <a href="{% url 'game' %}">
-                            <button class="side-bar-buttons-items">JOGO</button>
+                        <a href="{% url 'games' %}">
+                            <button class="side-bar-buttons-items">JOGOS</button>
                         </a>
                     </div>
                 </div>

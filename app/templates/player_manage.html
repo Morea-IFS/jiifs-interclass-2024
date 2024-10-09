@@ -6,15 +6,16 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{% static 'css/navbar-cadastro.css' %}">
+    <link rel="shortcut icon" href="/static/images/icon-jiifs.png" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/navbar-layout.css' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <link rel="stylesheet" href="{% static 'css/gerenciamento-geral.css' %}">
     <title>JIIFS ADMIN</title>
 </head>
 
 <body>
     <main>
         <div class="all">
+            <div class="invisible-navbar"></div>
             <section class="side-bar">
                 <div class="side-bar-top">
                     <img class="side-bar-logo" src="{% static 'images/logo-jiifs-2024.svg' %}" alt="Logo JIIFS24">
@@ -40,7 +41,7 @@
                     <section class="side-bar-register">
                         <h3 class="side-bar-register-title">CADASTRO</h3>
                         <button class="side-bar-buttons-items2">
-                            <a href="{% url 'matches_register' %}">Adicionar</a>
+                            <a href="{% url 'player_register' %}">Adicionar</a>
                         </button>
                     </section>
                     <div class="logos">
@@ -55,82 +56,58 @@
             <div class="all-block">
                 <div class="block1">
                     <div class="title">
-                        <h1>GERENCIAMENTO DE PARTIDAS</h1>
+                        <h1>GERENCIAMENTO DOS JOGADORES</h1>
                     </div>
                     <div class="all-manage">
                         <input type="search" id="search-input" onkeyup="search_table()"
-                            placeholder="Pesquisar as partidas" />
+                            placeholder="Pesquisar os jogadores" />
                         <section class="all-table">
                             <table id="matches-table">
                                 <tr>
-                                    <th>ID</th>
-                                    <th>TIME A</th>
-                                    <th>TIME B</th>
-                                    <th>STATUS</th>
-                                    <th>TEMPO</th>
+                                    <th>NOME</th>
+                                    <th>INSTAGRAM</th>
+                                    <th>NÚMERO</th>
                                     <th>SEXO</th>
-                                    <th>ESPORTE</th>
-                                    <th>VENCEDOR</th>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <a href="{% url 'matches_edit' %}">1</a>
+                                        <a href="{% url 'player_edit' %}">JULIANO DOS SANTOS CHARGAS NASCIMENTO</a>
                                     </td>
-                                    <td>2 IRC</td>
-                                    <td>3 IEDF</td>
-                                    <td>-------</td>
-                                    <td>00</td>
+                                    <td>------</td>
+                                    <td>81</td>
                                     <td>MASCULINO</td>
-                                    <td>VOLEIBOL</td>
-                                    <td>-------</td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <a href="{% url 'matches_edit' %}">2</a>
+                                        <a href="{% url 'player_edit' %}">Coisinha</a>
                                     </td>
-                                    <td>1 IRC</td>
-                                    <td>4 IEDF</td>
-                                    <td>-------</td>
-                                    <td>00</td>
+                                    <td>------</td>
+                                    <td>15</td>
                                     <td>FEMININO</td>
-                                    <td>FUTSAL</td>
-                                    <td>-------</td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <a href="{% url 'matches_edit' %}">3</a>
+                                        <a href="{% url 'player_edit' %}">SILAS</a>
                                     </td>
-                                    <td>2 IRC</td>
-                                    <td>1 IELTM</td>
-                                    <td>-------</td>
-                                    <td>00</td>
+                                    <td>SLAS</td>
+                                    <td>24</td>
                                     <td>MASCULINO</td>
-                                    <td>FUTSAL</td>
-                                    <td>-------</td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <a href="{% url 'matches_edit' %}">4</a>
+                                        <a href="{% url 'player_edit' %}">SILAS</a>
                                     </td>
-                                    <td>1 IRC</td>
-                                    <td>2 IEDF</td>
-                                    <td>-------</td>
-                                    <td>00</td>
-                                    <td>FEMININO</td>
-                                    <td>VOLEIBOL</td>
-                                    <td>-------</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="{% url 'matches_edit' %}">5</a>
-                                    </td>
-                                    <td>4 IRC</td>
-                                    <td>3 IELTM</td>
-                                    <td>-------</td>
-                                    <td>00</td>
+                                    <td>SLAS</td>
+                                    <td>24</td>
                                     <td>MASCULINO</td>
-                                    <td>VOLEIBOL</td>
-                                    <td>-------</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'player_edit' %}">SILAS</a>
+                                    </td>
+                                    <td>SLAS</td>
+                                    <td>24</td>
+                                    <td>MASCULINO</td>
                                 </tr>
                             </table>
                         </section>

@@ -6,15 +6,16 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{% static 'css/navbar-cadastro.css' %}">
+    <link rel="shortcut icon" href="/static/images/icon-jiifs.png" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/navbar-layout.css' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <link rel="stylesheet" href="{% static 'css/editar-geral.css' %}" />
     <title>JIIFS ADMIN</title>
 </head>
 
 <body>
     <main>
         <div class="all">
+            <div class="invisible-navbar"></div>
             <section class="side-bar">
                 <div class="side-bar-top">
                     <img class="side-bar-logo" src="{% static 'images/logo-jiifs-2024.svg' %}" alt="Logo JIIFS24">
@@ -55,7 +56,7 @@
             <div class="all-block">
                 <section class="block1">
                     <div class="title">
-                        <h1>CADASTRO PARTIDAS</h1>
+                        <h1>EDITAR PARTIDAS</h1>
                     </div>
                     <div>
                         <form id="function_validate_form" class="block-inputs">
@@ -104,8 +105,13 @@
                                     <input class="input-data" type="datetime-local" name="date-game" id="date-game">
                                 </div>
                                 <div>
-                                    <input class="green-button" type="submit" value="Confirmar">
+                                    <input class="input-confirm" type="submit" value="Confirmar">
                                 </div>
+                            </div>
+                        </form>
+                        <form id="function_validate_form_delete" class="block-inputs" action="">
+                            <div class="block-inputs-form">
+                                <input class="input-delete" type="submit" value="Excluir">
                             </div>
                         </form>
                     </div>

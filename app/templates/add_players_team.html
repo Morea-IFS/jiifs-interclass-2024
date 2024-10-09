@@ -6,15 +6,17 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{% static 'css/navbar-cadastro.css' %}">
+    <link rel="shortcut icon" href="/static/images/icon-jiifs.png" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/navbar-layout.css' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <link rel="stylesheet" href="{% static 'css/gerenciamento-geral-jogadores.css' %}">
+    <link rel="stylesheet" href="{% static 'css/team_players_manage.css' %}">
     <title>JIIFS ADMIN</title>
 </head>
 
 <body>
     <main>
         <div class="all">
+            <div class="invisible-navbar"></div>
             <section class="side-bar">
                 <div class="side-bar-top">
                     <img class="side-bar-logo" src="{% static 'images/logo-jiifs-2024.svg' %}" alt="Logo JIIFS24">
@@ -55,31 +57,24 @@
             <div class="all-block">
                 <div class="block1">
                     <div class="title">
-                        <h1>GERENCIAMENTO DE JOGADORES DO TIME</h1>
+                        <h1>ADICIONAR JOGADORES AO TIME</h1>
                     </div>
                     <section class="block-inputs">
                         <form class="block-inputs-form" id="function_validate_form">
                             <div class="block-inputs-div">
-                                <select class="select-action" name="select-action" id="select-action">
-                                    <option selected disabled>Selecione a ação</option>
-                                    <option value="excluir">Excluir jogadores</option>
-                                    <option value="reserva">Tornar reserva</option>
-                                    <option value="titular">Tornar titular</option>
-                                </select>
-                                <div>
-                                    <input class="green-button" type="submit" value="Confirmar">
-                                </div>
+                                <input type="search" id="search-input" onkeyup="search_table()"
+                                    placeholder="Pesquisar as partidas" />
+                                <input class="input-confirm" type="submit" value="Confirmar">
                             </div>
                             <div>
                                 <section class="all-table">
-                                    <table>
+                                    <table id="matches-table">
                                         <tr>
                                             <th>
                                                 <input type="checkbox" onclick="toggle(this)" />
                                             </th>
-                                            <th>NOMES</th>
+                                            <th>JOGADOR</th>
                                             <th>NÚMERO</th>
-                                            <th>SITUAÇÃO</th>
                                             <th>SEXO</th>
                                         </tr>
                                         <tr>
@@ -88,43 +83,38 @@
                                             </td>
                                             <td>SILAS</td>
                                             <td>10</td>
-                                            <td>RESERVA</td>
                                             <td>MASCULINO</td>
                                         </tr>
                                         <tr>
                                             <td>
                                                 <input type="checkbox" name="input-checkbox" value="player-2">
                                             </td>
-                                            <td>SILAS</td>
-                                            <td>10</td>
-                                            <td>RESERVA</td>
+                                            <td>RYAN</td>
+                                            <td>5.5</td>
                                             <td>MASCULINO</td>
                                         </tr>
                                         <tr>
                                             <td>
                                                 <input type="checkbox" name="input-checkbox" value="player-3">
                                             </td>
-                                            <td>SILAS</td>
-                                            <td>10</td>
-                                            <td>TITULAR</td>
-                                            <td>MASCULINO</td>
+                                            <td>MACEDA</td>
+                                            <td>05</td>
+                                            <td>FEMININO</td>
                                         </tr>
                                         <tr>
                                             <td>
                                                 <input type="checkbox" name="input-checkbox" value="player-4">
                                             </td>
-                                            <td>SILAS</td>
-                                            <td>10</td>
-                                            <td>TITULAR</td>
+                                            <td>ENZO</td>
+                                            <td>44</td>
                                             <td>MASCULINO</td>
                                         </tr>
                                         <tr>
                                             <td>
                                                 <input type="checkbox" name="input-checkbox" value="player-5">
                                             </td>
-                                            <td>SILAS</td>
-                                            <td>10</td>
-                                            <td>RESERVA</td>
+                                            <td>CHARGAS</td>
+                                            <td>82</td>
                                             <td>MASCULINO</td>
                                         </tr>
                                     </table>

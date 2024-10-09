@@ -6,15 +6,16 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{% static 'css/navbar-cadastro.css' %}">
+    <link rel="shortcut icon" href="/static/images/icon-jiifs.png" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/navbar-layout.css' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <link rel="stylesheet" href="{% static 'css/gerenciamento-geral.css' %}">
     <title>JIIFS ADMIN</title>
 </head>
 
 <body>
     <main>
         <div class="all">
+            <div class="invisible-navbar"></div>
             <section class="side-bar">
                 <div class="side-bar-top">
                     <img class="side-bar-logo" src="{% static 'images/logo-jiifs-2024.svg' %}" alt="Logo JIIFS24">
@@ -40,7 +41,7 @@
                     <section class="side-bar-register">
                         <h3 class="side-bar-register-title">CADASTRO</h3>
                         <button class="side-bar-buttons-items2">
-                            <a href="{% url 'team_register' %}">Adicionar</a>
+                            <a href="{% url 'matches_register' %}">Adicionar</a>
                         </button>
                     </section>
                     <div class="logos">
@@ -55,67 +56,82 @@
             <div class="all-block">
                 <div class="block1">
                     <div class="title">
-                        <h1>GERENCIAMENTO DOS TIMES</h1>
+                        <h1>GERENCIAMENTO DE PARTIDAS</h1>
                     </div>
                     <div class="all-manage">
-                        <input type="search" id="search-input" onkeyup="search_table()" placeholder="Pesquisar os times" />
+                        <input type="search" id="search-input" onkeyup="search_table()"
+                            placeholder="Pesquisar as partidas" />
                         <section class="all-table">
                             <table id="matches-table">
                                 <tr>
-                                    <th>NOME</th>
-                                    <th>COLOR-HEX</th>
+                                    <th>ID</th>
+                                    <th>TIME A</th>
+                                    <th>TIME B</th>
+                                    <th>STATUS</th>
+                                    <th>TEMPO</th>
                                     <th>SEXO</th>
-                                    <th>JOGADORES</th>
+                                    <th>ESPORTE</th>
+                                    <th>VENCEDOR</th>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <a href="{% url 'team_edit' %}">2 IRC</a>
+                                        <a href="{% url 'matches_edit' %}">1</a>
                                     </td>
-                                    <td>------</td>
+                                    <td>2 IRC</td>
+                                    <td>3 IEDF</td>
+                                    <td>-------</td>
+                                    <td>00</td>
                                     <td>MASCULINO</td>
-                                    <td>
-                                        <a href="{% url 'team_players_manage' %}">ACESSAR</a>
-                                    </td>
+                                    <td>VOLEIBOL</td>
+                                    <td>-------</td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <a href="{% url 'team_edit' %}">4 IRC</a>
+                                        <a href="{% url 'matches_edit' %}">2</a>
                                     </td>
-                                    <td>------</td>
+                                    <td>1 IRC</td>
+                                    <td>4 IEDF</td>
+                                    <td>-------</td>
+                                    <td>00</td>
                                     <td>FEMININO</td>
-                                    <td>
-                                        <a href="{% url 'team_players_manage' %}">ACESSAR</a>
-                                    </td>
+                                    <td>FUTSAL</td>
+                                    <td>-------</td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <a href="{% url 'team_edit' %}">CORINTIAS</a>
+                                        <a href="{% url 'matches_edit' %}">3</a>
                                     </td>
-                                    <td>SLAS</td>
+                                    <td>2 IRC</td>
+                                    <td>1 IELTM</td>
+                                    <td>-------</td>
+                                    <td>00</td>
                                     <td>MASCULINO</td>
-                                    <td>
-                                        <a href="{% url 'team_players_manage' %}">ACESSAR</a>
-                                    </td>
+                                    <td>FUTSAL</td>
+                                    <td>-------</td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <a href="{% url 'team_edit' %}">FLAMENGO</a>
+                                        <a href="{% url 'matches_edit' %}">4</a>
                                     </td>
-                                    <td>SLAS</td>
-                                    <td>MASCULINO</td>
-                                    <td>
-                                        <a href="{% url 'team_players_manage' %}">ACESSAR</a>
-                                    </td>
+                                    <td>1 IRC</td>
+                                    <td>2 IEDF</td>
+                                    <td>-------</td>
+                                    <td>00</td>
+                                    <td>FEMININO</td>
+                                    <td>VOLEIBOL</td>
+                                    <td>-------</td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <a href="{% url 'team_edit' %}">SÃO PAULO</a>
+                                        <a href="{% url 'matches_edit' %}">5</a>
                                     </td>
-                                    <td>SLAS</td>
+                                    <td>4 IRC</td>
+                                    <td>3 IELTM</td>
+                                    <td>-------</td>
+                                    <td>00</td>
                                     <td>MASCULINO</td>
-                                    <td>
-                                        <a href="{% url 'team_players_manage' %}">ACESSAR</a>
-                                    </td>
+                                    <td>VOLEIBOL</td>
+                                    <td>-------</td>
                                 </tr>
                             </table>
                         </section>
