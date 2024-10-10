@@ -20,4 +20,5 @@ urlpatterns = [
     path('register/sport', views.sport_register, name = "sport_register"),
     path('edit/sport', views.sport_edit, name = "sport_edit"),
     path('general/data', views.general_data, name = "general_data"),
+    path('scoreboard/', views.scoreboard, name = "scoreboard"),
 ]

@@ -51,3 +51,6 @@ def sport_register(request):
 
 def general_data(request):
     return render(request, 'general_data.html')
+
+def scoreboard(request):
+    return render(request, 'scoreboard.html')
