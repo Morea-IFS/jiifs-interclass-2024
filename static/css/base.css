@@ -41,7 +41,6 @@ button {
     display: flex;
     width: calc(100vw - 9em);
     background-color: var(--global-third-color);
-    ;
 }
 
 .block1 {
@@ -312,15 +311,26 @@ tr:nth-child(even) {
 
 /*Media screen*/
 
+
 @media screen and (max-width: 925px) {
 
+
     .all-block {
-        width: calc(100vw - 7em);
+        width: 100vw;
     }
 
     .title h1 {
         font-size: 1.5em;
     }
+
+
+    /* CSS GERENCIAMENTO */
+
+
+    .all-table {
+        max-width: 85vw;
+    }
+
 
     /*games area*/
 

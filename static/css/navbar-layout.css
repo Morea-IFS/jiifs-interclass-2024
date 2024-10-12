@@ -21,6 +21,10 @@ a {
     width: 9em;
 }
 
+.side-bar .hamburguer-menu {
+    display: none;
+}
+
 .side-bar-bottom,
 .side-bar-top {
     display: flex;
@@ -84,35 +88,54 @@ a {
 
 
 
-@media screen and (max-width: 500px) {
-
+@media screen and (max-width: 925px) {
+    .side-bar,
     .invisible-navbar {
-        width: 7em;
+        display: none;
+    }
+
+    .hamburguer-menu {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 16px;
+        margin: 10px 0 0 10px;
+        position: fixed;
+        z-index: 2;
+    }
+
+    .line {
+        display: block;
+        width: 30px;
+        background: var(--global-eighth-color);
+        height: 2px;
+        margin: 5px 5px;
+        transition: all 0.4s ease;
+        z-index: 2;
     }
 
     .side-bar {
-        width: 7em;
+        max-width: 0px;
+        opacity: 0;
+        display: flex;
+        transition: all 0.4s ease 0s;
+        overflow: hidden;
     }
 
-    .side-bar-logo {
-        height: 1.9em;
+    .change .first-line {
+        transform: rotate(45deg) translate(0px, 0px);
     }
 
-    .side-bar-buttons {
-        gap: 15px;
+    .change .second-line {
+        transform: rotate(-45deg) translate(8px, -8px);
     }
 
-    .side-bar-buttons-items {
-        width: 8.5em;
-        font-size: 12px;
-    }
-
-    .side-bar-buttons-items2 {
-        font-size: 10px;
-    }
-
-    .logos-items {
-        filter: invert(100%);
-        height: 50px;
+    .change ~ .side-bar {
+        max-width: 400px;
+        opacity: 1;
+        z-index: 1;
     }
 }

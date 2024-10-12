@@ -2,125 +2,201 @@
 
 <!DOCTYPE html>
 <html lang="pt-br">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="shortcut icon"
+            href="/static/images/icon-jiifs.png"
+            type="image/x-icon"
+        />
+        <link rel="stylesheet" href="{% static 'css/navbar-layout.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+        <title>JIIFS ADMIN</title>
+    </head>
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="/static/images/icon-jiifs.png" type="image/x-icon">
-    <link rel="stylesheet" href="{% static 'css/navbar-layout.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
-    <title>JIIFS ADMIN</title>
-</head>
-
-<body>
-    <main>
-        <div class="all">
-            <div class="invisible-navbar"></div>
-            <section class="side-bar">
-                <div class="side-bar-top">
-                    <img class="side-bar-logo" src="{% static 'images/logo-jiifs-2024.svg' %}" alt="Logo JIIFS24">
-                    <div class="side-bar-buttons">
-                        <a href="{% url 'Home' %}">
-                            <button class="side-bar-buttons-items">HOME</button>
-                        </a>
-                        <a href="{% url 'player_manage' %}">
-                            <button class="side-bar-buttons-items">GERENCIAMENTO</button>
-                        </a>
-                        <a href="{% url 'games' %}">
-                            <button class="side-bar-buttons-items">JOGOS</button>
-                        </a>
-                    </div>
+    <body>
+        <main>
+            <div class="all">
+                <div class="invisible-navbar"></div>
+                <div class="hamburguer-menu" onclick="toggle(this)">
+                    <span class="line first-line"></span>
+                    <span class="line second-line"></span>
                 </div>
-                <div class="side-bar-bottom">
-                    <div class="logos">
-                        <img class="logos-items" src="{% static 'images/logo-morea.svg' %}" alt="Logo Morea">
-                        <img class="logos-items" src="{% static 'images/logo-ifs-black.svg' %}" alt="Logo IFS">
+                <section class="side-bar">
+                    <div class="side-bar-top">
+                        <img
+                            class="side-bar-logo"
+                            src="{% static 'images/logo-jiifs-2024.svg' %}"
+                            alt="Logo JIIFS24"
+                        />
+                        <div class="side-bar-buttons">
+                            <a href="{% url 'Home' %}">
+                                <button class="side-bar-buttons-items">
+                                    HOME
+                                </button>
+                            </a>
+                            <a href="{% url 'player_manage' %}">
+                                <button class="side-bar-buttons-items">
+                                    GERENCIAMENTO
+                                </button>
+                            </a>
+                            <a href="{% url 'games' %}">
+                                <button class="side-bar-buttons-items">
+                                    JOGOS
+                                </button>
+                            </a>
+                        </div>
                     </div>
-                    <button class="side-bar-buttons-items2">
-                        <a href="">Sair</a>
-                    </button>
-                </div>
-            </section>
-            <div class="all-block">
-                <div class="block1">
-                    <div class="title">
-                        <h1>JOGOS</h1>
+                    <div class="side-bar-bottom">
+                        <div class="logos">
+                            <img
+                                class="logos-items"
+                                src="{% static 'images/logo-morea.svg' %}"
+                                alt="Logo Morea"
+                            />
+                            <img
+                                class="logos-items"
+                                src="{% static 'images/logo-ifs-black.svg' %}"
+                                alt="Logo IFS"
+                            />
+                        </div>
+                        <button class="side-bar-buttons-items2">
+                            <a href="">Sair</a>
+                        </button>
                     </div>
-                    <div class="games">
-                        <section class="game-section">
-                            <div class="game-block1">
-                                <div class="game-title">
-                                    <h1>2º IRC x 1º IEDF</h1>
-                                </div>
-                                <div class="game-score">0 x 0</div>
-                            </div>
-                            <div class="game-block2">
-                                <p>PARTIDA #01<br>FUTSAL - MASCULINO<br>TEMPO: 00:00</p>
-                                <h2>ACONTECENDO</h2>
-                            </div>
-                            <div class="games-config">
-                                <a class="games-config-link" href="{% url 'general_data' %}">
-                                    <div class="games-config-item  games-config-item-active">
-                                        <img class="games-config-item-img" src="/static/images/icon-timer.png"
-                                            alt="Timer Icon">
+                </section>
+                <div class="all-block">
+                    <div class="block1">
+                        <div class="title">
+                            <h1>JOGOS</h1>
+                        </div>
+                        <div class="games">
+                            <section class="game-section">
+                                <div class="game-block1">
+                                    <div class="game-title">
+                                        <h1>2º IRC x 1º IEDF</h1>
                                     </div>
-                                </a>
-                                <a class="games-config-link" href="{% url 'scoreboard' %}">
-                                    <div class="games-config-item">
-                                        <img class="games-config-item-img" src="/static/images/icon-config.png"
-                                            alt="Gear Icon">
+                                    <div class="game-score">0 x 0</div>
+                                </div>
+                                <div class="game-block2">
+                                    <p>
+                                        PARTIDA #01<br />FUTSAL - MASCULINO<br />TEMPO:
+                                        00:00
+                                    </p>
+                                    <h2>ACONTECENDO</h2>
+                                </div>
+                                <div class="games-config">
+                                    <a
+                                        class="games-config-link"
+                                        href="{% url 'general_data' %}"
+                                    >
+                                        <div
+                                            class="games-config-item games-config-item-active"
+                                        >
+                                            <img
+                                                class="games-config-item-img"
+                                                src="/static/images/icon-timer.png"
+                                                alt="Timer Icon"
+                                            />
+                                        </div>
+                                    </a>
+                                    <a
+                                        class="games-config-link"
+                                        href="{% url 'scoreboard' %}"
+                                    >
+                                        <div class="games-config-item">
+                                            <img
+                                                class="games-config-item-img"
+                                                src="/static/images/icon-config.png"
+                                                alt="Gear Icon"
+                                            />
+                                        </div>
+                                    </a>
+                                </div>
+                            </section>
+                            <section class="game-section">
+                                <div class="game-block1">
+                                    <div class="game-title">
+                                        <h1>2º IAUT x 2º IELTM</h1>
                                     </div>
-                                </a>
-                            </div>
-                        </section>
-                        <section class="game-section">
-                            <div class="game-block1">
-                                <div class="game-title">
-                                    <h1>2º IAUT x 2º IELTM</h1>
+                                    <div class="game-score">0 x 0</div>
                                 </div>
-                                <div class="game-score">0 x 0</div>
-                            </div>
-                            <div class="game-block2">
-                                <p>PARTIDA #02<br>VOLEIBOL - MASCULINO<br>TEMPO: 42:17</p>
-                                <h2>FINALIZADA</h2>
-                            </div>
-                            <div class="games-config">
-                                <div class="games-config-item games-config-item-desactive">
-                                    <img class="games-config-item-img" src="/static/images/icon-timer.png"
-                                        alt="Timer Icon">
+                                <div class="game-block2">
+                                    <p>
+                                        PARTIDA #02<br />VOLEIBOL - MASCULINO<br />TEMPO:
+                                        42:17
+                                    </p>
+                                    <h2>FINALIZADA</h2>
                                 </div>
-                                <a class="games-config-link" href="{% url 'scoreboard' %}">
-                                    <div class="games-config-item">
-                                        <img class="games-config-item-img" src="/static/images/icon-config.png"
-                                            alt="Gear Icon">
+                                <div class="games-config">
+                                    <div
+                                        class="games-config-item games-config-item-desactive"
+                                    >
+                                        <img
+                                            class="games-config-item-img"
+                                            src="/static/images/icon-timer.png"
+                                            alt="Timer Icon"
+                                        />
                                     </div>
-                                </a>
-                            </div>
-                        </section>
-                        <section class="game-section">
-                            <div class="game-block1">
-                                <div class="game-title">
-                                    <h1>3º IAUT x 1º IEDF</h1>
+                                    <a
+                                        class="games-config-link"
+                                        href="{% url 'scoreboard' %}"
+                                    >
+                                        <div class="games-config-item">
+                                            <img
+                                                class="games-config-item-img"
+                                                src="/static/images/icon-config.png"
+                                                alt="Gear Icon"
+                                            />
+                                        </div>
+                                    </a>
                                 </div>
-                                <div class="game-score">0 x 0</div>
-                            </div>
-                            <div class="game-block2">
-                                <p>PARTIDA #02<br>VOLEIBOL - MASCULINO<br>TEMPO: 42:17</p>
-                                <h2>FINALIZADA</h2>
-                            </div>
-                            <div class="games-config">
-                                <div class="games-config-item games-config-item-desactive">
-                                    <img class="games-config-item-img" src="/static/images/icon-timer.png"
-                                        alt="Timer Icon">
-                                </div>
-                                <a class="games-config-link" href="{% url 'scoreboard' %}">
-                                    <div class="games-config-item">
-                                        <img class="games-config-item-img" src="/static/images/icon-config.png"
-                                            alt="Gear Icon">
+                            </section>
+                            <section class="game-section">
+                                <div class="game-block1">
+                                    <div class="game-title">
+                                        <h1>3º IAUT x 1º IEDF</h1>
                                     </div>
-                                </a>
-                            </div>
-                        </section>
+                                    <div class="game-score">0 x 0</div>
+                                </div>
+                                <div class="game-block2">
+                                    <p>
+                                        PARTIDA #02<br />VOLEIBOL - MASCULINO<br />TEMPO:
+                                        42:17
+                                    </p>
+                                    <h2>FINALIZADA</h2>
+                                </div>
+                                <div class="games-config">
+                                    <div
+                                        class="games-config-item games-config-item-desactive"
+                                    >
+                                        <img
+                                            class="games-config-item-img"
+                                            src="/static/images/icon-timer.png"
+                                            alt="Timer Icon"
+                                        />
+                                    </div>
+                                    <a
+                                        class="games-config-link"
+                                        href="{% url 'scoreboard' %}"
+                                    >
+                                        <div class="games-config-item">
+                                            <img
+                                                class="games-config-item-img"
+                                                src="/static/images/icon-config.png"
+                                                alt="Gear Icon"
+                                            />
+                                        </div>
+                                    </a>
+                                </div>
+                            </section>
+                        </div>
                     </div>
                 </div>
             </div>
+        </main>
+
+        <script src="{% static 'js/script.js' %}"></script>
+    </body>
+</html>
