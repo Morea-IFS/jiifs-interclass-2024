@@ -86,12 +86,20 @@ def team_edit(request, id):
         team.photo = request.FILES.get('photo')
         list_sport = request.POST.getlist('sports')
         team.hexcolor = request.POST.get('hexcolor')
-        Team_sport.objects.filter(team=team).delete()
         team.save()
-        for i in list_sport:
-            sport_name = Sport.objects.get(id=i)
-            Team_sport.objects.create(team=team, sport=sport_name)
-        return redirect('team_manage')  
+        sports_selected = [int(sport_id) for sport_id in list_sport]
+        current_sports = Team_sport.objects.filter(team=team).values_list('sport_id', flat=True)
+
+        to_add = set(sports_selected) - set(current_sports)
+        to_remove = set(current_sports) - set(sports_selected)
+
+        for sport_id in to_add:
+            sport = get_object_or_404(Sport, id=sport_id)
+            Team_sport.objects.create(team=team, sport=sport)
+
+        for sport_id in to_remove:
+            Team_sport.objects.filter(team=team, sport_id=sport_id).delete()
+    return redirect('team_manage')  
 
 def team_players_manage(request, id):
     team = get_object_or_404(Team_sport, id=id)
@@ -113,7 +121,6 @@ def add_player_team(request, id):
         return render(request, 'adicionar-jogadores-time.html', {'players': players,'team': team}) 
     else:
         player = request.POST.getlist('select')
-        print(player)
         for i in player:
             player = Player.objects.get(id=i)
             Player_team_sport.objects.create(player=player, team_sport=team)
@@ -128,7 +135,6 @@ def matches_edit(request):
 def matches_register(request):
     return render(request, 'cadastro-partidas.html')
 
-    
 def game(request):
     return render(request, 'jogo.html')
 
