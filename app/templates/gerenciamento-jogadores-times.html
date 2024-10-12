@@ -40,7 +40,7 @@
                     <section class="side-bar-register">
                         <h3 class="side-bar-register-title">CADASTRO</h3>
                         <button class="side-bar-buttons-items2">
-                            <a href="{% url 'add_player_team' %}">Adicionar</a>
+                            <a href="{% url 'add_player_team' team.id %}">Adicionar</a>
                         </button>
                     </section>
                     <div class="logos">
@@ -58,11 +58,12 @@
                         <h1>GERENCIAMENTO DE JOGADORES DO TIME</h1>
                     </div>
                     <section class="block-inputs">
-                        <form class="block-inputs-form" id="function_validate_form">
+                        <form class="block-inputs-form" id="function_validate_form" method="post">{% csrf_token %}
+
                             <div class="block-inputs-div">
                                 <select class="select-action" name="select-action" id="select-action">
                                     <option selected disabled>Selecione a ação</option>
-                                    <option value="excluir">Excluir jogadores</option>
+                                    <option name="excluir" value="excluir">Excluir jogadores</option>
                                     <option value="reserva">Tornar reserva</option>
                                     <option value="titular">Tornar titular</option>
                                 </select>
@@ -72,61 +73,27 @@
                             </div>
                             <div>
                                 <section class="all-table">
+            
                                     <table>
                                         <tr>
                                             <th>
-                                                <input type="checkbox" onclick="toggle(this)"/>
+                                                <input type="checkbox" name="select" onclick="toggle(this)"/>
                                             </th>
                                             <th>NOMES</th>
                                             <th>NÚMERO</th>
-                                            <th>SITUAÇÃO</th>
                                             <th>SEXO</th>
+                                            
                                         </tr>
+                                        {% for i in player_team_sport %}
                                         <tr>
                                             <td>
-                                                <input type="checkbox" name="input-checkbox" value="player-1">
+                                                <input type="checkbox" name="input-checkbox" value="{{ i.player.id }}">
                                             </td>
-                                            <td>SILAS</td>
-                                            <td>10</td>
-                                            <td>RESERVA</td>
-                                            <td>MASCULINO</td>
+                                            <td>{{ i.player.name }}</td>
+                                            <td>{{ i.player.number }}</td>
+                                            <td>{% if i.player.sexo == 0 %} Masculino {% else %} Feminino {% endif %}</td>
                                         </tr>
-                                        <tr>
-                                            <td>
-                                                <input type="checkbox" name="input-checkbox" value="player-2">
-                                            </td>
-                                            <td>SILAS</td>
-                                            <td>10</td>
-                                            <td>RESERVA</td>
-                                            <td>MASCULINO</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <input type="checkbox" name="input-checkbox" value="player-3">
-                                            </td>
-                                            <td>SILAS</td>
-                                            <td>10</td>
-                                            <td>TITULAR</td>
-                                            <td>MASCULINO</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <input type="checkbox" name="input-checkbox" value="player-4">
-                                            </td>
-                                            <td>SILAS</td>
-                                            <td>10</td>
-                                            <td>TITULAR</td>
-                                            <td>MASCULINO</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <input type="checkbox" name="input-checkbox" value="player-5">
-                                            </td>
-                                            <td>SILAS</td>
-                                            <td>10</td>
-                                            <td>RESERVA</td>
-                                            <td>MASCULINO</td>
-                                        </tr>
+                                        {% endfor %}
                                     </table>
                                 </section>
                             </div>

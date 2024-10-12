@@ -40,7 +40,7 @@
                     <section class="side-bar-register">
                         <h3 class="side-bar-register-title">CADASTRO</h3>
                         <button class="side-bar-buttons-items2">
-                            <a href="{% url 'add_player_team' %}">Adicionar</a>
+                            <a href="{% url 'add_player_team' team.id %}">Adicionar</a>
                         </button>
                     </section>
                     <div class="logos">
@@ -58,11 +58,12 @@
                         <h1>ADICIONAR JOGADORES AO TIME</h1>
                     </div>
                     <section class="block-inputs">
-                        <form class="block-inputs-form" id="function_validate_form">
+                        <form class="block-inputs-form" id="function_validate_form" method="post">{% csrf_token %}
+                            
                             <div class="block-inputs-div">
                                 <input type="search" id="search-input" onkeyup="search_table()"
-                                    placeholder="Pesquisar as partidas" />
-                                <input class="green-button" type="submit" value="Confirmar">
+                                    placeholder="Pesquisar os jogadores" />
+                                <input class="green-button" type="submit" value="adicionar">
                             </div>
                             <div>
                                 <section class="all-table">
@@ -75,46 +76,16 @@
                                             <th>NÚMERO</th>
                                             <th>SEXO</th>
                                         </tr>
+                                        {% for player in players %}
                                         <tr>
                                             <td>
-                                                <input type="checkbox" name="input-checkbox" value="player-1">
+                                                <input type="checkbox" id="input-checkbox" name="select" value="{{ player.id }}">
                                             </td>
-                                            <td>SILAS</td>
-                                            <td>10</td>
-                                            <td>MASCULINO</td>
+                                            <td>{{ player.name }}</td>
+                                            <td>{{ player.number }}</td>
+                                            <td>{% if player.sexo == 0 %} Masculino {% elif  player.sexo == 1 %} Feminino  {% else %} ---- {% endif %}</td>
                                         </tr>
-                                        <tr>
-                                            <td>
-                                                <input type="checkbox" name="input-checkbox" value="player-2">
-                                            </td>
-                                            <td>RYAN</td>
-                                            <td>5.5</td>
-                                            <td>MASCULINO</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <input type="checkbox" name="input-checkbox" value="player-3">
-                                            </td>
-                                            <td>MACEDA</td>
-                                            <td>05</td>
-                                            <td>FEMININO</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <input type="checkbox" name="input-checkbox" value="player-4">
-                                            </td>
-                                            <td>ENZO</td>
-                                            <td>44</td>
-                                            <td>MASCULINO</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <input type="checkbox" name="input-checkbox" value="player-5">
-                                            </td>
-                                            <td>CHARGAS</td>
-                                            <td>82</td>
-                                            <td>MASCULINO</td>
-                                        </tr>
+                                        {% endfor %}
                                     </table>
                                 </section>
                             </div>

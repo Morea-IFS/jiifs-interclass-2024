@@ -58,29 +58,32 @@
                         <h1>EDITAR TIME</h1>
                     </div>
                 <div>
-                    <form id="function_validate_form" class="block-inputs">
+                    <form id="function_validate_form" class="block-inputs" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
                         <div class="block-inputs-form">
                             <div>
-                                <input type="text" autocomplete="on" autocorrect="on"
-                                    placeholder="Digite o nome do time">
-                                <input type="text" autocomplete="on" autocorrect="on"
-                                    placeholder="Informe a cor em Hexadecimal">
-                                <select id="sexos" name="sexos">
-                                    <option selected disabled>Selecione o sexo</option>
-                                    <option value="masculino">Masculino</option>
-                                    <option value="feminino">Feminino</option>
-                                </select>
-                                <label for="fotos" id="label-foto" class="custom-file-button">Adicione a imagem do time</label>
-                                <input type="file" name="foto-time" id="fotos" accept=".jpg, .jpeg, .png" onchange="trocarTextoLabel()">
+                                <input type="text" autocomplete="on" autocorrect="on" name="name" placeholder="{{ team.name }}" value="{{ team.name }}">
+                                <input type="text" autocomplete="on" autocorrect="on" name="hexcolor" placeholder="{{ team.hexcolor }}" value="{{ team.hexcolor }}">
+                                <fieldset id="sexos" required>
+                                    <legend>Escolha os esportes:</legend>
+                                    {% for sport in sport %}
+                                        <label>
+                                            <input type="checkbox" {% if sport.id in sport_ids %} checked {% endif %} name="sports" value="{{ sport.id }}"> {{ sport.name }}
+                                        </label><br>
+                                    {% endfor %}
+                                </fieldset>
+                                <label for="fotos" id="label-foto" class="custom-file-button">{% if team.photo %} Trocar logo {% else %} Adicione a imagem do time {% endif %}</label>
+                                <input type="file" name="photo" id="fotos" value="{{ team.photo }}" accept=".jpg, .jpeg, .png" onchange="trocarTextoLabel()">
                             </div>
                             <div>
                                 <input class="green-button" type="submit" value="Confirmar">
                             </div>
                         </div>
                     </form>
-                    <form id="function_validate_form_delete" class="block-inputs" action="">
+                    <form id="function_validate_form_delete" class="block-inputs" method="post">
+                        {% csrf_token %}
                         <div class="block-inputs-form" >
-                            <input class="input-delete" type="submit" value="Excluir">
+                            <input class="input-delete" type="submit" value="excluir" name="excluir">
                         </div>
                     </form>
                 </div>
