@@ -2,132 +2,191 @@
 
 <!DOCTYPE html>
 <html lang="pt-br">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="shortcut icon"
+            href="/static/images/icon-jiifs.png"
+            type="image/x-icon"
+        />
+        <link rel="stylesheet" href="{% static 'css/navbar-layout.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+        <title>JIIFS ADMIN</title>
+    </head>
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="/static/images/icon-jiifs.png" type="image/x-icon">
-    <link rel="stylesheet" href="{% static 'css/navbar-layout.css' %}">
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <title>JIIFS ADMIN</title>
-</head>
-
-<body>
-    <main>
-        <div class="all">
-            <div class="invisible-navbar"></div>
-            <section class="side-bar">
-                <div class="side-bar-top">
-                    <img class="side-bar-logo" src="{% static 'images/logo-jiifs-2024.svg' %}" alt="Logo JIIFS24">
-                    <div class="side-bar-buttons">
-                        <a href="{% url 'Home' %}">
-                            <button class="side-bar-buttons-items">HOME</button>
-                        </a>
-                        <a href="{% url 'player_manage' %}">
-                            <button class="side-bar-buttons-items">JOGADORES</button>
-                        </a>
-                        <a href="{% url 'team_manage' %}">
-                            <button class="side-bar-buttons-items">TIMES</button>
-                        </a>
-                        <a href="{% url 'matches_manage' %}">
-                            <button class="side-bar-buttons-items">PARTIDAS</button>
-                        </a>
-                        <a href="{% url 'sport_manage' %}">
-                            <button class="side-bar-buttons-items">ESPORTES</button>
-                        </a>
-                    </div>
+    <body>
+        <main>
+            <div class="all">
+                <div class="invisible-navbar"></div>
+                <div class="hamburguer-menu" onclick="toggle(this)">
+                    <span class="line first-line"></span>
+                    <span class="line second-line"></span>
                 </div>
-                <div class="side-bar-bottom">
-                    <section class="side-bar-register">
-                        <h3 class="side-bar-register-title">CADASTRO</h3>
-                        <button class="side-bar-buttons-items2">
-                            <a href="{% url 'team_register' %}">Adicionar</a>
-                        </button>
-                    </section>
-                    <div class="logos">
-                        <img class="logos-items" src="{% static 'images/logo-morea.svg' %}" alt="Logo Morea">
-                        <img class="logos-items" src="{% static 'images/logo-ifs-black.svg' %}" alt="Logo IFS">
+                <section class="side-bar">
+                    <div class="side-bar-top">
+                        <img
+                            class="side-bar-logo"
+                            src="{% static 'images/logo-jiifs-2024.svg' %}"
+                            alt="Logo JIIFS24"
+                        />
+                        <div class="side-bar-buttons">
+                            <a href="{% url 'Home' %}">
+                                <button class="side-bar-buttons-items">
+                                    HOME
+                                </button>
+                            </a>
+                            <a href="{% url 'player_manage' %}">
+                                <button class="side-bar-buttons-items">
+                                    JOGADORES
+                                </button>
+                            </a>
+                            <a href="{% url 'team_manage' %}">
+                                <button class="side-bar-buttons-items">
+                                    TIMES
+                                </button>
+                            </a>
+                            <a href="{% url 'matches_manage' %}">
+                                <button class="side-bar-buttons-items">
+                                    PARTIDAS
+                                </button>
+                            </a>
+                            <a href="{% url 'sport_manage' %}">
+                                <button class="side-bar-buttons-items">
+                                    ESPORTES
+                                </button>
+                            </a>
+                        </div>
                     </div>
-                    <button class="side-bar-buttons-items2">
-                        <a href="">Sair</a>
-                    </button>
-                </div>
-            </section>
-            <div class="all-block">
-                <div class="block1">
-                    <div class="title">
-                        <h1>GERENCIAMENTO DOS TIMES</h1>
-                    </div>
-                    <div class="all-manage">
-                        <input type="search" id="search-input" onkeyup="search_table()"
-                            placeholder="Pesquisar os times" />
-                        <section class="all-table">
-                            <table id="matches-table">
-                                <tr>
-                                    <th>NOME</th>
-                                    <th>COLOR-HEX</th>
-                                    <th>SEXO</th>
-                                    <th>JOGADORES</th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="{% url 'team_edit' %}">2 IRC</a>
-                                    </td>
-                                    <td>------</td>
-                                    <td>MASCULINO</td>
-                                    <td>
-                                        <a href="{% url 'team_players_manage' %}">ACESSAR</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="{% url 'team_edit' %}">4 IRC</a>
-                                    </td>
-                                    <td>------</td>
-                                    <td>FEMININO</td>
-                                    <td>
-                                        <a href="{% url 'team_players_manage' %}">ACESSAR</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="{% url 'team_edit' %}">CORINTIAS</a>
-                                    </td>
-                                    <td>SLAS</td>
-                                    <td>MASCULINO</td>
-                                    <td>
-                                        <a href="{% url 'team_players_manage' %}">ACESSAR</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="{% url 'team_edit' %}">FLAMENGO</a>
-                                    </td>
-                                    <td>SLAS</td>
-                                    <td>MASCULINO</td>
-                                    <td>
-                                        <a href="{% url 'team_players_manage' %}">ACESSAR</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="{% url 'team_edit' %}">SÃO PAULO</a>
-                                    </td>
-                                    <td>SLAS</td>
-                                    <td>MASCULINO</td>
-                                    <td>
-                                        <a href="{% url 'team_players_manage' %}">ACESSAR</a>
-                                    </td>
-                                </tr>
-                            </table>
+                    <div class="side-bar-bottom">
+                        <section class="side-bar-register">
+                            <h3 class="side-bar-register-title">CADASTRO</h3>
+                            <button class="side-bar-buttons-items2">
+                                <a href="{% url 'team_register' %}"
+                                    >Adicionar</a
+                                >
+                            </button>
                         </section>
+                        <div class="logos">
+                            <img
+                                class="logos-items"
+                                src="{% static 'images/logo-morea.svg' %}"
+                                alt="Logo Morea"
+                            />
+                            <img
+                                class="logos-items"
+                                src="{% static 'images/logo-ifs-black.svg' %}"
+                                alt="Logo IFS"
+                            />
+                        </div>
+                        <button class="side-bar-buttons-items2">
+                            <a href="">Sair</a>
+                        </button>
+                    </div>
+                </section>
+                <div class="all-block">
+                    <div class="block1">
+                        <div class="title">
+                            <h1>GERENCIAMENTO DOS TIMES</h1>
+                        </div>
+                        <div class="all-manage">
+                            <input
+                                type="search"
+                                id="search-input"
+                                onkeyup="search_table()"
+                                placeholder="Pesquisar os times"
+                            />
+                            <section class="all-table">
+                                <table id="matches-table">
+                                    <tr>
+                                        <th>NOME</th>
+                                        <th>COLOR-HEX</th>
+                                        <th>SEXO</th>
+                                        <th>JOGADORES</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="{% url 'team_edit' %}"
+                                                >2 IRC</a
+                                            >
+                                        </td>
+                                        <td>------</td>
+                                        <td>MASCULINO</td>
+                                        <td>
+                                            <a
+                                                href="{% url 'team_players_manage' %}"
+                                                >ACESSAR</a
+                                            >
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="{% url 'team_edit' %}"
+                                                >4 IRC</a
+                                            >
+                                        </td>
+                                        <td>------</td>
+                                        <td>FEMININO</td>
+                                        <td>
+                                            <a
+                                                href="{% url 'team_players_manage' %}"
+                                                >ACESSAR</a
+                                            >
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="{% url 'team_edit' %}"
+                                                >CORINTIAS</a
+                                            >
+                                        </td>
+                                        <td>SLAS</td>
+                                        <td>MASCULINO</td>
+                                        <td>
+                                            <a
+                                                href="{% url 'team_players_manage' %}"
+                                                >ACESSAR</a
+                                            >
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="{% url 'team_edit' %}"
+                                                >FLAMENGO</a
+                                            >
+                                        </td>
+                                        <td>SLAS</td>
+                                        <td>MASCULINO</td>
+                                        <td>
+                                            <a
+                                                href="{% url 'team_players_manage' %}"
+                                                >ACESSAR</a
+                                            >
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="{% url 'team_edit' %}"
+                                                >SÃO PAULO</a
+                                            >
+                                        </td>
+                                        <td>SLAS</td>
+                                        <td>MASCULINO</td>
+                                        <td>
+                                            <a
+                                                href="{% url 'team_players_manage' %}"
+                                                >ACESSAR</a
+                                            >
+                                        </td>
+                                    </tr>
+                                </table>
+                            </section>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
+        </main>
 
-    <script src="{% static 'js/script.js' %}"></script>
-</body>
-
+        <script src="{% static 'js/script.js' %}"></script>
+    </body>
 </html>

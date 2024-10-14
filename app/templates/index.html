@@ -2,58 +2,90 @@
 
 <!DOCTYPE html>
 <html lang="pt-br">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="shortcut icon"
+            href="/static/images/icon-jiifs.png"
+            type="image/x-icon"
+        />
+        <link rel="stylesheet" href="{% static 'css/navbar-layout.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+        <title>JIIFS ADMIN</title>
+    </head>
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="/static/images/icon-jiifs.png" type="image/x-icon">
-    <link rel="stylesheet" href="{% static 'css/navbar-layout.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-    <title>JIIFS ADMIN</title>
-</head>
-
-<body>
-    <main>
-        <div class="all">
-            <div class="invisible-navbar"></div>
-            <section class="side-bar">
-                <div class="side-bar-top">
-                    <img class="side-bar-logo" src="{% static 'images/logo-jiifs-2024.svg' %}" alt="Logo JIIFS24">
-                    <div class="side-bar-buttons">
-                        <a href="{% url 'Home' %}">
-                            <button class="side-bar-buttons-items">HOME</button>
-                        </a>
-                        <a href="{% url 'player_manage' %}">
-                            <button class="side-bar-buttons-items">GERENCIAMENTO</button>
-                        </a>
-                        <a href="{% url 'games' %}">
-                            <button class="side-bar-buttons-items">JOGOS</button>
-                        </a>
-                    </div>
+    <body>
+        <main>
+            <div class="all">
+                <div class="invisible-navbar"></div>
+                <div class="hamburguer-menu" onclick="toggle(this)">
+                    <span class="line first-line"></span>
+                    <span class="line second-line"></span>
                 </div>
-                <div class="side-bar-bottom">
-                    <div class="logos">
-                        <img class="logos-items" src="{% static 'images/logo-morea.svg' %}" alt="Logo Morea">
-                        <img class="logos-items" src="{% static 'images/logo-ifs-black.svg' %}" alt="Logo IFS">
+                <section class="side-bar">
+                    <div class="side-bar-top">
+                        <img
+                            class="side-bar-logo"
+                            src="{% static 'images/logo-jiifs-2024.svg' %}"
+                            alt="Logo JIIFS24"
+                        />
+                        <div class="side-bar-buttons">
+                            <a href="{% url 'Home' %}">
+                                <button class="side-bar-buttons-items">
+                                    HOME
+                                </button>
+                            </a>
+                            <a href="{% url 'player_manage' %}">
+                                <button class="side-bar-buttons-items">
+                                    GERENCIAMENTO
+                                </button>
+                            </a>
+                            <a href="{% url 'games' %}">
+                                <button class="side-bar-buttons-items">
+                                    JOGOS
+                                </button>
+                            </a>
+                        </div>
                     </div>
-                    <button class="side-bar-buttons-items2">
-                        <a href="">Sair</a>
-                    </button>
+                    <div class="side-bar-bottom">
+                        <div class="logos">
+                            <img
+                                class="logos-items"
+                                src="{% static 'images/logo-morea.svg' %}"
+                                alt="Logo Morea"
+                            />
+                            <img
+                                class="logos-items"
+                                src="{% static 'images/logo-ifs-black.svg' %}"
+                                alt="Logo IFS"
+                            />
+                        </div>
+                        <button class="side-bar-buttons-items2">
+                            <a href="">Sair</a>
+                        </button>
+                    </div>
+                </section>
+                <div class="all-block">
+                    <section class="block1">
+                        <img
+                            class="block-logo"
+                            src="{% static 'images/logo-morea.svg' %}"
+                            alt="Logo Morea"
+                        />
+                    </section>
+                    <section class="block2">
+                        <img
+                            class="block-logo"
+                            src="{% static 'images/logo-ifs-black.svg' %}"
+                            alt="Logo IFS"
+                        />
+                    </section>
                 </div>
-            </section>
-            <div class="all-block">
-                <section class="block1">
-                    <img class="block-logo" src="{% static 'images/logo-morea.svg' %}" alt="Logo Morea">
-                </section>
-                <section class="block2">
-                    <img class="block-logo" src="{% static 'images/logo-ifs-black.svg' %}" alt="Logo IFS">
-                </section>
             </div>
-        </div>
-    </main>
+        </main>
 
-    <script src="{% static 'js/script.js' %}"></script>
-</body>
-
+        <script src="{% static 'js/script.js' %}"></script>
+    </body>
 </html>
