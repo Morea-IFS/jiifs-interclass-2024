@@ -18,7 +18,7 @@ urlpatterns = [
     path('games', views.games, name = "games"),
     path('manage/sport', views.sport_manage, name = "sport_manage"),
     path('register/sport', views.sport_register, name = "sport_register"),
-    path('edit/sport', views.sport_edit, name = "sport_edit"),
+    path('edit/sport/<int:id>', views.sport_edit, name = "sport_edit"),
     path('general/data', views.general_data, name = "general_data"),
     path('scoreboard/', views.scoreboard, name = "scoreboard"),
 ]

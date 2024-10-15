@@ -134,14 +134,31 @@ def games(request):
     return render(request, 'games.html')
 
 def sport_manage(request):
-    return render(request, 'sport_manage.html')
+    sport = Sport.objects.all()
+    return render(request, 'sport_manage.html',{'sport': sport,})
 
-def sport_edit(request):
-    return render(request, 'sport_edit.html')
+def sport_edit(request, id):
+    sport = get_object_or_404(Sport, id=id)
+    if request.method == "GET":
+        return render(request, 'sport_edit.html', {'sport': sport,})
+    elif 'excluir' in request.POST:
+        sport.delete()
+        return redirect('sport_manage')
+    else:
+        sport.name = request.POST.get('name')
+        sport.max_titulares = request.POST.get('max_titulares')
+        sport.save()
+        return redirect('sport_manage')
 
 def sport_register(request):
-    return render(request, 'sport_register.html')
-
+    if request.method =="GET":
+        return render(request, 'sport_register.html')
+    else:
+        name = request.POST.get('name')
+        max_titulares = request.POST.get('max_titulares')
+        Sport.objects.create(name=name, max_titulares=max_titulares)
+        return redirect('sport_register')
+    
 def general_data(request):
     return render(request, 'general_data.html')
 

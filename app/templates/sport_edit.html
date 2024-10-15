@@ -93,20 +93,25 @@
                             <form
                                 id="function_validate_form"
                                 class="block-inputs"
-                            >
+                                method="post"
+                            >{% csrf_token %}
                                 <div class="block-inputs-form">
                                     <div>
                                         <input
                                             type="text"
                                             autocomplete="on"
                                             autocorrect="on"
-                                            placeholder="Nome do esporte"
+                                            value="{{sport.name}}"
+                                            placeholder="{{sport.name}}"
+                                            name="name"
                                         />
                                         <input
                                             type="text"
                                             autocomplete="on"
                                             autocorrect="on"
-                                            placeholder="Número de titulares"
+                                            value="{{sport.max_titulares}}"
+                                            placeholder="{{sport.max_titulares}}"
+                                            name="max_titulares"
                                         />
                                     </div>
                                     <div>
@@ -121,14 +126,14 @@
                             <form
                                 id="function_validate_form_delete"
                                 class="block-inputs"
-                                action=""
-                            >
+                                method="post"
+                            >{% csrf_token %}
                                 <div class="block-inputs-form">
-                                    <input type="hidden" name="" id="" />
                                     <input
                                         class="input-delete"
                                         type="submit"
-                                        value="Excluir"
+                                        value="excluir"
+                                        name="excluir"
                                     />
                                 </div>
                             </form>
