@@ -25,19 +25,13 @@
                     <img class="side-bar-logo" src="{% static 'images/logo-jiifs-2024.svg' %}" alt="Logo JIIFS24" />
                     <div class="side-bar-buttons">
                         <a href="{% url 'Home' %}">
-                            <button class="side-bar-buttons-items">
-                                HOME
-                            </button>
+                            <button class="side-bar-buttons-items">HOME</button>
                         </a>
                         <a href="{% url 'player_manage' %}">
-                            <button class="side-bar-buttons-items">
-                                GERENCIAMENTO
-                            </button>
+                            <button class="side-bar-buttons-items">GERENCIAMENTO</button>
                         </a>
                         <a href="{% url 'games' %}">
-                            <button class="side-bar-buttons-items">
-                                JOGOS
-                            </button>
+                            <button class="side-bar-buttons-items">JOGOS</button>
                         </a>
                     </div>
                 </div>
@@ -65,23 +59,26 @@
                                 <div class="game-score">0 x 0</div>
                             </div>
                             <div class="game-block2">
-                                <p>
-                                    PARTIDA #01<br />FUTSAL - MASCULINO<br />TEMPO:
-                                    00:00
-                                </p>
+                                <p>PARTIDA #01<br>FUTSAL - MASCULINO<br>TEMPO:00:00</p>
                                 <h2>ACONTECENDO</h2>
                             </div>
                             <div class="games-config">
                                 <a class="games-config-link" href="{% url 'general_data' %}">
                                     <div class="games-config-item games-config-item-active">
-                                        <img class="games-config-item-img" src="/static/images/icon-timer.png"
+                                        <img class="games-config-item-img" src="{% static 'images/icon-timer.png' %}"
                                             alt="Timer Icon" />
                                     </div>
                                 </a>
                                 <a class="games-config-link" href="{% url 'scoreboard' %}">
                                     <div class="games-config-item">
-                                        <img class="games-config-item-img" src="/static/images/icon-config.png"
+                                        <img class="games-config-item-img" src="{% static 'images/icon-config.png' %}"
                                             alt="Gear Icon" />
+                                    </div>
+                                </a>
+                                <a class="games-config-link" href="{% url 'players_team' %}">
+                                    <div class="games-config-item games-config-item-player">
+                                        <img class="games-config-item-img" src="{% static 'images/icon-player.png' %}"
+                                            alt="Player Icon" />
                                     </div>
                                 </a>
                             </div>
@@ -94,21 +91,24 @@
                                 <div class="game-score">0 x 0</div>
                             </div>
                             <div class="game-block2">
-                                <p>
-                                    PARTIDA #02<br />VOLEIBOL - MASCULINO<br />TEMPO:
-                                    42:17
-                                </p>
+                                <p>PARTIDA #02<br>VOLEIBOL - MASCULINO<br>TEMPO:42:17s</p>
                                 <h2>FINALIZADA</h2>
                             </div>
                             <div class="games-config">
                                 <div class="games-config-item games-config-item-desactive">
-                                    <img class="games-config-item-img" src="/static/images/icon-timer.png"
+                                    <img class="games-config-item-img" src="{% static 'images/icon-timer.png' %}"
                                         alt="Timer Icon" />
                                 </div>
                                 <a class="games-config-link" href="{% url 'scoreboard' %}">
                                     <div class="games-config-item">
-                                        <img class="games-config-item-img" src="/static/images/icon-config.png"
+                                        <img class="games-config-item-img" src="{% static 'images/icon-config.png' %}"
                                             alt="Gear Icon" />
+                                    </div>
+                                </a>
+                                <a class="games-config-link" href="{% url 'players_team' %}">
+                                    <div class="games-config-item games-config-item-player">
+                                        <img class="games-config-item-img" src="{% static 'images/icon-player.png' %}"
+                                            alt="Player Icon" />
                                     </div>
                                 </a>
                             </div>
@@ -121,21 +121,24 @@
                                 <div class="game-score">0 x 0</div>
                             </div>
                             <div class="game-block2">
-                                <p>
-                                    PARTIDA #02<br />VOLEIBOL - MASCULINO<br />TEMPO:
-                                    42:17
-                                </p>
+                                <p>PARTIDA #03<br>VOLEIBOL - MASCULINO<br>TEMPO:42:17</p>
                                 <h2>FINALIZADA</h2>
                             </div>
                             <div class="games-config">
                                 <div class="games-config-item games-config-item-desactive">
-                                    <img class="games-config-item-img" src="/static/images/icon-timer.png"
+                                    <img class="games-config-item-img" src="{% static 'images/icon-timer.png' %}"
                                         alt="Timer Icon" />
                                 </div>
                                 <a class="games-config-link" href="{% url 'scoreboard' %}">
                                     <div class="games-config-item">
-                                        <img class="games-config-item-img" src="/static/images/icon-config.png"
+                                        <img class="games-config-item-img" src="{% static 'images/icon-config.png' %}"
                                             alt="Gear Icon" />
+                                    </div>
+                                </a>
+                                <a class="games-config-link" href="{% url 'players_team' %}">
+                                    <div class="games-config-item games-config-item-player">
+                                        <img class="games-config-item-img" src="{% static 'images/icon-player.png' %}"
+                                            alt="Player Icon" />
                                     </div>
                                 </a>
                             </div>
