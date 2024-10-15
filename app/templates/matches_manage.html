@@ -108,76 +108,18 @@
                                         <th>ESPORTE</th>
                                         <th>VENCEDOR</th>
                                     </tr>
+                                    {% for match in match %}
                                     <tr>
-                                        <td>
-                                            <a href="{% url 'matches_edit' %}"
-                                                >1</a
-                                            >
-                                        </td>
-                                        <td>2 IRC</td>
-                                        <td>3 IEDF</td>
-                                        <td>-------</td>
-                                        <td>00</td>
-                                        <td>MASCULINO</td>
-                                        <td>VOLEIBOL</td>
-                                        <td>-------</td>
+                                        <td><a href="{% url 'matches_edit' match.id %}">{{match.id}}</a></td>
+                                        <td>----</td>
+                                        <td>----</td>
+                                        <td>{% if match.status == 0 %} Em breve {% elif match.status == 1 %} Acontecendo {% elif match.status == 2 %} Finalizada {% elif match.status == 3 %} Cancelada {% elif match.status == 4 %} Pausada {% else %} ---- {% endif %}</td>
+                                        <td>{{match.time_match}}</td>
+                                        <td>{% if match.sexo == 0 %} Masculino {% else %} Feminino {% endif %} </td>
+                                        <td>{{match.sport}}</td>
+                                        <td>{% if match.sexo %} {{match.Winner_team}} {% else %} ---- {% endif %}</td>
                                     </tr>
-                                    <tr>
-                                        <td>
-                                            <a href="{% url 'matches_edit' %}"
-                                                >2</a
-                                            >
-                                        </td>
-                                        <td>1 IRC</td>
-                                        <td>4 IEDF</td>
-                                        <td>-------</td>
-                                        <td>00</td>
-                                        <td>FEMININO</td>
-                                        <td>FUTSAL</td>
-                                        <td>-------</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <a href="{% url 'matches_edit' %}"
-                                                >3</a
-                                            >
-                                        </td>
-                                        <td>2 IRC</td>
-                                        <td>1 IELTM</td>
-                                        <td>-------</td>
-                                        <td>00</td>
-                                        <td>MASCULINO</td>
-                                        <td>FUTSAL</td>
-                                        <td>-------</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <a href="{% url 'matches_edit' %}"
-                                                >4</a
-                                            >
-                                        </td>
-                                        <td>1 IRC</td>
-                                        <td>2 IEDF</td>
-                                        <td>-------</td>
-                                        <td>00</td>
-                                        <td>FEMININO</td>
-                                        <td>VOLEIBOL</td>
-                                        <td>-------</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <a href="{% url 'matches_edit' %}"
-                                                >5</a
-                                            >
-                                        </td>
-                                        <td>4 IRC</td>
-                                        <td>3 IELTM</td>
-                                        <td>-------</td>
-                                        <td>00</td>
-                                        <td>MASCULINO</td>
-                                        <td>VOLEIBOL</td>
-                                        <td>-------</td>
-                                    </tr>
+                                    {% endfor %}
                                 </table>
                             </section>
                         </div>

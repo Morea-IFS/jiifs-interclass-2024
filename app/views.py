@@ -28,13 +28,36 @@ def team_players_manage(request, id):
         return redirect('team_players_manage', id=team.id)
 
 def matches_manage(request):
-    return render(request, 'matches_manage.html')
+    match = Match.objects.all()
+    return render(request, 'matches_manage.html', {'match': match,})
 
-def matches_edit(request):
-    return render(request, 'matches_edit.html')
+def matches_edit(request, id):
+    match = get_object_or_404(Match, id=id)
+    sport = Sport.objects.all()
+    return render(request, 'matches_edit.html', {'match': match, 'sport': sport,})
 
 def matches_register(request):
-    return render(request, 'matches_register.html')
+    team = Team.objects.all()
+    sport = Sport.objects.all()
+    if request.method ==  "GET":
+        return render(request, 'matches_register.html',{'team': team,'sport': sport,})
+    else:
+        id= request.POST.get('sport')
+        sport = get_object_or_404(Sport, id=id)
+        sexo = request.POST.get('sexo')
+        team_a_id = request.POST.get('time_a')
+        team_b_id = request.POST.get('time_b')
+        try:
+            team_a = Team.objects.get(id=team_a_id)
+            team_b = Team.objects.get(id=team_b_id)
+        except Team.DoesNotExist:
+            return HttpResponse("Um dos times não foi encontrado.", status=404)
+        datetime = request.POST.get('datetime')
+        match = Match.objects.create(sport=sport, sexo=sexo, time_match=datetime, status=0)
+        match.save()
+        Team_match.objects.create(match=match, team=team_a)
+        Team_match.objects.create(match=match, team=team_b)
+        return redirect('matches_manage')
 
 def add_player_team(request, id):
     team = get_object_or_404(Team_sport, id=id)
