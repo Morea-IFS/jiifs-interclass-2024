@@ -26,29 +26,20 @@
                     <img class="side-bar-logo" src="{% static 'images/logo-jiifs-2024.svg' %}" alt="Logo JIIFS24" />
                     <div class="side-bar-buttons">
                         <a href="{% url 'Home' %}">
-                            <button class="side-bar-buttons-items">
-                                HOME
+                            <button class="side-bar-buttons-items">HOME
                             </button>
                         </a>
                         <a href="{% url 'player_manage' %}">
-                            <button class="side-bar-buttons-items">
-                                JOGADORES
-                            </button>
+                            <button class="side-bar-buttons-items">JOGADORES</button>
                         </a>
                         <a href="{% url 'team_manage' %}">
-                            <button class="side-bar-buttons-items">
-                                TIMES
-                            </button>
+                            <button class="side-bar-buttons-items">TIMES</button>
                         </a>
                         <a href="{% url 'matches_manage' %}">
-                            <button class="side-bar-buttons-items">
-                                PARTIDAS
-                            </button>
+                            <button class="side-bar-buttons-items">PARTIDAS</button>
                         </a>
                         <a href="{% url 'sport_manage' %}">
-                            <button class="side-bar-buttons-items">
-                                ESPORTES
-                            </button>
+                            <button class="side-bar-buttons-items">ESPORTES</button>
                         </a>
                     </div>
                 </div>
@@ -77,18 +68,10 @@
                         <form class="block-inputs-form" id="function_validate_form">
                             <div class="block-inputs-div">
                                 <select class="select-action" name="select-action" id="select-action">
-                                    <option selected disabled>
-                                        Selecione a ação
-                                    </option>
-                                    <option value="excluir">
-                                        Excluir jogadores
-                                    </option>
-                                    <option value="reserva">
-                                        Tornar reserva
-                                    </option>
-                                    <option value="titular">
-                                        Tornar titular
-                                    </option>
+                                    <option selected disabled>Selecione a ação</option>
+                                    <option value="excluir">Excluir jogadores</option>
+                                    <option value="reserva">Tornar reserva</option>
+                                    <option value="titular">Tornar titular</option>
                                 </select>
                                 <div>
                                     <input class="input-confirm" type="submit" value="Confirmar" />
