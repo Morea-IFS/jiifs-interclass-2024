@@ -182,9 +182,8 @@ input[type=search] {
 }
 
 .all-table {
+    max-width: 85vw;
     text-align: center;
-    max-height: 75vh;
-    max-width: calc(80vw - 9em);
     overflow: auto;
 }
 
@@ -309,7 +308,9 @@ tr:nth-child(even) {
 }
 
 
-/*Media screen*/
+
+/*MEDIA SCREEN*/
+
 
 
 @media screen and (max-width: 925px) {
@@ -324,15 +325,10 @@ tr:nth-child(even) {
     }
 
 
-    /* CSS GERENCIAMENTO */
+
+    /*GAMES AREA*/
 
 
-    .all-table {
-        max-width: 85vw;
-    }
-
-
-    /*games area*/
 
     .game-section {
         display: flex;
