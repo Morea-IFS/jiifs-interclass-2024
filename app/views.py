@@ -59,4 +59,4 @@ def players_team(request):
     return render(request, 'players_team.html')
 
 def timer(request):
-    return render(request, 'Timer.html')
+    return render(request, 'timer.html')
