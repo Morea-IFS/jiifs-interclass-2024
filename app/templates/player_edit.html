@@ -90,23 +90,25 @@
                             <h1>EDITAR JOGADOR</h1>
                         </div>
                         <div>
-                            <form
-                                id="function_validate_form"
-                                class="block-inputs"
-                            >
+                            <form id="function_validate_form" class="block-inputs"  method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
                                 <div class="block-inputs-form">
                                     <div>
                                         <input
                                             type="text"
                                             autocomplete="on"
                                             autocorrect="on"
-                                            placeholder="Nome do jogador"
+                                            name="name"
+                                            placeholder="{{ player.name }}"
+                                            value="{{ player.name }}"
                                         />
                                         <input
                                             type="text"
                                             autocomplete="on"
                                             autocorrect="on"
-                                            placeholder="Instagram do jogador"
+                                            name="instagram"
+                                            placeholder="{{ player.instagram }}"
+                                            value="{{ player.instagram }}"
                                         />
                                         <input
                                             type="text"
@@ -114,26 +116,20 @@
                                             autocorrect="on"
                                             placeholder="Número do jogador"
                                         />
-                                        <select id="sexos" name="sexos">
-                                            <option selected disabled>
-                                                Selecione o sexo
-                                            </option>
-                                            <option value="masculino">
-                                                Masculino
-                                            </option>
-                                            <option value="feminino">
-                                                Feminino
-                                            </option>
+                                        <select id="sexos" name="sexo">
+                                            <option {% if player.sexo != 0 or 1 %} selected disabled {% endif %} value="2">Selecione o sexo</option>
+                                            <option {% if player.sexo == 0 %} selected {% endif %} value="0">Masculino</option>
+                                            <option {% if player.sexo == 1 %} selected {% endif %} value="1">Feminino</option>
                                         </select>
                                         <label
                                             for="fotos"
                                             id="label-foto"
                                             class="custom-file-button"
-                                            >Adicione uma imagem</label
+                                            >{% if player.photo %} Trocar imagem {% else %} Adicione uma imagem {% endif %}</label
                                         >
                                         <input
                                             type="file"
-                                            name="foto-jogador"
+                                            name="photo"
                                             id="fotos"
                                             accept=".jpg, .jpeg, .png"
                                             onchange="trocarTextoLabel()"
@@ -151,14 +147,15 @@
                             <form
                                 id="function_validate_form_delete"
                                 class="block-inputs"
-                                action=""
+                                method="post"
                             >
+                                {% csrf_token %}
                                 <div class="block-inputs-form">
-                                    <input type="hidden" name="" id="" />
                                     <input
                                         class="input-delete"
                                         type="submit"
-                                        value="Excluir"
+                                        value="excluir"
+                                        name="excluir"
                                     />
                                 </div>
                             </form>

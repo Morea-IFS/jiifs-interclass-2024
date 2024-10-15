@@ -62,21 +62,22 @@
                     <div class="title">
                         <h1>CADASTRO DE JOGADORES</h1>
                     </div>
-                    <form id="function_validate_form" class="block-inputs">
+                    <form id="function_validate_form" class="block-inputs" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
                         <div class="block-inputs-form">
                             <div>
-                                <input type="text" autocomplete="on" autocorrect="on" placeholder="Nome do jogador">
-                                <input type="text" autocomplete="on" autocorrect="on"
+                                <input type="text" autocomplete="on" autocorrect="on" name="name" placeholder="Nome do jogador"  required>
+                                <input type="text" autocomplete="on" autocorrect="on" name="instagram"
                                     placeholder="Instagram do jogador">
                                 <input type="text" autocomplete="on" autocorrect="on" placeholder="Número do jogador">
-                                <select id="sexos" name="sexos">
-                                    <option selected disabled>Selecione o sexo</option>
-                                    <option value="masculino">Masculino</option>
-                                    <option value="feminino">Feminino</option>
+                                <select id="sexos" name="sexo" required>
+                                    <option selected disabled>Selecione o sexo</option required>
+                                    <option value="0">Masculino</option>
+                                    <option value="1">Feminino</option>
                                 </select>
                                 <label for="fotos" id="label-foto" class="custom-file-button">Adicione uma
                                     imagem</label>
-                                <input type="file" name="foto-jogador" id="fotos" accept=".jpg, .jpeg, .png"
+                                <input type="file" name="photo" id="fotos" accept=".jpg, .jpeg, .png"
                                     onchange="trocarTextoLabel()">
                             </div>
                             <div>
