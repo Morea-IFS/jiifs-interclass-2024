@@ -52,128 +52,79 @@
                         <img class="logos-items" src="{% static 'images/logo-morea.svg' %}" alt="Logo Morea" />
                         <img class="logos-items" src="{% static 'images/logo-ifs-black.svg' %}" alt="Logo IFS" />
                     </div>
-                    <button class="side-bar-buttons-items2">
-                        <a href="">Sair</a>
-                    </button>
-                </div>
-            </section>
-            <div class="all-block">
-                <section class="block1">
-                    <div class="title">
-                        <h1>EDITAR PARTIDAS</h1>
-                    </div>
-                    <div>
-                        <form id="function_validate_form" class="block-inputs">
-                            <div class="block-inputs-form">
-                                <div>
-                                    <select id="esporte" name="esporte">
-                                        <option selected disabled>
-                                            Selecione o esporte
-                                        </option>
-                                        <option value="masculino">
-                                            Voleibol
-                                        </option>
-                                        <option value="feminino">
-                                            Futsal
-                                        </option>
-                                    </select>
-                                    <select id="sexos" name="sexos">
-                                        <option selected disabled>
-                                            Selecione o sexo
-                                        </option>
-                                        <option value="masculino">
-                                            Masculino
-                                        </option>
-                                        <option value="feminino">
-                                            Feminino
-                                        </option>
-                                    </select>
-                                    <select id="time-a" name="time-a">
-                                        <option selected disabled>
-                                            Selecione o time
-                                        </option>
-                                        <option value="1-irc">
-                                            1° IRC
-                                        </option>
-                                        <option value="2-irc">
-                                            2° IRC
-                                        </option>
-                                        <option value="3-irc">
-                                            3° IRC
-                                        </option>
-                                        <option value="1-iaut">
-                                            1° IAUT
-                                        </option>
-                                        <option value="2-iaut">
-                                            2° IAUT
-                                        </option>
-                                        <option value="3-iaut">
-                                            3° IAUT
-                                        </option>
-                                        <option value="1-iedf">
-                                            1° IEDF
-                                        </option>
-                                        <option value="2-iedf">
-                                            2° IEDF
-                                        </option>
-                                        <option value="3-iedf">
-                                            3° IEDF
-                                        </option>
-                                        <option value="1-ieltm">
-                                            1° IELTM
-                                        </option>
-                                        <option value="2-ieltm">
-                                            2° IELTM
-                                        </option>
-                                        <option value="3-ieltm">
-                                            3° IELTM
-                                        </option>
-                                    </select>
-                                    <select id="times-b" name="times-b">
-                                        <option selected disabled>
-                                            Selecione o time
-                                        </option>
-                                        <option value="1-irc">
-                                            1° IRC
-                                        </option>
-                                        <option value="2-irc">
-                                            2° IRC
-                                        </option>
-                                        <option value="3-irc">
-                                            3° IRC
-                                        </option>
-                                        <option value="1-iaut">
-                                            1° IAUT
-                                        </option>
-                                        <option value="2-iaut">
-                                            2° IAUT
-                                        </option>
-                                        <option value="3-iaut">
-                                            3° IAUT
-                                        </option>
-                                        <option value="1-iedf">
-                                            1° IEDF
-                                        </option>
-                                        <option value="2-iedf">
-                                            2° IEDF
-                                        </option>
-                                        <option value="3-iedf">
-                                            3° IEDF
-                                        </option>
-                                        <option value="1-ieltm">
-                                            1° IELTM
-                                        </option>
-                                        <option value="2-ieltm">
-                                            2° IELTM
-                                        </option>
-                                        <option value="3-ieltm">
-                                            3° IELTM
-                                        </option>
-                                    </select>
-                                    <input class="input-data" type="datetime-local" name="date-game" id="date-game" />
+                </section>
+                <div class="all-block">
+                    <section class="block1">
+                        <div class="title">
+                            <h1>EDITAR PARTIDAS</h1>
+                        </div>
+                                <form
+                                id="function_validate_form"
+                                class="block-inputs" method="post"
+                                >{% csrf_token %}
+                                <div class="block-inputs-form">
+                                    <div>
+                                        <select id="esporte" name="sport">
+                                            <option selected disabled value="None">
+                                                Selecione o esporte
+                                            </option>
+                                            {% for sport in sport %}
+                                            <option {% if match.sport.id == sport.id %} selected {% endif %} value="{{sport.id}}">{{sport.name}}</option>
+                                            {% endfor %}
+                                            
+                                        </select>
+                                        <select id="sexos" name="sexo">
+                                            <option selected disabled value="None">
+                                                Selecione o sexo
+                                            </option>
+                                            <option {% if match.sexo == 0 %} selected {% endif %} value="0">Masculino</option>
+                                            <option {% if match.sexo == 1 %} selected {% endif %} value="1">Feminino</option>
+                                        </select>
+                                        <select id="time-a" name="time_a" required>
+                                            <option selected disabled value="None">
+                                                Selecione o time
+                                            </option>
+                                            {% for i in team %}
+                                            <option value="{{i.id}}">{{i.name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <select id="times-b" name="time_b" required>
+                                            <option selected disabled  value="None">
+                                                Selecione o time
+                                            </option>
+                                            {% for i in team %}
+                                            <option value="{{i.id}}">{{i.name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <input
+                                            class="input-data"
+                                            type="datetime-local"
+                                            name="datetime"
+                                            id="date-game"
+                                        />
+                                        {% if match.time_match %} <p> HORARIO: {{match.time_match}}</p> {% endif %}
+                                    </div>
+                                    <div>
+                                        <input
+                                            class="input-confirm"
+                                            type="submit"
+                                            value="Confirmar"
+                                        />
+                                    </div>
                                 </div>
-                                <div>
-                                    <input class="input-confirm" type="submit" value="Confirmar" />
+                            </form>
+                            <form
+                                id="function_validate_form_delete"
+                                class="block-inputs"
+                                method="post"
+                            >{% csrf_token %}
+                                <div class="block-inputs-form">
+                                    <input
+                                        class="input-delete"
+                                        type="submit"
+                                        value="excluir"
+                                        name="excluir"
+                                    />
                                 </div>
                             </div>
                         </form>

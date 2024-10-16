@@ -63,21 +63,24 @@
                     <div class="title">
                         <h1>CADASTRO DE TIMES</h1>
                     </div>
-                    <form id="function_validate_form" class="block-inputs">
+                    <form id="function_validate_form" class="block-inputs" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
                         <div class="block-inputs-form">
                             <div>
                                 <input type="text" autocomplete="on" autocorrect="on"
-                                    placeholder="Digite o nome do time"></input>
-                                <input type="text" autocomplete="on" autocorrect="on"
-                                    placeholder="Informe a cor em Hexadecimal"></input>
-                                <select id="sexos" name="sexos">
-                                    <option selected disabled>Selecione o sexo</option>
-                                    <option value="masculino">Masculino</option>
-                                    <option value="feminino">Feminino</option>
-                                </select>
+                                    name="name" placeholder="Digite o nome do time"></input>
+                                <input type="text" autocomplete="on" autocorrect="on" name="hexcolor" placeholder="Informe a cor em hexadecimal">
+                                <fieldset id="sexos" required>
+                                    <legend>Escolha os esportes:</legend>
+                                    {% for sport in sport %}
+                                        <label>
+                                            <input type="checkbox" name="sports" value="{{ sport.id }}"> {{ sport.name }}
+                                        </label><br>
+                                    {% endfor %}
+                                </fieldset>
                                 <label for="fotos" id="label-foto" class="custom-file-button">Adicione a imagem do
                                     time</label>
-                                <input type="file" name="foto-time" id="fotos" accept=".jpg, .jpeg, .png"
+                                <input type="file" name="photo" id="fotos" accept=".jpg, .jpeg, .png"
                                     onchange="trocarTextoLabel()">
                             </div>
                             <div>

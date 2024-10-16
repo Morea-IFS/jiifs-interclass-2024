@@ -52,64 +52,40 @@
                         <img class="logos-items" src="{% static 'images/logo-morea.svg' %}" alt="Logo Morea" />
                         <img class="logos-items" src="{% static 'images/logo-ifs-black.svg' %}" alt="Logo IFS" />
                     </div>
-                    <button class="side-bar-buttons-items2">
-                        <a href="">Sair</a>
-                    </button>
-                </div>
-            </section>
-            <div class="all-block">
-                <div class="block1">
-                    <div class="title">
-                        <h1>GERENCIAMENTO DOS JOGADORES</h1>
-                    </div>
-                    <div class="all-manage">
-                        <input type="search" id="search-input" onkeyup="search_table()"
-                            placeholder="Pesquisar os jogadores" />
-                        <section class="all-table">
-                            <table id="matches-table">
-                                <tr>
-                                    <th>NOME</th>
-                                    <th>INSTAGRAM</th>
-                                    <th>SEXO</th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="{% url 'player_edit' %}">JULIANO DOS SANTOS CHARGAS
-                                            NASCIMENTO</a>
-                                    </td>
-                                    <td>------</td>
-                                    <td>MASCULINO</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="{% url 'player_edit' %}">Coisinha</a>
-                                    </td>
-                                    <td>------</td>
-                                    <td>FEMININO</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="{% url 'player_edit' %}">SILAS</a>
-                                    </td>
-                                    <td>SLAS</td>
-                                    <td>MASCULINO</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="{% url 'player_edit' %}">SILAS</a>
-                                    </td>
-                                    <td>SLAS</td>
-                                    <td>MASCULINO</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="{% url 'player_edit' %}">SILAS</a>
-                                    </td>
-                                    <td>SLAS</td>
-                                    <td>MASCULINO</td>
-                                </tr>
-                            </table>
-                        </section>
+                </section>
+                <div class="all-block">
+                    <div class="block1">
+                        <div class="title">
+                            <h1>GERENCIAMENTO DOS JOGADORES</h1>
+                        </div>
+                        <div class="all-manage">
+                            <input
+                                type="search"
+                                id="search-input"
+                                onkeyup="search_table()"
+                                placeholder="Pesquisar os jogadores"
+                            />
+                            <section class="all-table">
+                                <table id="matches-table">
+                                    <tr>
+                                        <th>NOME</th>
+                                        <th>INSTAGRAM</th>
+                                        <th>NÚMERO</th>
+                                        <th>SEXO</th>
+                                    </tr>
+                                    {% for player in player %}
+                                    <tr>
+                                        <td>
+                                            <a href="{% url 'player_edit' player.id %}">{{ player.name }}</a>
+                                        </td>
+                                        <td>{% if player.instagram %} {{ player.instagram }} {% else %} ---- {% endif %} </td>
+                                        <td>--</td>
+                                        <td>{% if player.sexo == 0 %} Masculino {% elif player.sexo == 1 %} Feminino {% else %} ---- {% endif %}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                            </section>
+                        </div>
                     </div>
                 </div>
             </div>
