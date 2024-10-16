@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="/static/images/icon-jiifs.png" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'images/icon-jiifs.png' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'css/navbar-layout.css' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <title>JIIFS ADMIN</title>
@@ -69,6 +69,7 @@
                                 <input type="text" autocomplete="on" autocorrect="on" name="name" placeholder="Nome do jogador"  required>
                                 <input type="text" autocomplete="on" autocorrect="on" name="instagram"
                                     placeholder="Instagram do jogador">
+
                                 <input type="text" autocomplete="on" autocorrect="on" placeholder="Número do jogador">
                                 <select id="sexos" name="sexo" required>
                                     <option selected disabled>Selecione o sexo</option required>

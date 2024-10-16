@@ -17,15 +17,13 @@
 }
 
 
-/*Media screen*/
+
+/*MEDIA SCREEN*/
+
+
+
 @media screen and (max-width: 700px) {
     .block-logo {
         height: 7em;
-    }
-}
-
-@media screen and (max-width: 500px) {
-    .all-block {
-        width: 100vw;
     }
 }
