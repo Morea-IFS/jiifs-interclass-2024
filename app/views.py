@@ -54,3 +54,9 @@ def general_data(request):
 
 def scoreboard(request):
     return render(request, 'scoreboard.html')
+
+def players_team(request):
+    return render(request, 'players_team.html')
+
+def timer(request):
+    return render(request, 'timer.html')

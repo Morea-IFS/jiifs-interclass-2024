@@ -20,6 +20,8 @@
     --global-ninth-color: #525352;
     --global-tenth-color: #2727c2;
     --global-eleventh-color: #004903;
+    --global-twelfth-color: #2B2C2F;
+    --global-thirteenth-color: #03009F;
 }
 
 a {
@@ -182,9 +184,8 @@ input[type=search] {
 }
 
 .all-table {
+    max-width: 85vw;
     text-align: center;
-    max-height: 75vh;
-    max-width: calc(80vw - 9em);
     overflow: auto;
 }
 
@@ -234,7 +235,7 @@ tr:nth-child(even) {
     display: flex;
     justify-content: space-between;
     background-color: white;
-    height: 12em;
+    height: 15em;
     width: 70%;
     margin-bottom: 4em;
 }
@@ -265,11 +266,11 @@ tr:nth-child(even) {
 
 .game-title {
     text-align: center;
-    color: #03009F;
+    color: var(--global-thirteenth-color);
 }
 
 .game-score {
-    background-color: #03009F;
+    background-color: var(--global-thirteenth-color);
     color: white;
     font-size: 2em;
     padding: 0.2em 0.5em;
@@ -277,11 +278,15 @@ tr:nth-child(even) {
 
 .games-config-item {
     display: flex;
-    background-color: #00154B;
-    height: 50%;
+    background-color: #2B2C2F;
+    height: 33.3%;
     width: 5em;
     justify-content: center;
     align-items: center;
+}
+
+.games-config-item-player {
+    background-color: var(--global-thirteenth-color);
 }
 
 .games-config-item-active {
@@ -309,7 +314,9 @@ tr:nth-child(even) {
 }
 
 
-/*Media screen*/
+
+/*MEDIA SCREEN*/
+
 
 
 @media screen and (max-width: 925px) {
@@ -324,15 +331,10 @@ tr:nth-child(even) {
     }
 
 
-    /* CSS GERENCIAMENTO */
+
+    /*GAMES AREA*/
 
 
-    .all-table {
-        max-width: 85vw;
-    }
-
-
-    /*games area*/
 
     .game-section {
         display: flex;

@@ -45,13 +45,6 @@ input[type=search] {
   margin: 0;
 }
 
-.all-table {
-  text-align: center;
-  max-height: 75vh;
-  max-width: calc(80vw - 9em);
-  overflow: auto;
-}
-
 table,
 th,
 td {

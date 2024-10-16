@@ -2,219 +2,149 @@
 
 <!DOCTYPE html>
 <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link
-            rel="shortcut icon"
-            href="/static/images/icon-jiifs.png"
-            type="image/x-icon"
-        />
-        <link rel="stylesheet" href="{% static 'css/navbar-layout.css' %}" />
-        <link rel="stylesheet" href="{% static 'css/base.css' %}" />
-        <link
-            rel="stylesheet"
-            href="{% static 'css/team_players_manage.css' %}"
-        />
-        <title>JIIFS ADMIN</title>
-    </head>
 
-    <body>
-        <main>
-            <div class="all">
-                <div class="invisible-navbar"></div>
-                <div class="hamburguer-menu" onclick="toggle(this)">
-                    <span class="line first-line"></span>
-                    <span class="line second-line"></span>
-                </div>
-                <section class="side-bar">
-                    <div class="side-bar-top">
-                        <img
-                            class="side-bar-logo"
-                            src="{% static 'images/logo-jiifs-2024.svg' %}"
-                            alt="Logo JIIFS24"
-                        />
-                        <div class="side-bar-buttons">
-                            <a href="{% url 'Home' %}">
-                                <button class="side-bar-buttons-items">
-                                    HOME
-                                </button>
-                            </a>
-                            <a href="{% url 'player_manage' %}">
-                                <button class="side-bar-buttons-items">
-                                    JOGADORES
-                                </button>
-                            </a>
-                            <a href="{% url 'team_manage' %}">
-                                <button class="side-bar-buttons-items">
-                                    TIMES
-                                </button>
-                            </a>
-                            <a href="{% url 'matches_manage' %}">
-                                <button class="side-bar-buttons-items">
-                                    PARTIDAS
-                                </button>
-                            </a>
-                            <a href="{% url 'sport_manage' %}">
-                                <button class="side-bar-buttons-items">
-                                    ESPORTES
-                                </button>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="side-bar-bottom">
-                        <section class="side-bar-register">
-                            <h3 class="side-bar-register-title">CADASTRO</h3>
-                            <button class="side-bar-buttons-items2">
-                                <a href="{% url 'add_player_team' %}"
-                                    >Adicionar</a
-                                >
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="{% static 'images/icon-jiifs.png' %}" type="image/x-icon" />
+    <link rel="stylesheet" href="{% static 'css/navbar-layout.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/team_players_manage.css' %}" />
+    <title>JIIFS ADMIN</title>
+</head>
+
+<body>
+    <main>
+        <div class="all">
+            <div class="invisible-navbar"></div>
+            <div class="hamburguer-menu" onclick="toggle(this)">
+                <span class="line first-line"></span>
+                <span class="line second-line"></span>
+            </div>
+            <section class="side-bar">
+                <div class="side-bar-top">
+                    <img class="side-bar-logo" src="{% static 'images/logo-jiifs-2024.svg' %}" alt="Logo JIIFS24" />
+                    <div class="side-bar-buttons">
+                        <a href="{% url 'Home' %}">
+                            <button class="side-bar-buttons-items">HOME
                             </button>
-                        </section>
-                        <div class="logos">
-                            <img
-                                class="logos-items"
-                                src="{% static 'images/logo-morea.svg' %}"
-                                alt="Logo Morea"
-                            />
-                            <img
-                                class="logos-items"
-                                src="{% static 'images/logo-ifs-black.svg' %}"
-                                alt="Logo IFS"
-                            />
-                        </div>
+                        </a>
+                        <a href="{% url 'player_manage' %}">
+                            <button class="side-bar-buttons-items">JOGADORES</button>
+                        </a>
+                        <a href="{% url 'team_manage' %}">
+                            <button class="side-bar-buttons-items">TIMES</button>
+                        </a>
+                        <a href="{% url 'matches_manage' %}">
+                            <button class="side-bar-buttons-items">PARTIDAS</button>
+                        </a>
+                        <a href="{% url 'sport_manage' %}">
+                            <button class="side-bar-buttons-items">ESPORTES</button>
+                        </a>
+                    </div>
+                </div>
+                <div class="side-bar-bottom">
+                    <section class="side-bar-register">
+                        <h3 class="side-bar-register-title">CADASTRO</h3>
                         <button class="side-bar-buttons-items2">
-                            <a href="">Sair</a>
+                            <a href="{% url 'add_player_team' %}">Adicionar</a>
                         </button>
+                    </section>
+                    <div class="logos">
+                        <img class="logos-items" src="{% static 'images/logo-morea.svg' %}" alt="Logo Morea" />
+                        <img class="logos-items" src="{% static 'images/logo-ifs-black.svg' %}" alt="Logo IFS" />
                     </div>
-                </section>
-                <div class="all-block">
-                    <div class="block1">
-                        <div class="title">
-                            <h1>GERENCIAMENTO DE JOGADORES DO TIME</h1>
-                        </div>
-                        <section class="block-inputs">
-                            <form
-                                class="block-inputs-form"
-                                id="function_validate_form"
-                            >
-                                <div class="block-inputs-div">
-                                    <select
-                                        class="select-action"
-                                        name="select-action"
-                                        id="select-action"
-                                    >
-                                        <option selected disabled>
-                                            Selecione a ação
-                                        </option>
-                                        <option value="excluir">
-                                            Excluir jogadores
-                                        </option>
-                                        <option value="reserva">
-                                            Tornar reserva
-                                        </option>
-                                        <option value="titular">
-                                            Tornar titular
-                                        </option>
-                                    </select>
-                                    <div>
-                                        <input
-                                            class="input-confirm"
-                                            type="submit"
-                                            value="Confirmar"
-                                        />
-                                    </div>
-                                </div>
+                    <button class="side-bar-buttons-items2">
+                        <a href="">Sair</a>
+                    </button>
+                </div>
+            </section>
+            <div class="all-block">
+                <div class="block1">
+                    <div class="title">
+                        <h1>GERENCIAMENTO DE JOGADORES DO TIME</h1>
+                    </div>
+                    <section class="block-inputs">
+                        <form class="block-inputs-form" id="function_validate_form">
+                            <div class="block-inputs-div">
+                                <select class="select-action" name="select-action" id="select-action">
+                                    <option selected disabled>Selecione a ação</option>
+                                    <option value="excluir">Excluir jogadores</option>
+                                    <option value="reserva">Tornar reserva</option>
+                                    <option value="titular">Tornar titular</option>
+                                </select>
                                 <div>
-                                    <section class="all-table">
-                                        <table>
-                                            <tr>
-                                                <th>
-                                                    <input
-                                                        type="checkbox"
-                                                        onclick="toggle(this)"
-                                                    />
-                                                </th>
-                                                <th>NOMES</th>
-                                                <th>NÚMERO</th>
-                                                <th>SITUAÇÃO</th>
-                                                <th>SEXO</th>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <input
-                                                        type="checkbox"
-                                                        name="input-checkbox"
-                                                        value="player-1"
-                                                    />
-                                                </td>
-                                                <td>SILAS</td>
-                                                <td>10</td>
-                                                <td>RESERVA</td>
-                                                <td>MASCULINO</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <input
-                                                        type="checkbox"
-                                                        name="input-checkbox"
-                                                        value="player-2"
-                                                    />
-                                                </td>
-                                                <td>SILAS</td>
-                                                <td>10</td>
-                                                <td>RESERVA</td>
-                                                <td>MASCULINO</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <input
-                                                        type="checkbox"
-                                                        name="input-checkbox"
-                                                        value="player-3"
-                                                    />
-                                                </td>
-                                                <td>SILAS</td>
-                                                <td>10</td>
-                                                <td>TITULAR</td>
-                                                <td>MASCULINO</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <input
-                                                        type="checkbox"
-                                                        name="input-checkbox"
-                                                        value="player-4"
-                                                    />
-                                                </td>
-                                                <td>SILAS</td>
-                                                <td>10</td>
-                                                <td>TITULAR</td>
-                                                <td>MASCULINO</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <input
-                                                        type="checkbox"
-                                                        name="input-checkbox"
-                                                        value="player-5"
-                                                    />
-                                                </td>
-                                                <td>SILAS</td>
-                                                <td>10</td>
-                                                <td>RESERVA</td>
-                                                <td>MASCULINO</td>
-                                            </tr>
-                                        </table>
-                                    </section>
+                                    <input class="input-confirm" type="submit" value="Confirmar" />
                                 </div>
-                            </form>
-                        </section>
-                    </div>
+                            </div>
+                            <div>
+                                <section class="all-table">
+                                    <table>
+                                        <tr>
+                                            <th>
+                                                <input type="checkbox" onclick="toggle_checkbox(this)" />
+                                            </th>
+                                            <th>NOMES</th>
+                                            <th>NÚMERO</th>
+                                            <th>SITUAÇÃO</th>
+                                            <th>SEXO</th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" name="input-checkbox" value="player-1" />
+                                            </td>
+                                            <td>SILAS</td>
+                                            <td>10</td>
+                                            <td>RESERVA</td>
+                                            <td>MASCULINO</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" name="input-checkbox" value="player-2" />
+                                            </td>
+                                            <td>SILAS</td>
+                                            <td>10</td>
+                                            <td>RESERVA</td>
+                                            <td>MASCULINO</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" name="input-checkbox" value="player-3" />
+                                            </td>
+                                            <td>SILAS</td>
+                                            <td>10</td>
+                                            <td>TITULAR</td>
+                                            <td>MASCULINO</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" name="input-checkbox" value="player-4" />
+                                            </td>
+                                            <td>SILAS</td>
+                                            <td>10</td>
+                                            <td>TITULAR</td>
+                                            <td>MASCULINO</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" name="input-checkbox" value="player-5" />
+                                            </td>
+                                            <td>SILAS</td>
+                                            <td>10</td>
+                                            <td>RESERVA</td>
+                                            <td>MASCULINO</td>
+                                        </tr>
+                                    </table>
+                                </section>
+                            </div>
+                        </form>
+                    </section>
                 </div>
             </div>
-        </main>
+        </div>
+    </main>
 
-        <script src="{% static 'js/script.js' %}"></script>
-    </body>
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+
 </html>

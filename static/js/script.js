@@ -31,7 +31,7 @@ document
         }
     });
 
-function toggle(source) {
+function toggle_checkbox(source) {
     checkboxes = document.getElementsByName("input-checkbox");
     for (i = 0, n = checkboxes.length; i < n; i++) {
         checkboxes[i].checked = source.checked;
