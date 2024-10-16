@@ -52,7 +52,11 @@
                         <img class="logos-items" src="{% static 'images/logo-morea.svg' %}" alt="Logo Morea" />
                         <img class="logos-items" src="{% static 'images/logo-ifs-black.svg' %}" alt="Logo IFS" />
                     </div>
-                </section>
+                    <button class="side-bar-buttons-items2">
+                        <a href="">Sair</a>
+                    </button>
+                </div>
+            </section>
                 <div class="all-block">
                     <div class="block1">
                         <div class="title">
@@ -70,7 +74,6 @@
                                     <tr>
                                         <th>NOME</th>
                                         <th>INSTAGRAM</th>
-                                        <th>NÚMERO</th>
                                         <th>SEXO</th>
                                     </tr>
                                     {% for player in player %}
@@ -79,7 +82,6 @@
                                             <a href="{% url 'player_edit' player.id %}">{{ player.name }}</a>
                                         </td>
                                         <td>{% if player.instagram %} {{ player.instagram }} {% else %} ---- {% endif %} </td>
-                                        <td>--</td>
                                         <td>{% if player.sexo == 0 %} Masculino {% elif player.sexo == 1 %} Feminino {% else %} ---- {% endif %}</td>
                                     </tr>
                                     {% endfor %}
