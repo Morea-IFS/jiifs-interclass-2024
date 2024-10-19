@@ -42,7 +42,7 @@ function search_table() {
     var input, filter, table, tr, td, i, txtValue;
     input = document.getElementById("search-input");
     filter = input.value.toUpperCase();
-    table = document.getElementById("matches-table");
+    table = document.getElementById("search-table");
     tr = table.getElementsByTagName("tr");
 
     for (i = 1; i < tr.length; i++) {
