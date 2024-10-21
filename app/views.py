@@ -11,8 +11,9 @@ def player_manage(request):
     return render(request, 'player_manage.html', {'player': player})
 
 def team_manage(request):
+    teste = Team.objects.all()
     team_sports = Team_sport.objects.select_related('team', 'sport').all()
-    return render(request, 'team_manage.html',{'team_sports': team_sports})
+    return render(request, 'team_manage.html', {'team_sports': team_sports, 'teste': teste,})
 
 def team_players_manage(request, id):
     team = get_object_or_404(Team_sport, id=id)
@@ -92,9 +93,10 @@ def team_register(request):
         hexcolor = request.POST.get('hexcolor')
         # sexo = request.POST.get('sexo')
         photo = request.FILES.get('photo')
-        list_sport = request.POST.getlist('sports')
+        list_sport = request.POST.getlist('input-checkbox')
         team = Team.objects.create(name=name, hexcolor=hexcolor, photo=photo)
         team.save()
+        print(list_sport)
         for i in list_sport:
             sport_name = Sport.objects.get(id=i)
             Team_sport.objects.create(team=team, sport=sport_name)
@@ -188,8 +190,15 @@ def general_data(request):
 def scoreboard(request):
     return render(request, 'scoreboard.html')
 
-def players_team(request):
-    return render(request, 'players_team.html')
+def players_in_team(request):
+    return render(request, 'players_in_team.html')
+
+def players_match(request):
+    return render(request, 'manage_players_match.html')
+
+def add_players_match(request):
+    players = Player.objects.all()
+    return render(request, 'add_players_match.html',{'players': players,})
 
 def timer(request):
     return render(request, 'timer.html')

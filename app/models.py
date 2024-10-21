@@ -72,7 +72,7 @@ class Player_team_sport(models.Model):
 
 class Team_match(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
-    match = models.ForeignKey('Match', on_delete=models.CASCADE)  # Referencia por string
+    match = models.ForeignKey('Match', on_delete=models.CASCADE, related_name='teams')  # Referencia por string
 
     def __str__(self):    
         return f"{self.team} | {self.match}"
