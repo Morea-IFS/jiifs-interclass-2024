@@ -72,10 +72,10 @@
                             </div>
                             <div>
                                 <section class="all-table">
-                                    <table id="matches-table">
+                                    <table id="search-table">
                                         <tr>
                                             <th>
-                                                <input type="checkbox" onclick="toggle(this)" />
+                                                <input type="checkbox" onclick="toggle_checkbox(this)" />
                                             </th>
                                             <th>JOGADOR</th>        
                                             <th>SEXO</th>
@@ -83,13 +83,13 @@
                                         {% for player in players %}
                                         <tr>
                                             <td>
-                                                <input type="checkbox" id="input-checkbox" name="select" value="{{ player.id }}">
+                                                <input type="checkbox" name="input-checkbox" value="{{ player.id }}">
                                             </td>
                                             <td>{{ player.name }}</td>
                                             <td>{% if player.sexo == 0 %} Masculino {% elif  player.sexo == 1 %} Feminino  {% else %} ---- {% endif %}</td>
                                         </tr>
                                         {% endfor %}
-                                    </table>
+                                    </table>  
                                 </section>
                             </div>
                         </form>
@@ -101,3 +101,4 @@
 
     <script src="{% static 'js/script.js' %}"></script>
 </body>
+</html>

@@ -303,6 +303,7 @@ tr:nth-child(even) {
 }
 
 .game-block2 p {
+    font-size: 20px;
     font-weight: bold;
 }
 
@@ -401,7 +402,7 @@ tr:nth-child(even) {
     }
 
     .game-block2 p {
-        font-size: 16px;
+        font-size: 20px;
     }
 
     .game-block2 h2 {
