@@ -110,6 +110,31 @@ button {
     color: var(--global-primary-color);
 }
 
+.div-input-sports {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--global-sixth-color);
+    color: var(--global-primary-color);
+    font-size: 15px;
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+.div-input-sports label {
+    text-align: left;
+    margin: 5px;
+}
+
+input[type=number] {
+    background-color: var(--global-fifth-color);
+    border: black 1px solid;
+    border-radius: 10px;
+    text-align: center;
+    padding: 0.8em 0.5em;
+    font-size: 14px;
+    color: black;
+}
+
 input[type=text],
 select {
     padding-block: 1em;
@@ -180,13 +205,34 @@ input[type=search] {
     margin-bottom: 2em;
     border-radius: 1em;
     border: solid black 1px;
-    background-color: var(--global-sixth-color);
+    background-color: var(--global-fifth-color);
 }
 
 .all-table {
     max-width: 85vw;
     text-align: center;
     overflow: auto;
+}
+
+.table-timer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 2em;
+    width: 75%;
+}
+
+.table-timer-item {
+    width: 100%;
+}
+
+.sports-table {
+    width: 100%;
+    margin-bottom: 2em;
+}
+
+tbody tr {
+    text-align: center;
 }
 
 table,
@@ -295,6 +341,7 @@ tr:nth-child(even) {
 
 .games-config-item-desactive {
     background-color: var(--global-seventh-color);
+    cursor: not-allowed;
 }
 
 .games-config-item-img {
