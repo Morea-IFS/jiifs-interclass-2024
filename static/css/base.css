@@ -361,7 +361,188 @@ tr:nth-child(even) {
     margin-bottom: 7em;
 }
 
+.match-status {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 12em;
+    width: 100%;
+    max-width: 36em;
+    gap: 2em;
+}
 
+.match-status select {
+    margin: 0;
+}
+
+
+
+/*CSS DO SCOREBOARD*/
+
+
+
+.all-block-scoreboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: calc(100vw - 9em);
+    background-color: var(--global-third-color);
+}
+
+.block-top {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.block1-scoreboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    gap: 1em;
+}
+
+.block2-scoreboard {
+    display: flex;
+    width: 50%;
+    flex-direction: column;
+}
+
+.title-scoreboard {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 3.5em;
+    width: 100%;
+}
+
+.title-scoreboard h1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3em;
+    color: white;
+    height: 65%;
+    width: 90%;
+    background-color: var(--global-secondary-color);
+}
+
+.title-scoreboard h2 {
+    font-size: 1.8em;
+    color: var(--global-secondary-color);
+}
+
+.timer-scoreboard {
+    display: flex;
+    justify-content: center;
+    background-color: var(--global-ninth-color);
+    color: white;
+    width: 50%;
+    min-width: 10em;
+    padding: 0.5em 1.5em;
+    border-radius: 15px;
+
+}
+
+.buttons-scoreboard {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.buttons-scoreboard button {
+    background: none;
+    border: none;
+}
+
+.inputs-scoreboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.block-inputs-form-scoreboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5em;
+    width: 80%;
+}
+
+.block-inputs-form-scoreboard select {
+    background-color: var(--global-secondary-color);
+    color: var(--global-primary-color);
+    margin: 0;
+    padding-block: 0.6em;
+}
+
+.block-bottom {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.block3-scoreboard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.scoreboard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.scoreboard-top {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 95%;
+}
+
+.title-scoreboard-top {
+    justify-content: space-around;
+}
+
+
+.select-scoreboard {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 30%;
+}
+
+.select-scoreboard select {
+    background-color: var(--global-secondary-color);
+    color: var(--global-primary-color);
+    padding-block: 0.9em;
+    margin: 0;
+    width: 100%;
+}
+
+.scoreboard-center {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.scoreboard-bottom {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.title-scoreboard-bottom {
+    justify-content: space-around;
+    width: 0;
+}
 
 /*MEDIA SCREEN*/
 
