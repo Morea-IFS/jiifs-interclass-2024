@@ -57,82 +57,61 @@
                     </button>
                 </div>
             </section>
-                <div class="all-block">
-                    <section class="block1">
-                        <div class="title">
-                            <h1>EDITAR PARTIDAS</h1>
-                        </div>
-                                <form
-                                id="function_validate_form"
-                                class="block-inputs" method="post"
-                                >{% csrf_token %}
-                                <div class="block-inputs-form">
-                                    <div>
-                                        <select id="esporte" name="sport">
-                                            <option selected disabled value="None">
-                                                Selecione o esporte
-                                            </option>
-                                            {% for sport in sport %}
-                                            <option {% if match.sport.id == sport.id %} selected {% endif %} value="{{sport.id}}">{{sport.name}}</option>
-                                            {% endfor %}
-                                            
-                                        </select>
-                                        <select id="sexos" name="sexo">
-                                            <option selected disabled value="None">
-                                                Selecione o sexo
-                                            </option>
-                                            <option {% if match.sexo == 0 %} selected {% endif %} value="0">Masculino</option>
-                                            <option {% if match.sexo == 1 %} selected {% endif %} value="1">Feminino</option>
-                                        </select>
-                                        <select id="time-a" name="time_a" required>
-                                            <option selected disabled value="None">
-                                                Selecione o time
-                                            </option>
-                                            {% for i in team %}
-                                            <option value="{{i.id}}">{{i.name}}</option>
-                                            {% endfor %}
-                                        </select>
-                                        <select id="times-b" name="time_b" required>
-                                            <option selected disabled  value="None">
-                                                Selecione o time
-                                            </option>
-                                            {% for i in team %}
-                                            <option value="{{i.id}}">{{i.name}}</option>
-                                            {% endfor %}
-                                        </select>
-                                        <input
-                                            class="input-data"
-                                            type="datetime-local"
-                                            name="datetime"
-                                            id="date-game"
-                                        />
-                                        {% if match.time_match %} <p> HORARIO: {{match.time_match}}</p> {% endif %}
-                                    </div>
-                                    <div>
-                                        <input
-                                            class="input-confirm"
-                                            type="submit"
-                                            value="Confirmar"
-                                        />
-                                    </div>
-                                </div>
-                            </form>
-                            <form
-                                id="function_validate_form_delete"
-                                class="block-inputs"
-                                method="post"
-                            >{% csrf_token %}
-                                <div class="block-inputs-form">
-                                    <input
-                                        class="input-delete"
-                                        type="submit"
-                                        value="excluir"
-                                        name="excluir"
-                                    />
-                                </div>
-                            </div>
-                        </form>
+            <div class="all-block">
+                <section class="block1">
+                    <div class="title">
+                        <h1>EDITAR PARTIDAS</h1>
                     </div>
+                    <form id="function_validate_form" class="block-inputs" method="post">{% csrf_token %}
+                        <div class="block-inputs-form">
+                            <div>
+                                <select id="esporte" name="sport">
+                                    <option selected disabled value="None">
+                                        Selecione o esporte
+                                    </option>
+                                    {% for sport in sport %}
+                                    <option {% if match.sport.id==sport.id %} selected {% endif %} value="{{sport.id}}">
+                                        {{sport.name}}
+                                    </option>
+                                    {% endfor %}
+
+                                </select>
+                                <select id="sexos" name="sexo">
+                                    <option selected disabled value="None">
+                                        Selecione o sexo
+                                    </option>
+                                    <option {% if match.sexo==0 %} selected {% endif %} value="0">Masculino</option>
+                                    <option {% if match.sexo==1 %} selected {% endif %} value="1">Feminino</option>
+                                </select>
+                                <select id="time-a" name="time_a" required>
+                                    <option selected disabled value="None">
+                                        Selecione o time
+                                    </option>
+                                    {% for i in team %}
+                                    <option value="{{i.id}}">{{i.name}}</option>
+                                    {% endfor %}
+                                </select>
+                                <select id="times-b" name="time_b" required>
+                                    <option selected disabled value="None">
+                                        Selecione o time
+                                    </option>
+                                    {% for i in team %}
+                                    <option value="{{i.id}}">{{i.name}}</option>
+                                    {% endfor %}
+                                </select>
+                                <input class="input-data" type="datetime-local" name="datetime" id="date-game" />
+                                {% if match.time_match %} <p> HORARIO: {{match.time_match}}</p> {% endif %}
+                            </div>
+                            <div>
+                                <input class="input-confirm" type="submit" value="Confirmar" />
+                            </div>
+                        </div>
+                    </form>
+                    <form id="function_validate_form_delete" class="block-inputs" method="post">{% csrf_token %}
+                        <div class="block-inputs-form">
+                            <input class="input-delete" type="submit" value="excluir" name="excluir" />
+                        </div>
+                    </form>
                 </section>
             </div>
         </div>

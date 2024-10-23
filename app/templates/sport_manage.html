@@ -63,14 +63,9 @@
                             <h1>GERENCIAMENTO DE ESPORTES</h1>
                         </div>
                         <div class="all-manage">
-                            <input
-                                type="search"
-                                id="search-input"
-                                onkeyup="search_table()"
-                                placeholder="Pesquisar as partidas"
-                            />
+                            <input type="search" id="search-input" onkeyup="search_table()" placeholder="Pesquisar as partidas" />
                             <section class="all-table">
-                                <table id="matches-table">
+                                <table id="search-table">
                                     <tr>
                                         <th>NOME DO ESPORTE</th>
                                         <th>MAXIMO DE TITULARES</th>
@@ -79,8 +74,7 @@
                                     <tr>
                                         <td>
                                             <a href="{% url 'sport_edit' sport.id %}"
-                                                >{{sport.name}}</a
-                                            >
+                                                >{{sport.name}}</a>
                                         </td>
                                         <td>{{sport.max_titulares}}</td>
                                     </tr>

@@ -42,85 +42,63 @@
                     </div>
                 </div>
                 <div class="side-bar-bottom">
-                        <section class="side-bar-register">
-                            <h3 class="side-bar-register-title">CADASTRO</h3>
-                            <button class="side-bar-buttons-items2">
-                                <a href="{% url 'matches_register' %}">Adicionar</a>
-                            </button>
-                        </section>
-                        <div class="logos">
-                            <img class="logos-items" src="{% static 'images/logo-morea.svg' %}" alt="Logo Morea" />
-                            <img class="logos-items" src="{% static 'images/logo-ifs-black.svg' %}" alt="Logo IFS" />
-                        </div>
+                    <section class="side-bar-register">
+                        <h3 class="side-bar-register-title">CADASTRO</h3>
                         <button class="side-bar-buttons-items2">
-                            <a href="">Sair</a>
+                            <a href="{% url 'matches_register' %}">Adicionar</a>
                         </button>
-                </div>
-            </section>
-                <div class="all-block">
-                    <section class="block1">
-                        <div class="title">
-                            <h1>CADASTRO PARTIDAS</h1>
-                        </div>
-                        <div>
-                            <form
-                                id="function_validate_form"
-                                class="block-inputs" method="post"
-                            >{% csrf_token %}
-                                <div class="block-inputs-form">
-                                    <div>
-                                        <select id="esporte" name="sport">
-                                            <option selected disabled value="None">
-                                                Selecione o esporte
-                                            </option>
-                                            {% for sport in sport %}
-                                            <option value="{{sport.id}}">{{sport.name}}</option>
-                                            {% endfor %}
-                                            
-                                        </select>
-                                        <select id="sexos" name="sexo">
-                                            <option selected disabled value="None">
-                                                Selecione o sexo
-                                            </option>
-                                            <option value="0">Masculino</option>
-                                            <option value="1">Feminino</option>
-                                        </select>
-                                        <select id="time-a" name="time_a" required>
-                                            <option selected disabled value="None">
-                                                Selecione o time
-                                            </option>
-                                            {% for i in team %}
-                                            <option value="{{i.id}}">{{i.name}}</option>
-                                            {% endfor %}
-                                        </select>
-                                        <select id="times-b" name="time_b" required>
-                                            <option selected disabled  value="None">
-                                                Selecione o time
-                                            </option>
-                                            {% for i in team %}
-                                            <option value="{{i.id}}">{{i.name}}</option>
-                                            {% endfor %}
-                                        </select>
-                                        <input
-                                            class="input-data"
-                                            type="datetime-local"
-                                            name="datetime"
-                                            id="date-game"
-                                        />
-                                    </div>
-                                    <div>
-                                        <input
-                                            class="input-confirm"
-                                            type="submit"
-                                            value="Confirmar"
-                                        />
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
                     </section>
+                    <div class="logos">
+                        <img class="logos-items" src="{% static 'images/logo-morea.svg' %}" alt="Logo Morea" />
+                        <img class="logos-items" src="{% static 'images/logo-ifs-black.svg' %}" alt="Logo IFS" />
+                    </div>
+                    <button class="side-bar-buttons-items2">
+                        <a href="">Sair</a>
+                    </button>
                 </div>
             </section>
+            <div class="all-block">
+                <section class="block1">
+                    <div class="title">
+                        <h1>CADASTRO PARTIDAS</h1>
+                    </div>
+                    <div>
+                        <form id="function_validate_form" class="block-inputs" method="post">{% csrf_token %}
+                            <div class="block-inputs-form">
+                                <div>
+                                    <select id="esporte" name="sport">
+                                        <option selected disabled value="None">Selecione o esporte</option>
+                                        {% for sport in sport %}
+                                        <option value="{{sport.id}}">{{sport.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <select id="sexos" name="sexo">
+                                        <option selected disabled value="None">Selecione o sexo</option>
+                                        <option value="0">Masculino</option>
+                                        <option value="1">Feminino</option>
+                                    </select>
+                                    <select id="time-a" name="time_a" required>
+                                        <option selected disabled value="None">Selecione o time</option>
+                                        {% for i in team %}
+                                        <option value="{{i.id}}">{{i.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <select id="times-b" name="time_b" required>
+                                        <option selected disabled value="None">Selecione o time</option>
+                                        {% for i in team %}
+                                        <option value="{{i.id}}">{{i.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <input class="input-data" type="datetime-local" name="datetime" id="date-game" />
+                                </div>
+                                <div>
+                                    <input class="input-confirm" type="submit" value="Confirmar" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+            </div>
         </div>
     </main>
 

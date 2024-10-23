@@ -57,80 +57,42 @@
                     </button>
                 </div>
             </section>
-                <div class="all-block">
-                    <section class="block1">
-                        <div class="title">
-                            <h1>EDITAR JOGADOR</h1>
-                        </div>
-                        <div>
-                            <form id="function_validate_form" class="block-inputs"  method="post" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                <div class="block-inputs-form">
-                                    <div>
-                                        <input
-                                            type="text"
-                                            autocomplete="on"
-                                            autocorrect="on"
-                                            name="name"
-                                            placeholder="{{ player.name }}"
-                                            value="{{ player.name }}"
-                                        />
-                                        <input
-                                            type="text"
-                                            autocomplete="on"
-                                            autocorrect="on"
-                                            name="instagram"
-                                            placeholder="{{ player.instagram }}"
-                                            value="{{ player.instagram }}"
-                                        />
-                                        <input
-                                            type="text"
-                                            autocomplete="on"
-                                            autocorrect="on"
-                                            placeholder="Número do jogador"
-                                        />
-                                        <select id="sexos" name="sexo">
-                                            <option {% if player.sexo != 0 or 1 %} selected disabled {% endif %} value="2">Selecione o sexo</option>
-                                            <option {% if player.sexo == 0 %} selected {% endif %} value="0">Masculino</option>
-                                            <option {% if player.sexo == 1 %} selected {% endif %} value="1">Feminino</option>
-                                        </select>
-                                        <label
-                                            for="fotos"
-                                            id="label-foto"
-                                            class="custom-file-button"
-                                            >{% if player.photo %} Trocar imagem {% else %} Adicione uma imagem {% endif %}</label
-                                        >
-                                        <input
-                                            type="file"
-                                            name="photo"
-                                            id="fotos"
-                                            accept=".jpg, .jpeg, .png"
-                                            onchange="trocarTextoLabel()"
-                                        />
-                                    </div>
-                                    <div>
-                                        <input
-                                            class="input-confirm"
-                                            type="submit"
-                                            value="Confirmar"
-                                        />
-                                    </div>
+            <div class="all-block">
+                <section class="block1">
+                    <div class="title">
+                        <h1>EDITAR JOGADOR</h1>
+                    </div>
+                    <div>
+                        <form id="function_validate_form" class="block-inputs" method="post"
+                            enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="block-inputs-form">
+                                <div>
+                                    <input type="text" autocomplete="on" autocorrect="on" name="name"
+                                        placeholder="{{ player.name }}" value="{{ player.name }}" />
+                                    <input type="text" autocomplete="on" autocorrect="on" name="instagram"
+                                        placeholder="{{ player.instagram }}" value="{{ player.instagram }}" />
+                                    <input type="text" autocomplete="on" autocorrect="on"
+                                        placeholder="Número do jogador" />
+                                    <select id="sexos" name="sexo">
+                                        <option {% if player.sexo != 0 %} selected disabled {% endif %} value="2"> Selecione o sexo</option>
+                                        <option {% if player.sexo==0 %} selected {% endif %} value="0">Masculino
+                                        </option>
+                                        <option {% if player.sexo==1 %} selected {% endif %} value="1">Feminino</option>
+                                    </select>
+                                    <label for="fotos" id="label-foto" class="custom-file-button">{% if player.photo %} Trocar imagem {% else %} Adicione uma imagem {% endif %}</label>
+                                    <input type="file" name="photo" id="fotos" accept=".jpg, .jpeg, .png"
+                                        onchange="trocarTextoLabel()" />
                                 </div>
-                            </form>
-                            <form
-                                id="function_validate_form_delete"
-                                class="block-inputs"
-                                method="post"
-                            >
-                                {% csrf_token %}
-                                <div class="block-inputs-form">
-                                    <input
-                                        class="input-delete"
-                                        type="submit"
-                                        value="excluir"
-                                        name="excluir"
-                                    />
+                                <div>
+                                    <input class="input-confirm" type="submit" value="Confirmar" />
                                 </div>
+                            </div>
+                        </form>
+                        <form id="function_validate_form_delete" class="block-inputs" method="post">
+                            {% csrf_token %}
+                            <div class="block-inputs-form">
+                                <input class="input-delete" type="submit" value="excluir" name="excluir" />
                             </div>
                         </form>
                     </div>
