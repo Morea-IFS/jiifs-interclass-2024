@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . models import Player, Team, Sport, Team_sport, Player_team_sport, Match, Team_match, Player_match
+from . models import Player, Penalties, time_pause, Team, Sport, Point, Team_sport, Player_team_sport, Match, Team_match, Player_match
 
 # Register your models here.
 
@@ -42,3 +42,18 @@ class Team_matchAdmin(admin.ModelAdmin):
 class Team_sportAdmin(admin.ModelAdmin):
     list_display = ('id','player','team_sport')
     search_fields = ('id','player','team_sport')
+
+@admin.register(Point)
+class PointAdmin(admin.ModelAdmin):
+    list_display = ('id','point_types','player','team_match','time')
+    search_fields = ('id','point_types','player','team_match','time')
+
+@admin.register(Penalties)
+class PenaltiesAdmin(admin.ModelAdmin):
+    list_display = ('id','type_penalties','player','team_match','time')
+    search_fields = ('id','type_penalties','player','team_match','time')
+
+@admin.register(time_pause)
+class time_pauseAdmin(admin.ModelAdmin):
+    list_display = ('id','start_pause','end_pause','match')
+    search_fields = ('id','start_pause','end_pause','match')

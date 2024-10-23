@@ -102,9 +102,9 @@ class Match(models.Model):
 
 class Point(models.Model):
     point_types = models.IntegerField(choices=Point_types.choices, default=Point_types.empty)
-    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    player = models.ForeignKey(Player, on_delete=models.CASCADE, null=True, blank=True)
     team_match = models.ForeignKey(Team_match, on_delete=models.CASCADE)
-    time = models.TimeField()
+    time = models.TimeField(auto_now_add=True)
 
     def __str__(self):    
         return f"{self.point_types} | {self.player} | {self.team_match} | {self.time}"
