@@ -1,0 +1,244 @@
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="{% static 'css/public/scoreboard.css' %}"
+        />
+        <title>JIIFS PLACAR</title>
+    </head>
+    <body>
+        <div class="modal-mobile mobile"></div>
+        <header>
+            <nav>
+                <img
+                    class="logo-jiifs"
+                    src="{% static 'images/logo-jiifs-2024.svg' %}"
+                    alt="JIIFS"
+                />
+                <ul>
+                    <li class="item-close mobile">
+                        <img
+                            class="icon-close mobile"
+                            src="{% static 'images/icon-close.svg' %}"
+                            alt="Menu"
+                        />
+                    </li>
+                    <li><a href="#" class="home-link">Home</a></li>
+                    <li><a href="#" class="scoreboard-link">Placar</a></li>
+                    <li><a href="#" class="games-link">Jogos</a></li>
+                    <li><a href="#" class="about-us-link">Sobre Nós</a></li>
+                </ul>
+                <img
+                    class="icon-burguer"
+                    src="{% static 'images/icon-burguer.svg' %}"
+                    alt="Menu"
+                />
+            </nav>
+        </header>
+        <main>
+            <section class="scoreboard">
+                <div class="teams">
+                    <div style="background-color: #ffd600" class="team-a">
+                        <div class="title-team">
+                            <img
+                                src="{% static 'images/praia-volley.png' %}"
+                                alt=""
+                            />
+                            <h2>{{team_match_a.team.name}}</h2>
+                        </div>
+                        <div class="score-team">
+                            <p class="score"><span id="points-a">{{ point_a }}</span></p>
+                        </div>
+                    </div>
+                    <div style="background-color: #3a7bd5" class="team-b">
+                        <div class="title-team">
+                            <h2>{{team_match_b.team.name}}</h2>
+                            <img
+                                src="{% static 'images/renata-volley.png' %}"
+                                alt=""
+                            />
+                        </div>
+                        <div class="score-team">
+                            <p class="score"><span id="points-b">{{ point_b }}</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="status-game live">
+                    <img
+                        src="{% static 'images/icon-live.png' %}"
+                        alt=""
+                        aria-hidden="true"
+                    />
+                    <p>Live</p>
+                </div>
+                {% if match.sport.name == "Voleibol" %}
+                <div class="sets-or-time">
+                    <div class="title-set">
+                        <p>Sets</p>
+                    </div>
+                    <div class="sets-team-a">
+                        <p>0</p>
+                    </div>
+                    <div class="sets-team-b">
+                        <p>0</p>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="ball-sport">
+                    <img src="{% static 'images/ball-of-volley.png'%}" alt="" />
+                </div>
+                {% if match.sexo == 1 %}
+                <div class="gender-of-game feminine">
+                    <img src="{% static 'images/icon-female.svg' %}" alt="" />
+                    <p>Feminino</p>
+                {% else %}
+                <div class="gender-of-game feminine">
+                    <img src="{% static 'images/icon-male.svg' %}" alt="" />
+                    <p style="color: #3a7bd5;">Masculino</p>
+                {% endif %}
+                </div>
+            </section>
+            <section class="information">
+                <nav>
+                    <ul>
+                        <li class="stats">Estatísticas</li>
+                        <li class="players active">Jogadores</li>
+                        <li class="events">Eventos</li>
+                    </ul>
+                </nav>
+                <div class="information-container">
+                    <div class="stats-content">
+                        <div class="foul">
+                            <span
+                                style="background-color: #ffd600"
+                                class="foul-team-a"
+                                >0</span
+                            >
+                            <p>Faltas</p>
+                            <span
+                                style="background-color: #3a7bd5"
+                                class="foul-team-b"
+                                >0</span
+                            >
+                        </div>
+                        <div class="aces">
+                            <span
+                                style="background-color: #ffd600"
+                                class="aces-team-a"
+                                >0</span
+                            >
+                            <p>Aces</p>
+                            <span
+                                style="background-color: #3a7bd5"
+                                class="aces-team-b"
+                                >0</span
+                            >
+                        </div>
+                    </div>
+                    <div class="players-content">
+                        <div class="team-display">
+                            <img
+                                src="{% static 'images/praia-volley.png' %}"
+                                alt="Praia Vôlei"
+                            />
+                            <span> - </span>
+                            <img
+                                src="{% static 'images/renata-volley.png' %}"
+                                alt="Renata Vôlei"
+                            />
+                        </div>
+                        <div class="players-lists">
+                            <ul class="list-team-a">
+                                <li style="border: 2px solid #ffd600">
+                                    <div class="player-photo">
+                                        <img
+                                            src="{%static 'images/person.png' %}"
+                                            alt=""
+                                            aria-hidden="true"
+                                            class="photo"
+                                        />
+                                    </div>
+                                    <div class="player-text-informations">
+                                        <p class="player-name">
+                                            aaaaaaaaaaaaaaaaaaaaaaaaa <span>(N°)</span>
+                                        </p>
+                                        <div class="player-instagram">
+                                            <img
+                                                src="{% static 'images/icon-instagram.png' %}"
+                                                alt=""
+                                                aria-hidden="true"
+                                                class="instagram"
+                                            />
+                                            <a href="#">@player</a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            {% for i in players %}
+                            <ul class="list-team-b">
+                                <li style="border: 2px solid #3a7bd5">
+                                    <div class="player-photo">
+                                        <img
+                                            src="{%static 'images/person.png' %}"
+                                            alt=""
+                                            aria-hidden="true"
+                                            class="photo"
+                                        />
+                                    </div>
+                                   
+                                    <div class="player-text-informations">
+                                        <p class="player-name">
+                                            i.name <span>(N°)</span>
+                                        </p>
+                                        <div class="player-instagram">
+                                            <img
+                                                src="{% static 'images/icon-instagram.png' %}"
+                                                alt=""
+                                                aria-hidden="true"
+                                                class="instagram"
+                                            />
+                                            <a href="#">@player</a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="events-content"></div>
+                </div>
+            </section>
+        </main>
+        <footer>
+            <img
+                src="{% static 'images/logo-ifs-white.png' %}"
+                alt=""
+                class="logo-ifs"
+            />
+            <img
+                src="{% static 'images/logo-morea-colorful.svg' %}"
+                alt=""
+                class="logo-ifs"
+            />
+        </footer>
+        <script src="{% static 'js/scoreboard_public.js' %}"></script>
+        <script>
+            const socket = new WebSocket('ws://' + window.location.host + '/ws/placar/');
+    
+            socket.onmessage = function(e) {
+                const data = JSON.parse(e.data);
+                document.getElementById('points-a').textContent = data.points_a;
+                document.getElementById('points-b').textContent = data.points_b;
+            };
+    
+            socket.onclose = function(e) {
+                console.error('WebSocket fechado com código: ' + e.code);
+            };
+        </script>
+    </body>
+</html>
