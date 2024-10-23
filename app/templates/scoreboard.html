@@ -1,0 +1,199 @@
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="{% static 'images/icon-jiifs.png' %}" type="image/x-icon" />
+    <link rel="stylesheet" href="{% static 'css/navbar-layout.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+    <title>JIIFS ADMIN</title>
+</head>
+
+<body>
+    <main>
+        <div class="all">
+            <div class="invisible-navbar"></div>
+            <div class="hamburguer-menu" onclick="toggle(this)">
+                <span class="line first-line"></span>
+                <span class="line second-line"></span>
+            </div>
+            <section class="side-bar">
+                <div class="side-bar-top">
+                    <img class="side-bar-logo" src="{% static 'images/logo-jiifs-2024.svg' %}" alt="Logo JIIFS24" />
+                    <div class="side-bar-buttons">
+                        <a href="{% url 'Home' %}">
+                            <button class="side-bar-buttons-items">HOME</button>
+                        </a>
+                        <a href="{% url 'player_manage' %}">
+                            <button class="side-bar-buttons-items">GERENCIAMENTO</button>
+                        </a>
+                        <a href="{% url 'games' %}">
+                            <button class="side-bar-buttons-items">JOGOS</button>
+                        </a>
+                    </div>
+                </div>
+                <div class="side-bar-bottom">
+                    <div class="logos">
+                        <img class="logos-items" src="{% static 'images/logo-morea.svg' %}" alt="Logo Morea" />
+                        <img class="logos-items" src="{% static 'images/logo-ifs-black.svg' %}" alt="Logo IFS" />
+                    </div>
+                    <button class="side-bar-buttons-items2">
+                        <a href="">Sair</a>
+                    </button>
+                </div>
+            </section>
+            <div class="all-block-scoreboard">
+                <div class="block-top">
+                    <div class="block1-scoreboard">
+                        <div class="title-scoreboard">
+                            <h1>CRONOMETRO</h1>
+                        </div>
+                        <div class="timer-scoreboard">
+                            <h1>00 : 00</h1>
+                        </div>
+                        <div class="buttons-scoreboard">
+                            <button>
+                                <img src="{% static 'images/icon-stop.svg' %}" alt="icon-stop">
+                            </button>
+                            <button>
+                                <img src="{% static 'images/icon-play.svg' %}" alt="icon-play">
+                            </button>
+                            <button>
+                                <img src="{% static 'images/icon-pause.svg' %}" alt="icon-pause">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="block2-scoreboard">
+                        <div class="title-scoreboard">
+                            <h1>SELECIONE</h1>
+                        </div>
+                        <div class="inputs-scoreboard">
+                            <form class="block-inputs-form-scoreboard">
+                                <select>
+                                    <option selected disabled>Selecione a ação</option>
+                                    <option>adicionar assistencias</option>
+                                    <option>adicionar penalidades</option>
+                                    <option>adicionar mvp</option>
+                                    <option>adicionar vencedor</option>
+                                </select>
+                                <select>
+                                    <option selected disabled>Selecione a penalidade</option>
+                                    <option>JOGO 2</option>
+                                    <option>JOGO 3</option>
+                                    <option>JOGO 4</option>
+                                    <option>JOGO 5</option>
+                                </select>
+                                <select>
+                                    <option selected disabled>Selecione o jogador</option>
+                                    <option>JOGO 2</option>
+                                    <option>JOGO 3</option>
+                                    <option>JOGO 4</option>
+                                    <option>JOGO 5</option>
+                                </select>
+                                <input class="input-confirm" type="submit" value="Confirmar">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="block-bottom">
+                    <div class="block3-scoreboard">
+                        <div class="title-scoreboard">
+                            <h1>Pontuação - Pontos / Gols</h1>
+                        </div>
+                        <div class="scoreboard">
+                            <div class="scoreboard-top">
+                                <div class="title-scoreboard title-scoreboard-top">
+                                    <h2>{{team_match_a.team.name}}</h2>
+                                    <h2>PONTOS</h2>
+                                    <h2>{{team_match_b.team.name}}</h2>
+                                </div>
+                                <div class="select-scoreboard">
+                                    <form id="form1" class="select-scoreboard">
+                                        {% csrf_token %}
+                                        <select name="player_point">
+                                            <option selected value="0">Selecione o jogador</option>
+                                            {% for i in players_match %}
+                                            <option value="{{i.player.id}}">{{i.player.name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </form>
+                                    <form id="form3" class="select-scoreboard">
+                                        {% csrf_token %}
+                                        <select name="player_point">
+                                            <option selected value="0">Selecione o jogador</option>
+                                            {% for i in players_match %}
+                                            <option value="{{i.player.id}}">{{i.player.name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="scoreboard-center">
+                                <div class="buttons-scoreboard">
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" name="team_a_remove"><img src="{% static 'images/icon-minus.svg' %}" alt="icon menos"></button>
+                                    </form>
+                                    <form id="form2" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" name="team_a_add" onclick="enviar1Formularios()"><img src="{% static 'images/icon-plus.svg' %}" alt="icon mais"></button>
+                                    </form>
+                                </div>
+                                <div class="title-scoreboard">
+                                    <h2>{{point_a}} X {{point_b}}</h2>
+                                </div>
+                                <div class="buttons-scoreboard">
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" name="team_b_remove"><img src="{% static 'images/icon-minus.svg' %}" alt="icon menos"></button>
+                                    </form>
+                                    <form id="form4" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" name="team_b_add" onclick="enviar2Formularios()"><img src="{% static 'images/icon-plus.svg' %}" alt="icon mais"></button>
+                                    </form>
+                                </div>
+                            </div>
+                            {% if match.sport.name == "Voleibol" %}
+                            <div class="title-scoreboard">
+                                <h2>SETS</h2>
+                            </div>
+                            <div class="scoreboard-bottom">
+                                <div class="buttons-scoreboard">
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <button type="submit"><img src="{% static 'images/icon-minus.svg' %}" alt="icon menos"></button>
+                                    </form>
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <button type="submit"><img src="{% static 'images/icon-plus.svg' %}" alt="icon mais"></button>
+                                    </form>
+                                </div>
+                                <div class="title-scoreboard">
+                                    <h2>0 X 0</h2>
+                                </div>
+                                <div class="buttons-scoreboard">
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <button type="submit"><img src="{% static 'images/icon-minus.svg' %}" alt="icon menos"></button>
+                                    </form>
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <button type="submit"><img src="{% static 'images/icon-plus.svg' %}" alt="icon mais"></button>
+                                    </form>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+
+</html>
