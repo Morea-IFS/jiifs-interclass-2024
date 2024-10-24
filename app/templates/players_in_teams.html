@@ -53,15 +53,15 @@
                     </div>
                     <table class="all-table">
                         <tr>
-                            <th>TIME 1</th>
-                            <th>TIME 2</th>
+                            <th>{{team_match_a.team.name}}</th>
+                            <th>{{team_match_b.team.name}}</th>
                         </tr>
                         <tr>
                             <td>
-                                <a href="{% url 'players_match' %}">CONFIGURAR JOGADORES</a>
+                                <a href="{% url 'players_match' team_match_a.id %}">CONFIGURAR JOGADORES</a>
                             </td>
                             <td>
-                                <a href="">CONFIGURAR JOGADORES</a>
+                                <a href="{% url 'players_match' team_match_b.id %}">CONFIGURAR JOGADORES</a>
                             </td>
                         </tr>
                     </table>

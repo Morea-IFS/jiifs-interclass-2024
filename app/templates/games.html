@@ -62,6 +62,7 @@
                             <div class="game-block2">
                                 <p>PARTIDA #{{i.match.id}}<br>{{i.match.sport}} - {% if i.match.sexo == 0 %} Masculino {% else %} Feminino {% endif %}<br>TEMPO:{% if i.time_start %} {{i.time_start}} {% else %} 00:00 {% endif %}</p>
                                 <h2>{% if i.match.status == 0 %} EM BREVE {% elif i.match.status == 1 %} ACONTECENDO {% elif i.match.status == 2 %} FINALIZADA {% elif i.match.status == 3 %} CANCELADA {% elif i.match.status == 4 %} PAUSADA {% else %} ---- {% endif %}</h2>
+                                <h3>H: {{i.match.time_match}}</h3>
                             </div>
                             <div class="games-config">
                                 <a class="games-config-link" {% if i.match.status == 1 %} href="{% url 'scoreboard' i.match.id %}" {% endif %}>
@@ -76,7 +77,7 @@
                                             alt="Gear Icon" />
                                     </div>
                                 </a>
-                                <a class="games-config-link" href="{% url 'players_in_teams' %}">
+                                <a class="games-config-link" href="{% url 'players_in_teams' i.match.id %}">
                                     <div class="games-config-item games-config-item-player">
                                         <img class="games-config-item-img" src="{% static 'images/icon-player.png' %}"
                                             alt="Player Icon" />
