@@ -69,38 +69,37 @@
                                     <option selected disabled value="None">
                                         Selecione o esporte
                                     </option>
-                                    {% for sport in sport %}
-                                    <option {% if match.sport.id==sport.id %} selected {% endif %} value="{{sport.id}}">
-                                        {{sport.name}}
+                                    {% for i in sport %}
+                                    <option {% if match.sport.id == i.id %} selected {% endif %} value="{{i.id}}">
+                                        {{i.name}}
                                     </option>
                                     {% endfor %}
 
                                 </select>
                                 <select id="sexos" name="sexo">
-                                    <option selected disabled value="None">
+                                    <option {% if match_disable %} selected disabled {% endif %} value="None">
                                         Selecione o sexo
                                     </option>
-                                    <option {% if match.sexo==0 %} selected {% endif %} value="0">Masculino</option>
-                                    <option {% if match.sexo==1 %} selected {% endif %} value="1">Feminino</option>
+                                    <option {% if match.sexo == 0 %} selected {% endif %} value="0">Masculino</option>
+                                    <option {% if match.sexo == 1 %} selected {% endif %} value="1">Feminino</option>
                                 </select>
-                                <select id="time-a" name="time_a" required>
-                                    <option selected disabled value="None">
+                                <select id="time-a" name="team_a" required>
+                                    <option selected disabled value="0">
                                         Selecione o time
                                     </option>
                                     {% for i in team %}
-                                    <option value="{{i.id}}">{{i.name}}</option>
+                                    <option {% if team_match_a.team == i %} selected {% endif %} value="{{i.id}}">{{i.name}}</option>
                                     {% endfor %}
                                 </select>
-                                <select id="times-b" name="time_b" required>
-                                    <option selected disabled value="None">
+                                <select id="times-b" name="team_b" required>
+                                    <option selected disabled value="0">
                                         Selecione o time
                                     </option>
                                     {% for i in team %}
-                                    <option value="{{i.id}}">{{i.name}}</option>
+                                    <option {% if team_match_b.team == i %} selected {% endif %} value="{{i.id}}">{{i.name}}</option>
                                     {% endfor %}
                                 </select>
-                                <input class="input-data" type="datetime-local" name="datetime" id="date-game" />
-                                {% if match.time_match %} <p> HORARIO: {{match.time_match}}</p> {% endif %}
+                                <input {% if match.time_match %} value="{{match.time_match|date:'Y-m-d\TH:i'}}"  {% endif %} class="input-data" type="datetime-local" name="datetime" id="date-game" />
                             </div>
                             <div>
                                 <input class="input-confirm" type="submit" value="Confirmar" />

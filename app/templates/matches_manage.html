@@ -77,16 +77,16 @@
                                     <th>ESPORTE</th>
                                     <th>VENCEDOR</th>
                                 </tr>
-                                {% for match in match %}
+                                {% for i in context %}
                                 <tr>
-                                    <td><a href="{% url 'matches_edit' match.id %}">{{match.id}}</a></td>
-                                    <td>----</td>
-                                    <td>----</td>
-                                    <td>{% if match.status == 0 %} Em breve {% elif match.status == 1 %} Acontecendo {% elif match.status == 2 %} Finalizada {% elif match.status == 3 %} Cancelada {% elif match.status == 4 %} Pausada {% else %} ---- {% endif %}</td>
-                                    <td>{{match.time_match}}</td>
-                                    <td>{% if match.sexo == 0 %} Masculino {% else %} Feminino {% endif %} </td>
-                                    <td>{{match.sport}}</td>
-                                    <td>{% if match.sexo %} {{match.Winner_team}} {% else %} ---- {% endif %}</td>
+                                    <td><a href="{% url 'matches_edit' i.match.id %}">{{i.match.id}}</a></td>
+                                    <td>{{ i.times.0.team.name }}</td>
+                                    <td>{{ i.times.1.team.name }}</td>
+                                    <td>{% if i.match.status == 0 %} Em breve {% elif i.match.status == 1 %} Acontecendo {% elif i.match.status == 2 %} Finalizada {% elif i.match.status == 3 %} Cancelada {% elif i.match.status == 4 %} Pausada {% else %} ---- {% endif %}</td>
+                                    <td>{{i.match.time_match}}</td>
+                                    <td>{% if i.match.sexo == 0 %} Masculino {% else %} Feminino {% endif %} </td>
+                                    <td>{{i.match.sport}}</td>
+                                    <td>{% if i.match.winner_team %} {{match.Winner_team}} {% else %} ---- {% endif %}</td>
                                 </tr>
                                 {% endfor %}
                             </table>
