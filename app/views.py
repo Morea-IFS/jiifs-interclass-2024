@@ -30,13 +30,57 @@ def team_players_manage(request, id):
         return redirect('team_players_manage', id=team.id)
 
 def matches_manage(request):
-    match = Match.objects.all()
-    return render(request, 'matches_manage.html', {'match': match,})
+    matchs = Match.objects.all().prefetch_related('teams__team')
+    sport = Sport.objects.all()
+    context = [
+        {
+            'match': match,
+            'sport':sport,
+            'times': list(match.teams.all()),
+        }
+        for match in matchs
+    ]
+    return render(request, 'matches_manage.html',{'context': context,})
 
 def matches_edit(request, id):
     match = get_object_or_404(Match, id=id)
+    team_matchs = Team_match.objects.filter(match=match)
+    team = Team.objects.all()
+    team_match_a = team_matchs[0]
+    print(team_match_a.match)
+    team_match_b = team_matchs[1]
+    match = get_object_or_404(Match, id=id)
     sport = Sport.objects.all()
-    return render(request, 'matches_edit.html', {'match': match, 'sport': sport,})
+    if match.sexo != 1 or 0:
+        match_disable = True
+    else:
+        match_disable = False
+    context = {
+        'match': match, 
+        'sport': sport,
+        'team': team,
+        'team_match_a': team_match_a,
+        'team_match_b': team_match_b,
+        'match_disable': match_disable,
+
+    }
+    if request.method == "GET":
+        return render(request, 'matches_edit.html', context)
+    else:
+        sport_select = request.POST.get('sport')
+        sport = get_object_or_404(Sport, id=sport_select)
+        match.sport = sport
+        match.sexo = request.POST.get('sexo')
+        match.time_match = request.POST.get('datatime')
+        team_a = request.POST.get('team_a')
+        team_b = request.POST.get('team_b')
+        team_match_a.team = get_object_or_404(Team, id=team_a)
+        team_match_b.team = get_object_or_404(Team, id=team_b)
+        team_match_a.save()
+        team_match_b.save()
+        match.time_match = request.POST.get('datetime')
+        match.save()
+        return redirect('matches_manage')
 
 def matches_register(request):
     team = Team.objects.all()
@@ -106,7 +150,12 @@ def team_register(request):
 def player_edit(request, id):
     player = get_object_or_404(Player, id=id)
     if request.method == 'GET':
-        return render(request, 'player_edit.html', {'player': player})
+        if player.sexo != 1 or 0:
+            player_disable = True
+            return render(request, 'player_edit.html', {'player': player,'player_disable':player_disable})
+        else:
+            player_disable = False
+            return render(request, 'player_edit.html', {'player': player})            
     elif 'excluir' in request.POST:
         if player.photo:
             player.photo.delete()
@@ -158,8 +207,7 @@ def team_edit(request, id):
     return redirect('team_manage') 
 
 def games(request):
-    matchs = Match.objects.all().prefetch_related('teams__team')
-    point = Point.objects.all()
+    matchs = Match.objects.all().prefetch_related('teams__team').order_by('time_match')
     context = [
         {
             'match': match,
@@ -221,26 +269,23 @@ def general_data(request, id):
 
 def scoreboard(request, id):
     match = get_object_or_404(Match, id=id)
-    players_match = Player_match.objects.filter(match=match)
     team_matchs = Team_match.objects.filter(match=match)
     team_match_a = team_matchs[0]
     team_match_b = team_matchs[1]
     point_a = Point.objects.filter(team_match=team_match_a).count()
-    print("PONTOAAAAAAA:",point_a)
     point_b = Point.objects.filter(team_match=team_match_b).count()
-    print("PONTOBBBBBBB:",point_b)
     context = {
         'match': match,
         'team_match_a':team_match_a,
-        'players_match': players_match,
         'team_match_b':team_match_b,
+        'team_matchs':team_matchs,
         'point_a':point_a,
         'point_b':point_b,
     }
     if request.method == "GET":
         if match.status == 1:
             return render(request, 'scoreboard.html', context)
-    else:
+    elif request.method == "POST":
         if 'team_a_add' in request.POST:
             player_select = request.POST.get('player_point')
             if player_select == "0" :
@@ -271,18 +316,72 @@ def scoreboard(request, id):
                 point_b_remove = Point.objects.filter(team_match=team_match_b)
                 point_b_remove_last = point_b_remove.last()
                 point_b_remove_last.delete()
-            return redirect('scoreboard', match.id)    
+            return redirect('scoreboard', match.id)
+        
+        elif 'type_penalties' in request.POST:
+            type_penalties = request.POST.get('type_penalties')
+            team_match_penalties = request.POST.get('team_penalties')
+            team_match_select = Team_match.objects.get(id=team_match_penalties)
+            penalties = Penalties.objects.create(type_penalties=type_penalties, team_match=team_match_select)
+            penalties.save()
+            print(penalties)
+            return redirect('scoreboard', match.id)
+            
 
 
-def players_in_teams(request):
-    return render(request, 'players_in_teams.html')
+def players_in_teams(request, id):
+    match = get_object_or_404(Match, id=id)
+    team_match = Team_match.objects.filter(match=match)
+    team_match_a = team_match[0]
+    team_match_b = team_match[1]
+    context = {
+        'team_match_a':team_match_a,
+        'team_match_b':team_match_b,
+    }
+    return render(request, 'players_in_teams.html', context)
 
-def players_match(request):
-    return render(request, 'manage_players_match.html')
+def players_match(request, id):
+    team_match = get_object_or_404(Team_match, id=id)
+    player_match = Player_match.objects.filter(team_match=team_match)
+    context = {
+        'team_match': team_match,
+        'player_match': player_match,
+    }
+    if request.method == "GET":
+        return render(request, 'manage_players_match.html', context)
+    else:
+        players = request.POST.getlist('input-checkbox')
+        select_action = request.POST.get('select-action')
+        if 'select_action' in request.POST:  
+            if select_action == 0: 
+                for i in players:
+                    player = Player_match.objects.filter(player=i)
+                    player_match_status = player_match.filter(player=player)
+                    player_match_status.activity = 0
+                    player_match_status.save()
+                return redirect('players_match', team_match.id)
+            if select_action == 2: 
+                for i in players:
+                    player = Player_match.objects.filter(player=i)
+                    player_match_status = player_match.filter(player=player)
+                    player_match_status.activity = 1
+                    player_match_status.save()
+                return redirect('players_match', team_match.id)
+            else: 
+                for i in players:
+                    player = Player_match.objects.filter(player=i)
+                    player.delete()
+                return redirect('players_match', team_match.id)
+            
 
-def add_players_match(request):
+def add_players_match(request, id):
     players = Player.objects.all()
-    return render(request, 'add_players_match.html',{'players': players,})
+    context = {
+        'players': players,
+    }
+    if request.method == "GET":
+        return render(request, 'add_players_match.html',context)
+
 
 def timer(request):
     return render(request, 'timer.html')
@@ -290,7 +389,6 @@ def timer(request):
 def scoreboard_public(request):
     if Match.objects.filter(status=1):
         match = Match.objects.get(status=1)
-        players=Player.objects.all()
         team_matchs = Team_match.objects.filter(match=match)
         team_match_a = team_matchs[0]
         team_match_b = team_matchs[1]
@@ -300,10 +398,11 @@ def scoreboard_public(request):
         point_b = Point.objects.filter(team_match=team_match_b).count()
         context = {
             'match': match,
-            'players':players,
             'team_match_a':team_match_a,
             'team_match_b':team_match_b,
             'point_a':point_a,
             'point_b':point_b,
         }
         return render(request, 'scoreboard_public.html', context)
+    else:
+        return render(request, 'scoreboard_public.html')

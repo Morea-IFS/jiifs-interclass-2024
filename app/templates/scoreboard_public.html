@@ -43,10 +43,10 @@
         <main>
             <section class="scoreboard">
                 <div class="teams">
-                    <div style="background-color: #ffd600" class="team-a">
+                    <div style="background-color: #d42a00" class="team-a">
                         <div class="title-team">
                             <img
-                                src="{% static 'images/praia-volley.png' %}"
+                            src="{% static 'images/logo-morea-colorful.svg' %}"
                                 alt=""
                             />
                             <h2>{{team_match_a.team.name}}</h2>
@@ -59,7 +59,7 @@
                         <div class="title-team">
                             <h2>{{team_match_b.team.name}}</h2>
                             <img
-                                src="{% static 'images/renata-volley.png' %}"
+                            src="{% static 'images/logo-jifs-intercampi.svg' %}" style="border-radius: 50%;"
                                 alt=""
                             />
                         </div>
@@ -88,10 +88,14 @@
                         <p>0</p>
                     </div>
                 </div>
-                {% endif %}
                 <div class="ball-sport">
                     <img src="{% static 'images/ball-of-volley.png'%}" alt="" />
                 </div>
+                {% else %}
+                <div class="ball-sport">
+                    <img src="{% static 'images/ball-of-futsal.png'%}"alt="" />
+                </div>                
+                {% endif %}
                 {% if match.sexo == 1 %}
                 <div class="gender-of-game feminine">
                     <img src="{% static 'images/icon-female.svg' %}" alt="" />
@@ -143,29 +147,32 @@
                     <div class="players-content">
                         <div class="team-display">
                             <img
-                                src="{% static 'images/praia-volley.png' %}"
-                                alt="Praia Vôlei"
+                                src="{% static 'images/logo-morea-colorful.svg' %}"
+                                
                             />
                             <span> - </span>
                             <img
-                                src="{% static 'images/renata-volley.png' %}"
-                                alt="Renata Vôlei"
+                                src="{% static 'images/logo-jifs-intercampi.svg' %}"
+                                
                             />
                         </div>
                         <div class="players-lists">
                             <ul class="list-team-a">
+                                {% for i in players_match_a %}
                                 <li style="border: 2px solid #ffd600">
                                     <div class="player-photo">
                                         <img
-                                            src="{%static 'images/person.png' %}"
-                                            alt=""
+                                            src="{{ i.player.photo.url }}"
+                                            alt="foto de {{i.player.name}}"
                                             aria-hidden="true"
                                             class="photo"
                                         />
+                                   
                                     </div>
+                                    
                                     <div class="player-text-informations">
                                         <p class="player-name">
-                                            aaaaaaaaaaaaaaaaaaaaaaaaa <span>(N°)</span>
+                                            <span>{{i.player.name}} (N° {{i.player_number}} )</span>
                                         </p>
                                         <div class="player-instagram">
                                             <img
@@ -174,17 +181,19 @@
                                                 aria-hidden="true"
                                                 class="instagram"
                                             />
-                                            <a href="#">@player</a>
+                                            <a href="#">@{{i.player.instagram}}</a>
                                         </div>
                                     </div>
                                 </li>
+                                {% endfor %}
                             </ul>
-                            {% for i in players %}
+                            
                             <ul class="list-team-b">
+                                {% for i in players_match_b %}
                                 <li style="border: 2px solid #3a7bd5">
                                     <div class="player-photo">
                                         <img
-                                            src="{%static 'images/person.png' %}"
+                                            src="{{i.player.photo.url}}"
                                             alt=""
                                             aria-hidden="true"
                                             class="photo"
@@ -193,7 +202,7 @@
                                    
                                     <div class="player-text-informations">
                                         <p class="player-name">
-                                            i.name <span>(N°)</span>
+                                            {{i.player.name}} <span>(N°{{i.player_number}})</span>
                                         </p>
                                         <div class="player-instagram">
                                             <img
@@ -202,12 +211,13 @@
                                                 aria-hidden="true"
                                                 class="instagram"
                                             />
-                                            <a href="#">@player</a>
+                                            <a href="#">@{{i.player.instagram}}</a>
                                         </div>
                                     </div>
                                 </li>
+                                {% endfor %}
                             </ul>
-                            {% endfor %}
+                            
                         </div>
                     </div>
                     <div class="events-content"></div>
@@ -229,13 +239,14 @@
         <script src="{% static 'js/scoreboard_public.js' %}"></script>
         <script>
             const socket = new WebSocket('ws://' + window.location.host + '/ws/placar/');
-    
+
             socket.onmessage = function(e) {
                 const data = JSON.parse(e.data);
                 document.getElementById('points-a').textContent = data.points_a;
                 document.getElementById('points-b').textContent = data.points_b;
+                console.log("CCHEGOUUUUUUUUUUUUUUUUUU");
             };
-    
+
             socket.onclose = function(e) {
                 console.error('WebSocket fechado com código: ' + e.code);
             };

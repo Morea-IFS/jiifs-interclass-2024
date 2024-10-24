@@ -2,7 +2,7 @@
 
 @font-face {
     font-family: 'Flick';
-    src: url('../fonts/Flick-Font.ttf') format('truetype');
+    src: url('./fonts/FlickDemo-vmrYL.ttf') format('truetype');
 }
 
 :root {
@@ -464,10 +464,14 @@ main {
     border-radius: 8px;
     gap: 16px;
     background-color: var(--gray-background-cards);
+    
+}
+.player-photo{
+    padding-left: 20px;
 }
 
 .player-photo img {
-    height: 100px;
+    height: 75px;
     border-radius: 50%;
 }
 
@@ -653,9 +657,13 @@ footer img {
         width: 245px;
         gap: 8px;
     }
+    .player-photo{
+        padding-left: 10px;
+    }
 
     .player-photo img {
         height: 45px;
+        
     }
 
     .player-name {
@@ -896,6 +904,9 @@ footer img {
         width: 110px;
         gap: 5px;
         padding-top: 8px;
+    }
+    .player-photo{
+        padding-left: 0;
     }
 
     .player-photo img {

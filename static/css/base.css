@@ -384,10 +384,13 @@ tr:nth-child(even) {
 
 .all-block-scoreboard {
     display: flex;
-    flex-direction: column;
     align-items: center;
+    flex-direction: column;
+    justify-content: center;
     width: calc(100vw - 9em);
     background-color: var(--global-third-color);
+    padding-block: 2em;
+    gap: 2em;
 }
 
 .block-top {
@@ -416,13 +419,14 @@ tr:nth-child(even) {
     justify-content: center;
     height: 3.5em;
     width: 100%;
+    min-width: 5em;
 }
 
 .title-scoreboard h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.3em;
+    font-size: 1.8em;
     color: white;
     height: 65%;
     width: 90%;
@@ -509,6 +513,7 @@ tr:nth-child(even) {
 
 .title-scoreboard-top {
     justify-content: space-around;
+    gap: 30%;
 }
 
 
@@ -516,7 +521,7 @@ tr:nth-child(even) {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    gap: 30%;
+    gap: 2%;
 }
 
 .select-scoreboard select {
@@ -544,6 +549,12 @@ tr:nth-child(even) {
     width: 0;
 }
 
+.buttons-scoreboard-img{
+    height: 6em;
+}
+
+
+
 /*MEDIA SCREEN*/
 
 
@@ -561,7 +572,7 @@ tr:nth-child(even) {
 
 
 
-    /*GAMES AREA*/
+    /*CSS DOS JOGOS*/
 
 
 
@@ -603,6 +614,49 @@ tr:nth-child(even) {
 
     .games-config-link {
         width: 100%;
+    }
+
+
+
+    /*CSS DO SCOREBOARD*/
+
+
+
+    .all-block-scoreboard {
+        width: 100vw;
+    }
+
+    .title-scoreboard h1 {
+        font-size: 1.5em;
+    }
+
+    .block-top {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: 2em;
+    }
+
+    .block1-scoreboard {
+        width: 100%;
+    }
+
+    .block2-scoreboard {
+        width: 100%;
+    }
+
+}
+
+@media screen and (max-width: 530px) {
+
+    .title-scoreboard h1 {
+        font-size: 1.1em;
+    }
+
+    .buttons-scoreboard-img{
+        height: 4em
     }
 
 }
