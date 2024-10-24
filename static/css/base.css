@@ -110,6 +110,31 @@ button {
     color: var(--global-primary-color);
 }
 
+.div-input-sports {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--global-sixth-color);
+    color: var(--global-primary-color);
+    font-size: 15px;
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+.div-input-sports label {
+    text-align: left;
+    margin: 5px;
+}
+
+input[type=number] {
+    background-color: var(--global-fifth-color);
+    border: black 1px solid;
+    border-radius: 10px;
+    text-align: center;
+    padding: 0.8em 0.5em;
+    font-size: 14px;
+    color: black;
+}
+
 input[type=text],
 select {
     padding-block: 1em;
@@ -180,13 +205,34 @@ input[type=search] {
     margin-bottom: 2em;
     border-radius: 1em;
     border: solid black 1px;
-    background-color: var(--global-sixth-color);
+    background-color: var(--global-fifth-color);
 }
 
 .all-table {
     max-width: 85vw;
     text-align: center;
     overflow: auto;
+}
+
+.table-timer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 2em;
+    width: 75%;
+}
+
+.table-timer-item {
+    width: 100%;
+}
+
+.sports-table {
+    width: 100%;
+    margin-bottom: 2em;
+}
+
+tbody tr {
+    text-align: center;
 }
 
 table,
@@ -257,6 +303,7 @@ tr:nth-child(even) {
 }
 
 .game-block2 p {
+    font-size: 20px;
     font-weight: bold;
 }
 
@@ -295,6 +342,7 @@ tr:nth-child(even) {
 
 .games-config-item-desactive {
     background-color: var(--global-seventh-color);
+    cursor: not-allowed;
 }
 
 .games-config-item-img {
@@ -311,6 +359,198 @@ tr:nth-child(even) {
 
 .bottom-space {
     margin-bottom: 7em;
+}
+
+.match-status {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 12em;
+    width: 100%;
+    max-width: 36em;
+    gap: 2em;
+}
+
+.match-status select {
+    margin: 0;
+}
+
+
+
+/*CSS DO SCOREBOARD*/
+
+
+
+.all-block-scoreboard {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    width: calc(100vw - 9em);
+    background-color: var(--global-third-color);
+    padding-block: 2em;
+    gap: 2em;
+}
+
+.block-top {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.block1-scoreboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    gap: 1em;
+}
+
+.block2-scoreboard {
+    display: flex;
+    width: 50%;
+    flex-direction: column;
+}
+
+.title-scoreboard {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 3.5em;
+    width: 100%;
+    min-width: 5em;
+}
+
+.title-scoreboard h1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.8em;
+    color: white;
+    height: 65%;
+    width: 90%;
+    background-color: var(--global-secondary-color);
+}
+
+.title-scoreboard h2 {
+    font-size: 1.8em;
+    color: var(--global-secondary-color);
+}
+
+.timer-scoreboard {
+    display: flex;
+    justify-content: center;
+    background-color: var(--global-ninth-color);
+    color: white;
+    width: 50%;
+    min-width: 10em;
+    padding: 0.5em 1.5em;
+    border-radius: 15px;
+
+}
+
+.buttons-scoreboard {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.buttons-scoreboard button {
+    background: none;
+    border: none;
+}
+
+.inputs-scoreboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.block-inputs-form-scoreboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5em;
+    width: 80%;
+}
+
+.block-inputs-form-scoreboard select {
+    background-color: var(--global-secondary-color);
+    color: var(--global-primary-color);
+    margin: 0;
+    padding-block: 0.6em;
+}
+
+.block-bottom {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.block3-scoreboard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.scoreboard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.scoreboard-top {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 95%;
+}
+
+.title-scoreboard-top {
+    justify-content: space-around;
+    gap: 30%;
+}
+
+
+.select-scoreboard {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 2%;
+}
+
+.select-scoreboard select {
+    background-color: var(--global-secondary-color);
+    color: var(--global-primary-color);
+    padding-block: 0.9em;
+    margin: 0;
+    width: 100%;
+}
+
+.scoreboard-center {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.scoreboard-bottom {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.title-scoreboard-bottom {
+    justify-content: space-around;
+    width: 0;
+}
+
+.buttons-scoreboard-img{
+    height: 6em;
 }
 
 
@@ -332,7 +572,7 @@ tr:nth-child(even) {
 
 
 
-    /*GAMES AREA*/
+    /*CSS DOS JOGOS*/
 
 
 
@@ -354,7 +594,7 @@ tr:nth-child(even) {
     }
 
     .game-block2 p {
-        font-size: 16px;
+        font-size: 20px;
     }
 
     .game-block2 h2 {
@@ -374,6 +614,49 @@ tr:nth-child(even) {
 
     .games-config-link {
         width: 100%;
+    }
+
+
+
+    /*CSS DO SCOREBOARD*/
+
+
+
+    .all-block-scoreboard {
+        width: 100vw;
+    }
+
+    .title-scoreboard h1 {
+        font-size: 1.5em;
+    }
+
+    .block-top {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: 2em;
+    }
+
+    .block1-scoreboard {
+        width: 100%;
+    }
+
+    .block2-scoreboard {
+        width: 100%;
+    }
+
+}
+
+@media screen and (max-width: 530px) {
+
+    .title-scoreboard h1 {
+        font-size: 1.1em;
+    }
+
+    .buttons-scoreboard-img{
+        height: 4em
     }
 
 }

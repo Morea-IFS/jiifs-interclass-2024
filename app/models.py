@@ -25,7 +25,8 @@ class Activity(models.IntegerChoices):
 class Type_penalties(models.IntegerChoices):
     card_red = 0, "Cartão Vermelho"
     card_yellow = 1, "Cartão Amarelo"
-    empty = 2, "Nenhum"
+    lack = 2, "lack"
+    empty = 3, "Nenhum"
 
 class Sexo(models.IntegerChoices):
     masculine = 0, "Masculino"
@@ -35,7 +36,7 @@ class Sexo(models.IntegerChoices):
 class Player(models.Model):
     name = models.CharField(max_length=100)
     instagram = models.CharField(max_length=100, blank=True)
-    photo = models.ImageField(upload_to='photo_player/', default='defaults/profile_default.png', blank=True)
+    photo = models.ImageField(upload_to='photo_player/', default='defaults/logoifs-teste.png', blank=True)
     sexo = models.IntegerField(choices=Sexo.choices, default=Sexo.empty)
 
     def __str__(self):    
@@ -44,7 +45,7 @@ class Player(models.Model):
 class Team(models.Model):
     name = models.CharField(max_length=100, blank=True)
     photo = models.ImageField(upload_to='logo_team/', default='defaults/team_default.png', blank=True)
-    hexcolor = models.CharField(max_length=6, null=True)
+    hexcolor = models.CharField(max_length=7, null=True)
 
     def __str__(self):    
         return f"{self.name}"
@@ -72,7 +73,7 @@ class Player_team_sport(models.Model):
 
 class Team_match(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
-    match = models.ForeignKey('Match', on_delete=models.CASCADE)  # Referencia por string
+    match = models.ForeignKey('Match', on_delete=models.CASCADE, related_name='teams')  # Referencia por string
 
     def __str__(self):    
         return f"{self.team} | {self.match}"
@@ -102,9 +103,9 @@ class Match(models.Model):
 
 class Point(models.Model):
     point_types = models.IntegerField(choices=Point_types.choices, default=Point_types.empty)
-    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    player = models.ForeignKey(Player, on_delete=models.CASCADE, null=True, blank=True)
     team_match = models.ForeignKey(Team_match, on_delete=models.CASCADE)
-    time = models.TimeField()
+    time = models.TimeField(auto_now_add=True)
 
     def __str__(self):    
         return f"{self.point_types} | {self.player} | {self.team_match} | {self.time}"
@@ -121,18 +122,19 @@ class Player_match(models.Model):
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
     player_number = models.IntegerField(blank=True, null=True, default=0)
     activity = models.IntegerField(choices=Activity.choices, default=Activity.empty)
+    team_match = models.ForeignKey(Team_match, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):    
         return f"{self.player} | {self.match} | {self.player_number} | {self.activity}"
 
 class Penalties(models.Model):
     type_penalties = models.IntegerField(choices=Type_penalties.choices, default=Type_penalties.empty)
-    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    player = models.ForeignKey(Player, on_delete=models.CASCADE, null=True, blank=True)
     team_match = models.ForeignKey(Team_match, on_delete=models.CASCADE)
-    time = models.TimeField()
+    time = models.TimeField(auto_now_add=True)
 
     def __str__(self):    
-        return f"{self.type} | {self.player} | {self.team_match} | {self.time}"
+        return f"{self.type_penalties} | {self.player} | {self.team_match} | {self.time}"
 
 class time_pause(models.Model):
     start_pause = models.TimeField()

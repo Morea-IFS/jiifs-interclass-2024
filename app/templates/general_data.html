@@ -25,19 +25,13 @@
                     <img class="side-bar-logo" src="{% static 'images/logo-jiifs-2024.svg' %}" alt="Logo JIIFS24" />
                     <div class="side-bar-buttons">
                         <a href="{% url 'Home' %}">
-                            <button class="side-bar-buttons-items">
-                                HOME
-                            </button>
+                            <button class="side-bar-buttons-items">HOME</button>
                         </a>
                         <a href="{% url 'player_manage' %}">
-                            <button class="side-bar-buttons-items">
-                                GERENCIAMENTO
-                            </button>
+                            <button class="side-bar-buttons-items">GERENCIAMENTO</button>
                         </a>
                         <a href="{% url 'games' %}">
-                            <button class="side-bar-buttons-items">
-                                JOGOS
-                            </button>
+                            <button class="side-bar-buttons-items">JOGOS</button>
                         </a>
                     </div>
                 </div>
@@ -56,8 +50,20 @@
                     <div class="title">
                         <h1>DADOS GERAIS DA PARTIDA</h1>
                     </div>
+                    <form id="function_validate_form" class="block-inputs-form" method="post">
+                        {% csrf_token %}
+                        <section class="match-status">
+                            <select class="select-status" name="status">
+                                <option {% if match.status == 0 %} selected {% endif %} value="0">EM BREVE</option>
+                                <option {% if match.status == 1 %} selected {% endif %} value="1">ACONTECENDO</option>
+                                <option {% if match.status == 2 %} selected {% endif %} value="2">FINALIZADO</option>
+                                <option {% if match.status == 3 %} selected {% endif %} value="3">CANCELADO</option>
+                            </select>
+                            <input class="input-confirm" type="submit" value="Confirmar">
+                        </section>
+                    </form>
                     <section class="all-table">
-                        <table id="matches-table">
+                        <table id="search-table">
                             <tr>
                                 <th>SETS</th>
                                 <th>STATUS</th>
@@ -91,16 +97,16 @@
                             </tr>
                             <tr>
                                 <td>1</td>
-                                <td>VER</td>
-                                <td>14:10</td>
+                                <td><a href="">VER</a></td>
+                                <td><a href="{% url 'timer' %}">14:10</a></td>
                                 <td>14</td>
                                 <td>0</td>
                                 <td>2 IRC</td>
                             </tr>
                             <tr>
                                 <td>2</td>
-                                <td>VER</td>
-                                <td>12:52</td>
+                                <td><a href="">VER</a></td>
+                                <td><a href="{% url 'timer' %}">12:52</a></td>
                                 <td>7</td>
                                 <td>0</td>
                                 <td>3 IRC</td>
@@ -122,16 +128,16 @@
                             </tr>
                             <tr>
                                 <td>1</td>
-                                <td>VER</td>
-                                <td>14:10</td>
+                                <td><a href="">VER</a></td>
+                                <td><a href="{% url 'timer' %}">14:10</a>
                                 <td>14</td>
                                 <td>0</td>
                                 <td>2 IRC</td>
                             </tr>
                             <tr>
                                 <td>2</td>
-                                <td>VER</td>
-                                <td>12:52</td>
+                                <td><a href="">VER</a></td>
+                                <td><a href="{% url 'timer' %}">12:52</a></td>
                                 <td>7</td>
                                 <td>0</td>
                                 <td>3 IRC</td>
@@ -143,7 +149,11 @@
         </div>
     </main>
 
+    
     <script src="{% static 'js/script.js' %}"></script>
+    {% if error_mensage %}
+        <script>exibirAlerta('{{error_mensage}}');</script>
+    {% endif %}
 </body>
 
 </html>

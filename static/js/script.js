@@ -42,7 +42,7 @@ function search_table() {
     var input, filter, table, tr, td, i, txtValue;
     input = document.getElementById("search-input");
     filter = input.value.toUpperCase();
-    table = document.getElementById("matches-table");
+    table = document.getElementById("search-table");
     tr = table.getElementsByTagName("tr");
 
     for (i = 1; i < tr.length; i++) {
@@ -64,4 +64,45 @@ function search_table() {
 // Function for mobile hamburger menu.
 function toggle(element) {
     element.classList.toggle("change");
+}
+
+//alert for match add
+function exibirAlerta(mensagem) {
+    if (mensagem) {
+        window.alert(mensagem);
+    }
+}
+function enviar1Formularios() {
+    // Obter os dados do primeiro formulário
+    const form1 = new FormData(document.getElementById('form1'));
+    const form2 = document.getElementById('form2');
+
+    // Adicionar os dados do form1 ao form2
+    for (let [key, value] of form1.entries()) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = value;
+        form2.appendChild(input);
+    }
+
+    // Submeter o segundo formulário com os dados combinados
+    form2.submit();
+}
+function enviar2Formularios() {
+    // Obter os dados do primeiro formulário
+    const form3 = new FormData(document.getElementById('form3'));
+    const form4 = document.getElementById('form4');
+
+    // Adicionar os dados do form1 ao form2
+    for (let [key, value] of form3.entries()) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = value;
+        form4.appendChild(input);
+    }
+
+    // Submeter o segundo formulário com os dados combinados
+    form4.submit();
 }
