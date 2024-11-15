@@ -55,9 +55,9 @@
                         <section class="game-section">
                             <div class="game-block1">
                                 <div class="game-title">
-                                    <h1>{{ i.times.0.team.name }} <span style="color: black;">X</span> {{ i.times.1.team.name }}</h1>
+                                    <h1 {% if i.match.sexo == 1 %}  style="color: #ee005b;" {% endif %}>{{ i.times.0.team.name }} <span style="color: black;">X</span> {{ i.times.1.team.name }}</h1>
                                 </div>
-                                <div class="game-score">{{ i.points_a }} x {{ i.points_b }}</div>
+                                <div {% if i.match.sexo == 1 %} style="background-color: #ee005b;" {% endif %} class="game-score">{{ i.points_a }} x {{ i.points_b }}</div>
                             </div>
                             <div class="game-block2">
                                 <p>PARTIDA #{{i.match.id}}<br>{{i.match.sport}} - {% if i.match.sexo == 0 %} Masculino {% else %} Feminino {% endif %}<br>TEMPO:{% if i.time_start %} {{i.time_start}} {% else %} 00:00 {% endif %}</p>
@@ -65,7 +65,7 @@
                                 <h3>H: {{i.match.time_match}}</h3>
                             </div>
                             <div class="games-config">
-                                <a class="games-config-link" {% if i.match.status == 1 %} href="{% url 'scoreboard' i.match.id %}" {% endif %}>
+                                <a class="games-config-link" {% if i.match.status == 1 %} href="{% url 'scoreboard' %}" {% endif %}>
                                     <div {% if i.match.status == 1 %} class="games-config-item games-config-item-active" {% else %} class="games-config-item games-config-item-desactive"{% endif %}>
                                         <img class="games-config-item-img" src="{% static 'images/icon-timer.png' %}"
                                             alt="Timer Icon" />

@@ -91,6 +91,11 @@
                                 {% endfor %}
                             </table>
                         </section>
+                        {% if messages %}
+                            {% for m in messages %}
+                                <p style="color: red;">{{m}}</p>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
             </div>
