@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponse
+
 from .models import Volley_match, Player, Penalties, Time_pause, Team, Sport, Point, Team_sport, Player_team_sport, Match, Team_match, Player_match, Assistance
 from django.db.models import Count
 from django.contrib import messages
 from django.db import IntegrityError
 from django.conf import settings
 import time
+
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
@@ -283,7 +285,6 @@ def team_edit(request, id):
 
 def games(request):
     matchs = Match.objects.all().prefetch_related('teams__team').order_by('time_match')
-
     context = [
         {
             'match': match,
@@ -505,10 +506,7 @@ def scoreboard(request):
         except Exception as e:
             messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
         return redirect('scoreboard')
-        
-
-
-
+       
 def players_in_teams(request, id):
     match = get_object_or_404(Match, id=id)
     team_match = Team_match.objects.filter(match=match)
@@ -592,9 +590,6 @@ def add_players_match(request, id):
             messages.error(request, "Você precisa informar os jogadores e seus respectivos números corretamente!")
             return redirect('add_players_match', id)
         return redirect('players_match', id)
-    
-
-
 
 def timer(request):
     return render(request, 'timer.html')
