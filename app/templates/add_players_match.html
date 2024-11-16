@@ -74,11 +74,16 @@
                                             <input type="checkbox" name="input-checkbox" value="{{ player.id }}">
                                         </td>
                                         <td>{{ player.name }}</td>
-                                        <td><input type="number" placeholder="Insira o número"></td>
-                                        <td>{% if player.sexo == 0 %} Masculino {% elif player.sexo == 1 %} Feminino {% else %} ---- {% endif %}</td>
+                                        <td><input type="number" placeholder="Insira o número" name="number_{{ player.id }}"></td>
+                                        <td>{{player.get_sexo_display}}</td>
                                     </tr>
                                     {% endfor %}
                                 </table>
+                                {% if messages %}
+                                    {% for m in messages %}
+                                        <p style="color: red;">{{m}}</p>
+                                    {% endfor %}
+                                {% endif %}
                             </section>
                         </form>
                     </section>

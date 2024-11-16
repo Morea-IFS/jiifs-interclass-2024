@@ -85,6 +85,9 @@
                                 </a>
                             </div>
                         </section>
+                        {% empty %}
+                        <img style="width: clamp(250px, 40%, 500px);" src="{% static 'images/games-empty.svg' %}">
+                        <h1>NÃO HÁ NENHUMA PARTIDA CADASTRADA!</h1>
                         {% endfor %}
                     </div>
                 </div>

@@ -66,7 +66,7 @@
                             <input type="search" id="search-input" onkeyup="search_table()" placeholder="Pesquisar os times"/>
                             <section class="all-table">
                                 <table id="search-table">
-                                    <tr>
+                                    <tr class="hidden">
                                         <th>NOME</th>
                                         <th>COLOR-HEX</th>
                                         <th>ESPORTE</th>
@@ -83,12 +83,15 @@
                                             <a href="{% url 'team_players_manage' team_sport.id %}">ACESSAR</a>
                                         </td>
                                     </tr>
+                                    {% empty %}
+                                    <style>
+                                        .hidden{
+                                            display: none;
+                                        }
+                                    </style>
+                                    <img src="{% static 'images/setup-animate.svg' %}">
+                                    <h1>NÃO HÁ NENHUM TIME CADASTRADO!</h1>
                                     {% endfor %}
-                                    {% if messages %}
-                                        {% for m in messages %}
-                                            <p style="color: red;">{{m}}</p>
-                                        {% endfor %}
-                                    {% endif %}
                                 </table>
                             </section>
                         </div>
