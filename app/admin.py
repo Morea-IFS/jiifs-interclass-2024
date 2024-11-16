@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . models import Player, Penalties, time_pause, Team, Sport, Point, Team_sport, Player_team_sport, Match, Team_match, Player_match
+from . models import Volley_match, Player, Assistance, Penalties, Time_pause, Team, Sport, Point, Team_sport, Player_team_sport, Match, Team_match, Player_match
 
 # Register your models here.
 
@@ -7,6 +7,11 @@ from . models import Player, Penalties, time_pause, Team, Sport, Point, Team_spo
 class PlayerAdmin(admin.ModelAdmin):
     list_display = ('id','name','sexo')
     search_fields = ('id','name','sexo')
+
+@admin.register(Volley_match)
+class Volley_matchAdmin(admin.ModelAdmin):
+    list_display = ('id','status','sets_team_a','sets_team_b')
+    search_fields = ('id','status','sets_team_a','sets_team_b')
 
 @admin.register(Team)
 class TeamAdmin(admin.ModelAdmin):
@@ -25,8 +30,8 @@ class Team_sportAdmin(admin.ModelAdmin):
 
 @admin.register(Match)
 class MatchAdmin(admin.ModelAdmin):
-    list_display = ('id','sexo','sport','time_match','status')
-    search_fields = ('id','sexo','sport','time_match','status')
+    list_display = ('id','sexo','sport','time_match','status','Winner_team','time_start','time_end')
+    search_fields = ('id','sexo','sport','time_match','status','Winner_team','time_start','time_end')
 
 @admin.register(Player_match)
 class Player_matchAdmin(admin.ModelAdmin):
@@ -53,7 +58,12 @@ class PenaltiesAdmin(admin.ModelAdmin):
     list_display = ('id','type_penalties','player','team_match','time')
     search_fields = ('id','type_penalties','player','team_match','time')
 
-@admin.register(time_pause)
-class time_pauseAdmin(admin.ModelAdmin):
+@admin.register(Time_pause)
+class Time_pauseAdmin(admin.ModelAdmin):
     list_display = ('id','start_pause','end_pause','match')
     search_fields = ('id','start_pause','end_pause','match')
+
+@admin.register(Assistance)
+class AssistanceAdmin(admin.ModelAdmin):
+    list_display = ('id','assis_to','player','match')
+    search_fields = ('id','assis_to','player','match')
