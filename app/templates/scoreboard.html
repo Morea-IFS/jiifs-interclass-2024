@@ -1,4 +1,4 @@
-{%load static%}
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{% static 'css/navbar-layout.css' %}" />
     <link rel="stylesheet" href="{% static 'css/base.css' %}" />
     <title>JIIFS ADMIN</title>
+    <style>.hidden { display: none; }</style>
 </head>
 
 <body>
@@ -52,18 +53,27 @@
                             <h1>CRONOMETRO</h1>
                         </div>
                         <div class="timer-scoreboard">
-                            <h1>00 : 00</h1>
+                            <h1 id="timer">00:00</h1>
                         </div>
                         <div class="buttons-scoreboard">
-                            <button>
-                                <img class="buttons-scoreboard-img" src="{% static 'images/icon-stop.svg' %}" alt="icon-stop">
-                            </button>
-                            <button>
-                                <img class="buttons-scoreboard-img" src="{% static 'images/icon-play.svg' %}" alt="icon-play">
-                            </button>
-                            <button>
-                                <img class="buttons-scoreboard-img" src="{% static 'images/icon-pause.svg' %}" alt="icon-pause">
-                            </button>
+                            <form method="post">
+                                {% csrf_token %}
+                                <button name="time_stop" type="submit">
+                                    <img class="buttons-scoreboard-img" src="{% static 'images/icon-stop.svg' %}" alt="icon-stop">
+                                </button>
+                            </form>
+                            <form method="post">
+                                {% csrf_token %}
+                                <button onclick="startTimer()" name="time_init" type="submit">
+                                    <img class="buttons-scoreboard-img" src="{% static 'images/icon-play.svg' %}" alt="icon-play">
+                                </button>
+                            </form>
+                            <form method="post">
+                                {% csrf_token %}
+                                <button name="time_pause" type="submit">
+                                    <img class="buttons-scoreboard-img" src="{% static 'images/icon-pause.svg' %}" alt="icon-pause">
+                                </button>
+                            </form>
                         </div>
                     </div>
                     <div class="block2-scoreboard">
@@ -71,22 +81,69 @@
                             <h1>SELECIONE</h1>
                         </div>
                         <div class="inputs-scoreboard">
-                            <form class="block-inputs-form-scoreboard" method="post">
+                            <form class="block-inputs-form-scoreboard" id="formPrincipal" method="POST">
                                 {% csrf_token %}
-                                <select name="type_penalties">
-                                    <option selected disabled value="90">Selecione uma penalidade</option>
-                                    <option value="0">Cartão Vermelho</option>
-                                    <option value="1">Cartão Amarelo</option>
-                                    <option value="2">Falta</option>
+                                <br>
+                                <select id="tipo" name="tipo" onchange="mostrarCampos()">
+                                    <option value="">Selecione a ação</option>
+                                    <option value="penalidade">Penalidade</option>
+                                    <option value="assistencia">Assistência</option>
+                                    <option value="acrescimo">Acrescimo</option>
                                 </select>
-                                <select name="team_penalties">
-                                    <option selected disabled value="">Selecione o time</option>
-                                    {% for i in team_matchs %}
-                                        <option value="{{i.id}}">{{i.team.name}}</option>
-                                    {% endfor %}
-                                </select>        
+                            
+                                <div id="camposPenalidade" class="hidden">                
+                                    <select name="type_penalties" required>
+                                        <option selected disabled value="None">Escolha a Penalidade</option>
+                                        <option value="0">Cartão Amarelo</option>
+                                        <option value="1">Cartão Vermelho</option>
+                                        <option value="2">Falta</option>
+                                    </select>
+                                    <br><br>
+                                    <select name="player_penalties" required>
+                                        <option selected disabled value="None">Selecione o time</option>
+                                        
+                                        <optgroup label="JOGADORES DO TIME: {{team_match_a.team.name}}">
+                                        {% for i in players_match_a %}
+                                        <option value="{{i.player.id}}">{{i.player.name}} - {{i.player_number}}</option>
+                                        {% endfor %}
+                                        </optgroup>
+                                        <optgroup label="JOGADORES DO TIME: {{team_match_b.team.name}}">
+                                        {% for i in players_match_b %}
+                                        <option value="{{i.player.id}}">{{i.player.name}} - {{i.player_number}}</option>
+                                        {% endfor %}
+                                    </optgroup>
+                                    </select>
+                                </div>
+                                
+                                <div id="camposAssistencia" class="hidden">
+                                    <select name="point_assistance" required>
+                                        <option selected disabled value="None">Selecione o ponto</option>
+                                        {% for i in points %}
+                                        <option value="{{i.id}}">{{i.time}} - {{i.team_match.team.name}}{% if i.player %} - {{i.player}}{% endif%}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <br><br>
+                                    <select name="player_assistance" required>
+                                        <option selected disabled value="None">Selecione o jogador</option>
+                                        <optgroup label="JOGADORES DO TIME: {{team_match_a.team.name}}">
+                                            {% for i in players_match_a %}
+                                            <option value="{{i.player.id}}">{{i.player.name}} - {{i.player_number}}</option>
+                                            {% endfor %}
+                                            </optgroup>
+                                            <optgroup label="JOGADORES DO TIME: {{team_match_b.team.name}}">
+                                            {% for i in players_match_b %}
+                                            <option value="{{i.player.id}}">{{i.player.name}} - {{i.player_number}}</option>
+                                            {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div id="camposAcrescimo" class="hidden">
+                                    <input type="hidden" name="receiber-add">
+                                    <input name="add_time" type="time" placeholder="Informe a quantidade de minutos de acrescimo">
+                                </div>
+
                                 <input class="input-confirm" type="submit" value="Confirmar">
-                            </form>
+                            </form>        
                         </div>
                     </div>
                 </div>
@@ -98,16 +155,16 @@
                         <div class="scoreboard">
                             <div class="scoreboard-top">
                                 <div class="title-scoreboard title-scoreboard-top">
-                                    <h2>{{team_match_a.team.name}}</h2>
-                                    <h2>{{team_match_b.team.name}}</h2>
+                                    <h2 id="team-a" >{{team_match_a.team.name}}</h2>
+                                    <h2 id="team-b" >{{team_match_b.team.name}}</h2>
                                 </div>
                                 <div class="title-scoreboard select-scoreboard">
                                     <form id="form1" class="select-scoreboard">
                                         {% csrf_token %}
                                         <select name="player_point">
                                             <option selected value="0">Selecione o jogador</option>
-                                            {% for i in players_match %}
-                                            <option value="{{i.player.id}}">{{i.player.name}}</option>
+                                            {% for i in players_match_a %}
+                                            <option value="{{i.player.id}}">{{i.player.name}} - {{i.player_number}}</option>
                                             {% endfor %}
                                         </select>
                                     </form>
@@ -116,8 +173,8 @@
                                         {% csrf_token %}
                                         <select name="player_point">
                                             <option selected value="0">Selecione o jogador</option>
-                                            {% for i in players_match %}
-                                            <option value="{{i.player.id}}">{{i.player.name}}</option>
+                                            {% for i in players_match_b %}
+                                            <option value="{{i.player.id}}">{{i.player.name}} - {{i.player_number}}</option>
                                             {% endfor %}
                                         </select>
                                     </form>
@@ -139,7 +196,8 @@
                                     </form>
                                 </div>
                                 <div class="title-scoreboard">
-                                    <h2>{{point_a}} X {{point_b}}</h2>
+                                    
+                                    <h2 id="point"><span id="points-a">{{point_a}}</span> X <span id="points-b">{{point_b}}</span></h2>
                                 </div>
                                 <div class="buttons-scoreboard">
                                     <form method="post">
@@ -156,7 +214,7 @@
                                     </form>
                                 </div>
                             </div>
-                            {% if match.sport.name == "Voleibol" %}
+                            {% if match.sport.sets %}
                             <div class="title-scoreboard">
                                 <h2>SETS</h2>
                             </div>
@@ -202,6 +260,8 @@
     </main>
 
     <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/timer.js' %}"></script>
+    
 </body>
 
 </html>

@@ -66,7 +66,6 @@ function toggle(element) {
     element.classList.toggle("change");
 }
 
-//alert for match add
 function exibirAlerta(mensagem) {
     if (mensagem) {
         window.alert(mensagem);
@@ -105,4 +104,24 @@ function enviar2Formularios() {
 
     // Submeter o segundo formulário com os dados combinados
     form4.submit();
+}
+function mostrarCampos() {
+    const tipo = document.getElementById('tipo').value;
+    const camposPenalidade = document.getElementById('camposPenalidade');
+    const camposAssistencia = document.getElementById('camposAssistencia');
+    const camposAcrescimo = document.getElementById('camposAcrescimo');
+
+    // Esconder todos os campos inicialmente
+    camposPenalidade.classList.add('hidden');
+    camposAssistencia.classList.add('hidden');
+    camposAcrescimo.classList.add('hidden');
+
+    // Exibir os campos com base na escolha
+    if (tipo === 'penalidade') {
+        camposPenalidade.classList.remove('hidden');
+    } else if (tipo === 'assistencia') {
+        camposAssistencia.classList.remove('hidden');
+    }else if (tipo === 'acrescimo') {
+        camposAcrescimo.classList.remove('hidden');
+    }
 }

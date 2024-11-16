@@ -21,7 +21,6 @@ socket.onmessage = function(e) {
     if (photoAB) photoAB.src = data.photoA;
     if (photoBB) photoBB.src = data.photoB;
 
-    console.log("Estamos recebendo o tempo!: ", data.seconds)
     console.log("Atualização recebida", data);
     
 };
