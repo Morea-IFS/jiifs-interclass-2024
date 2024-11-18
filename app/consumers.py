@@ -13,3 +13,7 @@ class PlacarConsumer(AsyncWebsocketConsumer):
     async def send_score(self, event):
         score_data = event['score']
         await self.send(text_data=json.dumps(score_data))
+
+    async def match_update(self, event):
+        match_data = event['match']
+        await self.send(text_data=json.dumps(match_data))

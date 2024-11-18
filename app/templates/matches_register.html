@@ -91,6 +91,11 @@
                                     </select>
                                     <input class="input-data" type="datetime-local" name="datetime" id="date-game" />
                                 </div>
+                                {% if messages %}
+                                    {% for m in messages %}
+                                        <p style="color: red;">{{m}}</p>
+                                    {% endfor %}
+                                {% endif %}
                                 <div>
                                     <input class="input-confirm" type="submit" value="Confirmar" />
                                 </div>
@@ -103,6 +108,9 @@
     </main>
 
     <script src="{% static 'js/script.js' %}"></script>
+    {% if error_mensage %}
+        <script>exibirAlerta('{{error_mensage}}');</script>
+    {% endif %}
 </body>
 
 </html>

@@ -69,11 +69,9 @@
                             <div class="block-inputs-form">
                                 <div>
                                     <input type="text" autocomplete="on" autocorrect="on" name="name"
-                                        placeholder="{{ player.name }}" value="{{ player.name }}" />
+                                        placeholder="{{ player.name }}" value="{{ player.name }}" required />
                                     <input type="text" autocomplete="on" autocorrect="on" name="instagram"
                                         placeholder="{{ player.instagram }}" value="{{ player.instagram }}" />
-                                    <input type="text" autocomplete="on" autocorrect="on"
-                                        placeholder="Número do jogador" />
                                     <select id="sexos" name="sexo">
                                         <option {% if player_disable %} selected disabled {% endif %} value="2"> Selecione o sexo</option>
                                         <option {% if player.sexo == 0 %} selected {% endif %} value="0">Masculino
@@ -83,6 +81,11 @@
                                     <label for="fotos" id="label-foto" class="custom-file-button">{% if player.photo %} Trocar imagem {% else %} Adicione uma imagem {% endif %}</label>
                                     <input type="file" name="photo" id="fotos" accept=".jpg, .jpeg, .png"
                                         onchange="trocarTextoLabel()" />
+                                    {% if messages %}
+                                        {% for m in messages %}
+                                            <p style="color: red;">{{m}}</p>
+                                        {% endfor %}
+                                    {% endif %}
                                 </div>
                                 <div>
                                     <input class="input-confirm" type="submit" value="Confirmar" />

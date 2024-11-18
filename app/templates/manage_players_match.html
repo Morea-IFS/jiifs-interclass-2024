@@ -79,7 +79,7 @@
                         <section class="side-bar-register">
                             <h3 class="side-bar-register-title">CADASTRO</h3>
                             <button class="side-bar-buttons-items2">
-                                <a href="{% url 'add_players_match' team_match.match.id %}">Adicionar</a>
+                                <a href="{% url 'add_players_match' team_match.id %}">Adicionar</a>
                             </button>
                         </section>
                         <div class="logos">
@@ -94,25 +94,27 @@
                 <div class="all-block">
                     <div class="block1">
                         <div class="title">
-                            <h1>JOGADORES DO {{team_match.team.name}} - PARTIDA #{{team_match.match.id}}</h1>
+                            <h1>JOGADORES DE(O) {{team_match.team.name}} - PARTIDA #{{team_match.match.id}}</h1>
                         </div>
                         <section class="block-inputs">
                             <form class="block-inputs-form" id="function_validate_form" method="post">{% csrf_token %}
+                                {% if player_match %}
                                 <div class="block-inputs-div">
                                     <select class="select-action" name="select-action" id="select-action">
                                         <option selected disabled>Selecione a ação</option>
-                                        <option value="2">Excluir jogadores</option>
-                                        <option value="0">Tornar reserva</option>
-                                        <option value="1">Tornar titular</option>
+                                        <option value="excluir">Excluir jogadores</option>
+                                        <option value="reserva">Tornar reserva</option>
+                                        <option value="titular">Tornar titular</option>
                                     </select>
                                     <div>
                                         <input class="input-confirm" type="submit" value="Confirmar" />
                                     </div>
                                 </div>
+                                {% endif %}
                                 <div>
                                     <section class="all-table">
                                         <table id="matches-table">
-                                            <tr>
+                                            <tr class="hidden">
                                                 <th>
                                                     <input type="checkbox" onclick="toggle_checkbox(this)" />
                                                 </th>
@@ -129,9 +131,17 @@
                                                 </td>
                                                 <td>{{i.player.name}}</td>
                                                 <td>{{i.player_number}}</td>
-                                                <td>{% if i.activity == 0 %} Titular {% elif i.activity == 1 %} Reserva {% else %} ---- {% endif %}</td>
-                                                <td>{% if i.player.sexo == 0 %} Masculino {% elif i.player.sexo == 1 %} Feminino {% else %} ---- {% endif %}</td>
+                                                <td>{{i.get_activity_display}}</td>
+                                                <td>{{i.player.get_sexo_display}}</td>
                                             </tr>
+                                            {% empty %}
+                                            <style>
+                                                .hidden{
+                                                    display: none;
+                                                }
+                                            </style>
+                                            <img src="{% static 'images/setup-animate.svg' %}">
+                                            <h1>NÃO HÁ NENHUM JOGADOR CADASTRADO NO TIME NESSA PARTIDA!</h1>
                                             {% endfor %}
                                         </table>
                                     </section>

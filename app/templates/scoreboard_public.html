@@ -45,11 +45,8 @@
                 <div class="teams">
                     <div style="background-color: #d42a00" class="team-a">
                         <div class="title-team">
-                            <img
-                            src="{% static 'images/logo-morea-colorful.svg' %}"
-                                alt=""
-                            />
-                            <h2>{{team_match_a.team.name}}</h2>
+                            <img id="photo-team-a" src="{{team_match_a.team.photo.url}}" style="border-radius: 50%;"alt=""/>
+                            <h2 id="team-a">{{team_match_a.team.name}}</h2>
                         </div>
                         <div class="score-team">
                             <p class="score"><span id="points-a">{{ point_a }}</span></p>
@@ -57,11 +54,9 @@
                     </div>
                     <div style="background-color: #3a7bd5" class="team-b">
                         <div class="title-team">
-                            <h2>{{team_match_b.team.name}}</h2>
-                            <img
-                            src="{% static 'images/logo-jifs-intercampi.svg' %}" style="border-radius: 50%;"
-                                alt=""
-                            />
+                            <h2 id="team-b">{{team_match_b.team.name}}</h2>
+                            <img id="photo-team-b" src="{{team_match_b.team.photo.url}}" style="border-radius: 50%;" alt=""/>
+                            
                         </div>
                         <div class="score-team">
                             <p class="score"><span id="points-b">{{ point_b }}</span></p>
@@ -76,7 +71,7 @@
                     />
                     <p>Live</p>
                 </div>
-                {% if match.sport.name == "Voleibol" %}
+                {% if match.sport.sets %}
                 <div class="sets-or-time">
                     <div class="title-set">
                         <p>Sets</p>
@@ -95,7 +90,25 @@
                 <div class="ball-sport">
                     <img src="{% static 'images/ball-of-futsal.png'%}"alt="" />
                 </div>                
-                {% endif %}
+                <div class="sets-or-time" {% if match.sport.name == "Futsal" %}style="display: block;"{% endif %}>
+                    <div class="title-set">
+                        <p>{% if match.sport.name == "Futsal" %}Tempo{% else %}Sets{% endif %}</p>
+                    </div>
+                    {% if match.sport.name == "Futsal" %}
+                    <div class="timer">
+                        
+                        <p id="timer">00:00</p>
+                    </div>
+                    {% else %}
+                    <div class="sets-team-a">
+                        <p>0</p>
+                    </div>
+                    <div class="sets-team-b">
+                        <p>0</p>
+                    </div>
+                    {% endif %}
+                </div> 
+                {% endif %}    
                 {% if match.sexo == 1 %}
                 <div class="gender-of-game feminine">
                     <img src="{% static 'images/icon-female.svg' %}" alt="" />
@@ -146,19 +159,15 @@
                     </div>
                     <div class="players-content">
                         <div class="team-display">
-                            <img
-                                src="{% static 'images/logo-morea-colorful.svg' %}"
-                                
-                            />
+                            <img id="photo-team-a-b" src="{{team_match_a.team.photo.url}}" style="border-radius: 50%;" alt=""/>
                             <span> - </span>
-                            <img
-                                src="{% static 'images/logo-jifs-intercampi.svg' %}"
-                                
-                            />
+                            <img id="photo-team-b-b" src="{{team_match_b.team.photo.url}}" style="border-radius: 50%;" alt=""/>
                         </div>
+                        
                         <div class="players-lists">
                             <ul class="list-team-a">
                                 {% for i in players_match_a %}
+
                                 <li style="border: 2px solid #ffd600">
                                     <div class="player-photo">
                                         <img
@@ -188,16 +197,11 @@
                                 {% endfor %}
                             </ul>
                             
-                            <ul class="list-team-b">
+                            <ul class="list-team-b" id="player_list">
                                 {% for i in players_match_b %}
                                 <li style="border: 2px solid #3a7bd5">
                                     <div class="player-photo">
-                                        <img
-                                            src="{{i.player.photo.url}}"
-                                            alt=""
-                                            aria-hidden="true"
-                                            class="photo"
-                                        />
+                                        {% if i.player.photo %}<img src="{{i.player.photo.url}}"alt="" aria-hidden="true" class="photo"/>{% endif %}
                                     </div>
                                    
                                     <div class="player-text-informations">
@@ -237,19 +241,6 @@
             />
         </footer>
         <script src="{% static 'js/scoreboard_public.js' %}"></script>
-        <script>
-            const socket = new WebSocket('ws://' + window.location.host + '/ws/placar/');
-
-            socket.onmessage = function(e) {
-                const data = JSON.parse(e.data);
-                document.getElementById('points-a').textContent = data.points_a;
-                document.getElementById('points-b').textContent = data.points_b;
-                console.log("CCHEGOUUUUUUUUUUUUUUUUUU");
-            };
-
-            socket.onclose = function(e) {
-                console.error('WebSocket fechado com código: ' + e.code);
-            };
-        </script>
+        <script src="{% static 'js/timer.js' %}"></script>
     </body>
 </html>

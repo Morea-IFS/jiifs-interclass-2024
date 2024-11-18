@@ -109,8 +109,6 @@
                                     <select class="select-action" name="select-action" id="select-action">
                                         <option selected disabled>Selecione a ação</option>
                                         <option value="excluir">Excluir jogadores</option>
-                                        <option value="reserva">Tornar reserva</option>
-                                        <option value="titular">Tornar titular</option>
                                     </select>
                                     <div>
                                         <input class="input-confirm" type="submit" value="Confirmar" />
@@ -138,6 +136,11 @@
                                                 <td>{% if i.player.sexo == 0 %} Masculino {% else %} Feminino {% endif %}</td>
                                             </tr>
                                             {% endfor %}
+                                            {% if messages %}
+                                                {% for m in messages %}
+                                                    <p style="color: red;">{{m}}</p>
+                                                {% endfor %}
+                                            {% endif %}
                                         </table>
                                     </section>
                                 </div>

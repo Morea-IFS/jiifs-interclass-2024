@@ -66,7 +66,7 @@
                             <input type="search" id="search-input" onkeyup="search_table()" placeholder="Pesquisar os jogadores"/>
                             <section class="all-table">
                                 <table id="search-table">
-                                    <tr>
+                                    <tr class="kkkk">
                                         <th>NOME</th>
                                         <th>INSTAGRAM</th>
                                         <th>SEXO</th>
@@ -79,6 +79,14 @@
                                         <td>{% if player.instagram %} {{ player.instagram }} {% else %} ---- {% endif %} </td>
                                         <td>{% if player.sexo == 0 %} Masculino {% elif player.sexo == 1 %} Feminino {% else %} ---- {% endif %}</td>
                                     </tr>
+                                    {% empty %}
+                                    <style>
+                                        .kkkk{
+                                            display: none;
+                                        }
+                                    </style>
+                                    <img src="{% static 'images/setup-animate.svg' %}">
+                                    <h1>NÃO HÁ NENHUM JOGADOR CADASTRADO!</h1>
                                     {% endfor %}
                                 </table>
                             </section>

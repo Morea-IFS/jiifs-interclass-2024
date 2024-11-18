@@ -66,7 +66,7 @@
                             <input type="search" id="search-input" onkeyup="search_table()" placeholder="Pesquisar as partidas" />
                             <section class="all-table">
                                 <table id="search-table">
-                                    <tr>
+                                    <tr class="hidden">
                                         <th>NOME DO ESPORTE</th>
                                         <th>MAXIMO DE TITULARES</th>
                                     </tr>
@@ -78,6 +78,14 @@
                                         </td>
                                         <td>{{sport.max_titulares}}</td>
                                     </tr>
+                                    {% empty %}
+                                    <style>
+                                        .hidden{
+                                            display: none;
+                                        }
+                                    </style>
+                                    <img src="{% static 'images/setup-animate.svg' %}">
+                                    <h1>NÃO HÁ NENHUM ESPORTE CADASTRADO!</h1>
                                     {% endfor %}
                                 </table>
                             </section>

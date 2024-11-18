@@ -37,6 +37,7 @@ ALLOWED_HOSTS = [os.getenv('HOST')]
 
 INSTALLED_APPS = [
     'app',
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

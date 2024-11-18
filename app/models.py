@@ -36,7 +36,7 @@ class Sexo(models.IntegerChoices):
 class Player(models.Model):
     name = models.CharField(max_length=100)
     instagram = models.CharField(max_length=100, blank=True)
-    photo = models.ImageField(upload_to='photo_player/', default='defaults/logoifs-teste.png', blank=True)
+    photo = models.ImageField(upload_to='photo_player/', default='defaults/person.png', blank=True)
     sexo = models.IntegerField(choices=Sexo.choices, default=Sexo.empty)
 
     def __str__(self):    
@@ -53,6 +53,7 @@ class Team(models.Model):
 class Sport(models.Model):
     name = models.CharField(max_length=50)
     max_titulares = models.IntegerField(validators=[MaxValueValidator(50)])
+    sets = models.BooleanField(default=False, null=True, blank=True)
 
     def __str__(self):    
         return f"{self.name}"
@@ -80,22 +81,22 @@ class Team_match(models.Model):
 
 class Volley_match(models.Model):
     status = models.IntegerField(choices=Status.choices, default=Status.empty)
-    team_match = models.ForeignKey(Team_match, on_delete=models.CASCADE)
-    sets_team = models.IntegerField(default=0)
+    sets_team_a = models.IntegerField(default=0)
+    sets_team_b = models.IntegerField(default=0)
 
     def __str__(self):    
-        return f"{self.status} | {self.team_match} | {self.sets_team}"
+        return f"{self.status} | {self.sets_team_a} | {self.sets_team_b}"
 
 class Match(models.Model):
     sport = models.ForeignKey(Sport, on_delete=models.CASCADE)
-    status = models.IntegerField(choices=Status.choices, default=Status.empty)
+    status = models.IntegerField(choices=Status.choices, default=Status.shortly)
     time_start = models.TimeField(blank=True, null=True)
     time_end = models.TimeField(blank=True, null=True)
     sexo = models.IntegerField(choices=Sexo.choices, default=Sexo.empty, blank=True)
     mvp_player_player = models.ForeignKey(Player, on_delete=models.CASCADE, blank=True, null=True)
     Winner_team = models.ForeignKey(Team, on_delete=models.CASCADE, blank=True, null=True)
     volley_match = models.ForeignKey(Volley_match, on_delete=models.CASCADE, blank=True, null=True)
-    add = models.TimeField(blank=True, null=True,)
+    add = models.TimeField(blank=True, null=True)
     time_match = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):    
@@ -108,11 +109,15 @@ class Point(models.Model):
     time = models.TimeField(auto_now_add=True)
 
     def __str__(self):    
-        return f"{self.point_types} | {self.player} | {self.team_match} | {self.time}"
+        if self.player:
+            return f"{self.point_types} | {self.player} | {self.team_match} | {self.time}"
+        else:
+            return f"{self.point_types} | {self.team_match} | {self.time}"
 
 class Assistance(models.Model):
     assis_to = models.ForeignKey(Point, on_delete=models.CASCADE)
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    match = models.ForeignKey(Match, on_delete=models.CASCADE, null=True)
 
     def __str__(self):    
         return f"{self.assis_to} | {self.player}"
@@ -125,7 +130,7 @@ class Player_match(models.Model):
     team_match = models.ForeignKey(Team_match, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):    
-        return f"{self.player} | {self.match} | {self.player_number} | {self.activity}"
+        return f"{self.player} | {self.match} | {self.player_number} | {self.team_match} | {self.activity}" 
 
 class Penalties(models.Model):
     type_penalties = models.IntegerField(choices=Type_penalties.choices, default=Type_penalties.empty)
@@ -136,9 +141,9 @@ class Penalties(models.Model):
     def __str__(self):    
         return f"{self.type_penalties} | {self.player} | {self.team_match} | {self.time}"
 
-class time_pause(models.Model):
+class Time_pause(models.Model):
     start_pause = models.TimeField()
-    end_pause = models.TimeField()
+    end_pause = models.TimeField(null=True, blank=True)
     match = models.ForeignKey(Match, on_delete=models.CASCADE)
 
     def __str__(self):    

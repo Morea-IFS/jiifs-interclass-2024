@@ -67,7 +67,7 @@
                             placeholder="Pesquisar as partidas" />
                         <section class="all-table">
                             <table id="search-table">
-                                <tr>
+                                <tr class="hidden">
                                     <th>ID</th>
                                     <th>TIME A</th>
                                     <th>TIME B</th>
@@ -88,6 +88,14 @@
                                     <td>{{i.match.sport}}</td>
                                     <td>{% if i.match.winner_team %} {{match.Winner_team}} {% else %} ---- {% endif %}</td>
                                 </tr>
+                                {% empty %}
+                                <style>
+                                    .hidden{
+                                        display: none;
+                                    }
+                                </style>
+                                <img src="{% static 'images/setup-animate.svg' %}">
+                                <h1>NÃO HÁ NENHUMA PARTIDA CADASTRADA!</h1>
                                 {% endfor %}
                             </table>
                         </section>

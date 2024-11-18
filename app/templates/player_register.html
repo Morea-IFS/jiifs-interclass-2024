@@ -78,6 +78,11 @@
                                     imagem</label>
                                 <input type="file" name="photo" id="fotos" accept=".jpg, .jpeg, .png"
                                     onchange="trocarTextoLabel()">
+                                {% if messages %}
+                                    {% for m in messages %}
+                                        <p style="color: red;">{{m}}</p>
+                                    {% endfor %}
+                                {% endif %}
                             </div>
                             <div>
                                 <input class="input-confirm" type="submit" value="Confirmar"></input>
