@@ -1,111 +1,82 @@
-{%load static%}
+{% extends 'base.html' %}
+{% load static %}
 
-<!DOCTYPE html>
-<html lang="pt-br">
+{% block head %}
+<title>JIIFS ADMIN</title>
+{% endblock head %}
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="{% static 'images/icon-jiifs.png' %}" type="image/x-icon" />
-    <link rel="stylesheet" href="{% static 'css/navbar-layout.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
-    <title>JIIFS ADMIN</title>
-</head>
+{% block navbar %}
+<a href="{% url 'Home' %}">
+    <button class="side-bar-buttons-items">HOME</button>
+</a>
+<a href="{% url 'player_manage' %}">
+    <button class="side-bar-buttons-items">JOGADORES</button>
+</a>
+<a href="{% url 'team_manage' %}">
+    <button class="side-bar-buttons-items">TIMES</button>
+</a>
+<a href="{% url 'matches_manage' %}">
+    <button class="side-bar-buttons-items">PARTIDAS</button>
+</a>
+<a href="{% url 'sport_manage' %}">
+    <button class="side-bar-buttons-items">ESPORTES</button>
+</a>
+{% endblock navbar %}
 
-<body>
-    <main>
-        <div class="all">
-            <div class="invisible-navbar"></div>
-            <div class="hamburguer-menu" onclick="toggle(this)">
-                <span class="line first-line"></span>
-                <span class="line second-line"></span>
-            </div>
-            <section class="side-bar">
-                <div class="side-bar-top">
-                    <img class="side-bar-logo" src="{% static 'images/logo-jiifs-2024.svg' %}" alt="Logo JIIFS24" />
-                    <div class="side-bar-buttons">
-                        <a href="{% url 'Home' %}">
-                            <button class="side-bar-buttons-items">HOME</button>
-                        </a>
-                        <a href="{% url 'player_manage' %}">
-                            <button class="side-bar-buttons-items">JOGADORES</button>
-                        </a>
-                        <a href="{% url 'team_manage' %}">
-                            <button class="side-bar-buttons-items">TIMES</button>
-                        </a>
-                        <a href="{% url 'matches_manage' %}">
-                            <button class="side-bar-buttons-items">PARTIDAS</button>
-                        </a>
-                        <a href="{% url 'sport_manage' %}">
-                            <button class="side-bar-buttons-items">ESPORTES</button>
-                        </a>
-                    </div>
-                </div>
-                <div class="side-bar-bottom">
-                    <section class="side-bar-register">
-                        <h3 class="side-bar-register-title">CADASTRO</h3>
-                        <button class="side-bar-buttons-items2">
-                            <a href="{% url 'matches_register' %}">Adicionar</a>
-                        </button>
-                    </section>
-                    <div class="logos">
-                        <img class="logos-items" src="{% static 'images/logo-morea.svg' %}" alt="Logo Morea" />
-                        <img class="logos-items" src="{% static 'images/logo-ifs-black.svg' %}" alt="Logo IFS" />
-                    </div>
-                    <button class="side-bar-buttons-items2">
-                        <a href="">Sair</a>
-                    </button>
-                </div>
-            </section>
-            <div class="all-block">
-                <div class="block1">
-                    <div class="title">
-                        <h1>GERENCIAMENTO DE PARTIDAS</h1>
-                    </div>
-                    <div class="all-manage">
-                        <input type="search" id="search-input" onkeyup="search_table()"
-                            placeholder="Pesquisar as partidas" />
-                        <section class="all-table">
-                            <table id="search-table">
-                                <tr class="hidden">
-                                    <th>ID</th>
-                                    <th>TIME A</th>
-                                    <th>TIME B</th>
-                                    <th>STATUS</th>
-                                    <th>TEMPO</th>
-                                    <th>SEXO</th>
-                                    <th>ESPORTE</th>
-                                    <th>VENCEDOR</th>
-                                </tr>
-                                {% for i in context %}
-                                <tr>
-                                    <td><a href="{% url 'matches_edit' i.match.id %}">{{i.match.id}}</a></td>
-                                    <td>{{ i.times.0.team.name }}</td>
-                                    <td>{{ i.times.1.team.name }}</td>
-                                    <td>{% if i.match.status == 0 %} Em breve {% elif i.match.status == 1 %} Acontecendo {% elif i.match.status == 2 %} Finalizada {% elif i.match.status == 3 %} Cancelada {% elif i.match.status == 4 %} Pausada {% else %} ---- {% endif %}</td>
-                                    <td>{{i.match.time_match}}</td>
-                                    <td>{% if i.match.sexo == 0 %} Masculino {% else %} Feminino {% endif %} </td>
-                                    <td>{{i.match.sport}}</td>
-                                    <td>{% if i.match.winner_team %} {{match.Winner_team}} {% else %} ---- {% endif %}</td>
-                                </tr>
-                                {% empty %}
-                                <style>
-                                    .hidden{
-                                        display: none;
-                                    }
-                                </style>
-                                <img src="{% static 'images/setup-animate.svg' %}">
-                                <h1>NÃO HÁ NENHUMA PARTIDA CADASTRADA!</h1>
-                                {% endfor %}
-                            </table>
-                        </section>
-                    </div>
-                </div>
-            </div>
+{% block register %}
+<section class="side-bar-register">
+    <h3 class="side-bar-register-title">CADASTRO</h3>
+    <button class="side-bar-buttons-items2">
+        <a href="{% url 'matches_register' %}">Adicionar</a>
+    </button>
+</section>
+{% endblock register %}
+
+{% block content %}
+<div class="all-block">
+    <div class="block1">
+        <div class="title">
+            <h1>GERENCIAMENTO DE PARTIDAS</h1>
         </div>
-    </main>
-
-    <script src="{% static 'js/script.js' %}"></script>
-</body>
-
-</html>
+        <div class="all-manage">
+            <input type="search" id="search-input" onkeyup="search_table()" placeholder="Pesquisar as partidas" />
+            <section class="all-table">
+                <table id="search-table">
+                    <tr class="hidden">
+                        <th>ID</th>
+                        <th>TIME A</th>
+                        <th>TIME B</th>
+                        <th>STATUS</th>
+                        <th>TEMPO</th>
+                        <th>SEXO</th>
+                        <th>ESPORTE</th>
+                        <th>VENCEDOR</th>
+                    </tr>
+                    {% for i in context %}
+                    <tr>
+                        <td><a href="{% url 'matches_edit' i.match.id %}">{{i.match.id}}</a></td>
+                        <td>{{ i.times.0.team.name }}</td>
+                        <td>{{ i.times.1.team.name }}</td>
+                        <td>{% if i.match.status == 0 %} Em breve {% elif i.match.status == 1 %} Acontecendo {% elif i.match.status == 2 %} Finalizada {% elif i.match.status == 3 %} Cancelada {% elif i.match.status == 4 %} Pausada {% else %} ---- {% endif %}</td>
+                        <td>{{i.match.time_match}}</td>
+                        <td>{% if i.match.sexo == 0 %} Masculino {% else %} Feminino {% endif %} </td>
+                        <td>{{i.match.sport}}</td>
+                        <td>{% if i.match.winner_team %} {{match.Winner_team}} {% else %} ---- {% endif %}</td>
+                    </tr>
+                    {% empty %}
+                    <style>
+                        .hidden {
+                            display: none;
+                        }
+                    </style>
+                    <img class="image-no-players" src="{% static 'images/setup-animate.svg' %}">
+                    <div class="title2">
+                        <h2>NÃO HÁ NENHUMA PARTIDA CADASTRADA!</h1>
+                    </div>
+                    {% endfor %}
+                </table>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock content %}

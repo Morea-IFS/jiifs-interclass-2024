@@ -1,98 +1,65 @@
-{%load static%}
+{% extends 'base.html' %}
+{% load static %}
 
-<!DOCTYPE html>
-<html lang="pt-br">
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/team_players_manage.css' %}">
+<title>JIIFS ADMIN</title>
+{% endblock head %}
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="{% static 'images/icon-jiifs.png' %}" type="image/x-icon">
-    <link rel="stylesheet" href="{% static 'css/navbar-layout.css' %}">
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <link rel="stylesheet" href="{% static 'css/team_players_manage.css' %}">
-    <title>JIIFS ADMIN</title>
-</head>
+{% block navbar %}
+<a href="{% url 'Home' %}">
+    <button class="side-bar-buttons-items">HOME</button>
+</a>
+<a href="{% url 'player_manage' %}">
+    <button class="side-bar-buttons-items">GERENCIAMENTO</button>
+</a>
+<a href="{% url 'games' %}">
+    <button class="side-bar-buttons-items">JOGOS</button>
+</a>
+{% endblock navbar %}
 
-<body>
-    <main>
-        <div class="all">
-            <div class="invisible-navbar"></div>
-            <div class="hamburguer-menu" onclick="toggle(this)">
-                <span class="line first-line"></span>
-                <span class="line second-line"></span>
-            </div>
-            <section class="side-bar">
-                <div class="side-bar-top">
-                    <img class="side-bar-logo" src="{% static 'images/logo-jiifs-2024.svg' %}" alt="Logo JIIFS24" />
-                    <div class="side-bar-buttons">
-                        <a href="{% url 'Home' %}">
-                            <button class="side-bar-buttons-items">HOME</button>
-                        </a>
-                        <a href="{% url 'player_manage' %}">
-                            <button class="side-bar-buttons-items">GERENCIAMENTO</button>
-                        </a>
-                        <a href="{% url 'games' %}">
-                            <button class="side-bar-buttons-items">JOGOS</button>
-                        </a>
-                    </div>
-                </div>
-                <div class="side-bar-bottom">
-                    <div class="logos">
-                        <img class="logos-items" src="{% static 'images/logo-morea.svg' %}" alt="Logo Morea" />
-                        <img class="logos-items" src="{% static 'images/logo-ifs-black.svg' %}" alt="Logo IFS" />
-                    </div>
-                    <button class="side-bar-buttons-items2">
-                        <a href="">Sair</a>
-                    </button>
-                </div>
-            </section>
-            <div class="all-block">
-                <div class="block1">
-                    <div class="title">
-                        <h1>ADICIONAR JOGADORES A PARTIDA</h1>
-                    </div>
-                    <section class="block-inputs">
-                        <form class="block-inputs-form" id="function_validate_form" method="post">{% csrf_token %}
-                            <div class="block-inputs-div">
-                                <input type="search" id="search-input" onkeyup="search_table()"
-                                    placeholder="Pesquisar os jogadores" />
-                                <input class="input-confirm" type="submit" value="Confirmar">
-                            </div>
-                            <section class="all-table">
-                                <table id="search-table">
-                                    <tr>
-                                        <th>
-                                            <input type="checkbox" onclick="toggle_checkbox(this)" />
-                                        </th>
-                                        <th>JOGADOR</th>
-                                        <th>NUMERO</th>
-                                        <th>SEXO</th>
-                                    </tr>
-                                    {% for player in players %}
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" name="input-checkbox" value="{{ player.id }}">
-                                        </td>
-                                        <td>{{ player.name }}</td>
-                                        <td><input type="number" placeholder="Insira o número" name="number_{{ player.id }}"></td>
-                                        <td>{{player.get_sexo_display}}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </table>
-                                {% if messages %}
-                                    {% for m in messages %}
-                                        <p style="color: red;">{{m}}</p>
-                                    {% endfor %}
-                                {% endif %}
-                            </section>
-                        </form>
-                    </section>
-                </div>
-            </div>
+{% block content %}
+<div class="all-block">
+    <div class="block1">
+        <div class="title">
+            <h1>ADICIONAR JOGADORES A PARTIDA</h1>
         </div>
-    </main>
-
-    <script src="{% static 'js/script.js' %}"></script>
-</body>
-
-</html>
+        <section class="block-inputs">
+            <form class="block-inputs-form" id="function_validate_form" method="post">{% csrf_token %}
+                <div class="block-inputs-div">
+                    <input type="search" id="search-input" onkeyup="search_table()"
+                        placeholder="Pesquisar os jogadores" />
+                    <input class="input-confirm" type="submit" value="Confirmar">
+                </div>
+                <section class="all-table">
+                    <table id="search-table">
+                        <tr>
+                            <th>
+                                <input type="checkbox" onclick="toggle_checkbox(this)" />
+                            </th>
+                            <th>JOGADOR</th>
+                            <th>NUMERO</th>
+                            <th>SEXO</th>
+                        </tr>
+                        {% for player in players %}
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="input-checkbox" value="{{ player.id }}">
+                            </td>
+                            <td>{{ player.name }}</td>
+                            <td><input type="number" placeholder="Insira o número" name="number_{{ player.id }}"></td>
+                            <td>{{player.get_sexo_display}}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    {% if messages %}
+                    {% for m in messages %}
+                    <p style="color: red;">{{m}}</p>
+                    {% endfor %}
+                    {% endif %}
+                </section>
+            </form>
+        </section>
+    </div>
+</div>
+{% endblock content %}

@@ -1,159 +1,122 @@
-{%load static%}
+{% extends 'base.html' %}
+{% load static %}
 
-<!DOCTYPE html>
-<html lang="pt-br">
+{% block head %}
+<title>JIIFS ADMIN</title>
+{% endblock head %}
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="{% static 'images/icon-jiifs.png' %}" type="image/x-icon" />
-    <link rel="stylesheet" href="{% static 'css/navbar-layout.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
-    <title>JIIFS ADMIN</title>
-</head>
+{% block navbar %}
+<a href="{% url 'Home' %}">
+    <button class="side-bar-buttons-items">HOME</button>
+</a>
+<a href="{% url 'player_manage' %}">
+    <button class="side-bar-buttons-items">GERENCIAMENTO</button>
+</a>
+<a href="{% url 'games' %}">
+    <button class="side-bar-buttons-items">JOGOS</button>
+</a>
+{% endblock navbar %}
 
-<body>
-    <main>
-        <div class="all">
-            <div class="invisible-navbar"></div>
-            <div class="hamburguer-menu" onclick="toggle(this)">
-                <span class="line first-line"></span>
-                <span class="line second-line"></span>
-            </div>
-            <section class="side-bar">
-                <div class="side-bar-top">
-                    <img class="side-bar-logo" src="{% static 'images/logo-jiifs-2024.svg' %}" alt="Logo JIIFS24" />
-                    <div class="side-bar-buttons">
-                        <a href="{% url 'Home' %}">
-                            <button class="side-bar-buttons-items">HOME</button>
-                        </a>
-                        <a href="{% url 'player_manage' %}">
-                            <button class="side-bar-buttons-items">GERENCIAMENTO</button>
-                        </a>
-                        <a href="{% url 'games' %}">
-                            <button class="side-bar-buttons-items">JOGOS</button>
-                        </a>
-                    </div>
-                </div>
-                <div class="side-bar-bottom">
-                    <div class="logos">
-                        <img class="logos-items" src="{% static 'images/logo-morea.svg' %}" alt="Logo Morea" />
-                        <img class="logos-items" src="{% static 'images/logo-ifs-black.svg' %}" alt="Logo IFS" />
-                    </div>
-                    <button class="side-bar-buttons-items2">
-                        <a href="">Sair</a>
-                    </button>
-                </div>
-            </section>
-            <div class="all-block">
-                <div class="block1">
-                    <div class="title">
-                        <h1>DADOS GERAIS DA PARTIDA</h1>
-                    </div>
-                    <form id="function_validate_form" class="block-inputs-form" method="post">
-                        {% csrf_token %}
-                        <section class="match-status">
-                            <select class="select-status" name="status">
-                                <option {% if match.status == 0 %} selected {% endif %} value="0">EM BREVE</option>
-                                <option {% if match.status == 1 %} selected {% endif %} value="1">ACONTECENDO</option>
-                                <option {% if match.status == 2 %} selected {% endif %} value="2">FINALIZADO</option>
-                                <option {% if match.status == 3 %} selected {% endif %} value="3">CANCELADO</option>
-                            </select>
-                            <input class="input-confirm" type="submit" value="Confirmar">
-                        </section>
-                    </form>
-                    <section class="all-table">
-                        <table id="search-table">
-                            <tr>
-                                <th>SETS</th>
-                                <th>STATUS</th>
-                                <th>TEMPO</th>
-                                <th>SEXO</th>
-                                <th>ESPORTE</th>
-                                <th>VENCEDOR</th>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>EM BREVE</td>
-                                <td>00:00</td>
-                                <td>MASCULINO</td>
-                                <td>VOLEIBOL</td>
-                                <td>2 IRC</td>
-                            </tr>
-                        </table>
-                    </section>
-                    <div class="title2">
-                        <h2>TIME-A</h2>
-                    </div>
-                    <section class="all-table">
-                        <table id="matches-table">
-                            <tr>
-                                <th class="green-th">SET</th>
-                                <th class="green-th">JOGADORES</th>
-                                <th class="green-th">TEMPO</th>
-                                <th class="green-th">PONTOS</th>
-                                <th class="green-th">PENALIDADES</th>
-                                <th class="green-th">VENCEDOR</th>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td><a href="">VER</a></td>
-                                <td><a href="{% url 'timer' %}">14:10</a></td>
-                                <td>14</td>
-                                <td>0</td>
-                                <td>2 IRC</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td><a href="">VER</a></td>
-                                <td><a href="{% url 'timer' %}">12:52</a></td>
-                                <td>7</td>
-                                <td>0</td>
-                                <td>3 IRC</td>
-                            </tr>
-                        </table>
-                    </section>
-                    <div class="title2">
-                        <h2>TIME-B</h2>
-                    </div>
-                    <section class="all-table bottom-space">
-                        <table id="matches-table">
-                            <tr>
-                                <th class="red-th">SET</th>
-                                <th class="red-th">JOGADORES</th>
-                                <th class="red-th">TEMPO</th>
-                                <th class="red-th">PONTOS</th>
-                                <th class="red-th">PENALIDADES</th>
-                                <th class="red-th">VENCEDOR</th>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td><a href="">VER</a></td>
-                                <td><a href="{% url 'timer' %}">14:10</a>
-                                <td>14</td>
-                                <td>0</td>
-                                <td>2 IRC</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td><a href="">VER</a></td>
-                                <td><a href="{% url 'timer' %}">12:52</a></td>
-                                <td>7</td>
-                                <td>0</td>
-                                <td>3 IRC</td>
-                            </tr>
-                        </table>
-                    </section>
-                </div>
-            </div>
+{% block content %}
+<div class="all-block">
+    <div class="block1">
+        <div class="title">
+            <h1>DADOS GERAIS DA PARTIDA</h1>
         </div>
-    </main>
-
-    
-    <script src="{% static 'js/script.js' %}"></script>
-    {% if error_mensage %}
-        <script>exibirAlerta('{{error_mensage}}');</script>
-    {% endif %}
-</body>
-
-</html>
+        <form id="function_validate_form" class="block-inputs-form" method="post">
+            {% csrf_token %}
+            <section class="match-status">
+                <select class="select-status" name="status">
+                    <option {% if match.status == 0 %} selected {% endif %} value="0">EM BREVE</option>
+                    <option {% if match.status == 1 %} selected {% endif %} value="1">ACONTECENDO</option>
+                    <option {% if match.status == 2 %} selected {% endif %} value="2">FINALIZADO</option>
+                    <option {% if match.status == 3 %} selected {% endif %} value="3">CANCELADO</option>
+                </select>
+                <input class="input-confirm" type="submit" value="Confirmar">
+            </section>
+        </form>
+        <section class="all-table">
+            <table id="search-table">
+                <tr>
+                    <th>SETS</th>
+                    <th>STATUS</th>
+                    <th>TEMPO</th>
+                    <th>SEXO</th>
+                    <th>ESPORTE</th>
+                    <th>VENCEDOR</th>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>EM BREVE</td>
+                    <td>00:00</td>
+                    <td>MASCULINO</td>
+                    <td>VOLEIBOL</td>
+                    <td>2 IRC</td>
+                </tr>
+            </table>
+        </section>
+        <div class="title2">
+            <h2>TIME-A</h2>
+        </div>
+        <section class="all-table">
+            <table id="matches-table">
+                <tr>
+                    <th class="green-th">SET</th>
+                    <th class="green-th">JOGADORES</th>
+                    <th class="green-th">TEMPO</th>
+                    <th class="green-th">PONTOS</th>
+                    <th class="green-th">PENALIDADES</th>
+                    <th class="green-th">VENCEDOR</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td><a href="">VER</a></td>
+                    <td><a href="{% url 'timer' %}">14:10</a></td>
+                    <td>14</td>
+                    <td>0</td>
+                    <td>2 IRC</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><a href="">VER</a></td>
+                    <td><a href="{% url 'timer' %}">12:52</a></td>
+                    <td>7</td>
+                    <td>0</td>
+                    <td>3 IRC</td>
+                </tr>
+            </table>
+        </section>
+        <div class="title2">
+            <h2>TIME-B</h2>
+        </div>
+        <section class="all-table bottom-space">
+            <table id="matches-table">
+                <tr>
+                    <th class="red-th">SET</th>
+                    <th class="red-th">JOGADORES</th>
+                    <th class="red-th">TEMPO</th>
+                    <th class="red-th">PONTOS</th>
+                    <th class="red-th">PENALIDADES</th>
+                    <th class="red-th">VENCEDOR</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td><a href="">VER</a></td>
+                    <td><a href="{% url 'timer' %}">14:10</a>
+                    <td>14</td>
+                    <td>0</td>
+                    <td>2 IRC</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><a href="">VER</a></td>
+                    <td><a href="{% url 'timer' %}">12:52</a></td>
+                    <td>7</td>
+                    <td>0</td>
+                    <td>3 IRC</td>
+                </tr>
+            </table>
+        </section>
+    </div>
+</div>
+{% endblock content %}

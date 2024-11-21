@@ -1,101 +1,72 @@
-{%load static%}
+{% extends 'base.html' %}
+{% load static %}
 
-<!DOCTYPE html>
-<html lang="pt-br">
+{% block head %}
+<title>JIIFS ADMIN</title>
+{% endblock head %}
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="{% static 'images/icon-jiifs.png' %}" type="image/x-icon" />
-    <link rel="stylesheet" href="{% static 'css/navbar-layout.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
-    <title>JIIFS ADMIN</title>
-</head>
+{% block navbar %}
+<a href="{% url 'Home' %}">
+    <button class="side-bar-buttons-items">HOME</button>
+</a>
+<a href="{% url 'player_manage' %}">
+    <button class="side-bar-buttons-items">GERENCIAMENTO</button>
+</a>
+<a href="{% url 'games' %}">
+    <button class="side-bar-buttons-items">JOGOS</button>
+</a>
+{% endblock navbar %}
 
-<body>
-    <main>
-        <div class="all">
-            <div class="invisible-navbar"></div>
-            <div class="hamburguer-menu" onclick="toggle(this)">
-                <span class="line first-line"></span>
-                <span class="line second-line"></span>
-            </div>
-            <section class="side-bar">
-                <div class="side-bar-top">
-                    <img class="side-bar-logo" src="{% static 'images/logo-jiifs-2024.svg' %}" alt="Logo JIIFS24" />
-                    <div class="side-bar-buttons">
-                        <a href="{% url 'Home' %}">
-                            <button class="side-bar-buttons-items">HOME</button>
-                        </a>
-                        <a href="{% url 'player_manage' %}">
-                            <button class="side-bar-buttons-items">GERENCIAMENTO</button>
-                        </a>
-                        <a href="{% url 'games' %}">
-                            <button class="side-bar-buttons-items">JOGOS</button>
-                        </a>
+{% block content %}
+<div class="all-block">
+    <div class="block1">
+        <div class="title">
+            <h1>JOGOS</h1>
+        </div>
+        <div class="games">
+            {% for i in context %}
+            <section class="game-section">
+                <div class="game-block1">
+                    <div class="game-title">
+                        <h1 {% if i.match.sexo == 1 %} style="color: #ee005b;" {% endif %}>{{ i.times.0.team.name }} <span style="color: black;">X</span> {{ i.times.1.team.name }}</h1>
                     </div>
+                    <div {% if i.match.sexo == 1 %} style="background-color: #ee005b;" {% endif %} class="game-score">{{ i.points_a }} x {{ i.points_b }}</div>
                 </div>
-                <div class="side-bar-bottom">
-                    <div class="logos">
-                        <img class="logos-items" src="{% static 'images/logo-morea.svg' %}" alt="Logo Morea" />
-                        <img class="logos-items" src="{% static 'images/logo-ifs-black.svg' %}" alt="Logo IFS" />
-                    </div>
-                    <button class="side-bar-buttons-items2">
-                        <a href="">Sair</a>
-                    </button>
+                <div class="game-block2">
+                    <p>PARTIDA #{{i.match.id}}<br>{{i.match.sport}} - {% if i.match.sexo == 0 %} Masculino {% else %}
+                        Feminino {% endif %}<br>TEMPO:{% if i.time_start %} {{i.time_start}} {% else %} 00:00 {% endif %}</p>
+                    <h2>{% if i.match.status == 0 %} EM BREVE {% elif i.match.status == 1 %} ACONTECENDO {% elif i.match.status == 2 %} FINALIZADA {% elif i.match.status == 3 %} CANCELADA {% elif i.match.status == 4 %} PAUSADA {% else %} ---- {% endif %}</h2>
+                    <h3>H: {{i.match.time_match}}</h3>
+                </div>
+                <div class="games-config">
+                    <a class="games-config-link" {% if i.match.status == 1 %} href="{% url 'scoreboard' %}" {% endif %}>
+                        <div {% if i.match.status == 1 %} class="games-config-item games-config-item-active" {% else %}
+                            class="games-config-item games-config-item-desactive" {% endif %}>
+                            <img class="games-config-item-img" src="{% static 'images/icon-timer.png' %}"
+                                alt="Timer Icon" />
+                        </div>
+                    </a>
+                    <a class="games-config-link" href="{% url 'general_data' i.match.id %}">
+                        <div class="games-config-item">
+                            <img class="games-config-item-img" src="{% static 'images/icon-config.png' %}"
+                                alt="Gear Icon" />
+                        </div>
+                    </a>
+                    <a class="games-config-link" href="{% url 'players_in_teams' i.match.id %}">
+                        <div class="games-config-item games-config-item-player">
+                            <img class="games-config-item-img" src="{% static 'images/icon-player.png' %}"
+                                alt="Player Icon" />
+                        </div>
+                    </a>
                 </div>
             </section>
-            <div class="all-block">
-                <div class="block1">
-                    <div class="title">
-                        <h1>JOGOS</h1>
-                    </div>
-                    <div class="games">
-                        {% for i in context %}
-                        <section class="game-section">
-                            <div class="game-block1">
-                                <div class="game-title">
-                                    <h1 {% if i.match.sexo == 1 %}  style="color: #ee005b;" {% endif %}>{{ i.times.0.team.name }} <span style="color: black;">X</span> {{ i.times.1.team.name }}</h1>
-                                </div>
-                                <div {% if i.match.sexo == 1 %} style="background-color: #ee005b;" {% endif %} class="game-score">{{ i.points_a }} x {{ i.points_b }}</div>
-                            </div>
-                            <div class="game-block2">
-                                <p>PARTIDA #{{i.match.id}}<br>{{i.match.sport}} - {% if i.match.sexo == 0 %} Masculino {% else %} Feminino {% endif %}<br>TEMPO:{% if i.time_start %} {{i.time_start}} {% else %} 00:00 {% endif %}</p>
-                                <h2>{% if i.match.status == 0 %} EM BREVE {% elif i.match.status == 1 %} ACONTECENDO {% elif i.match.status == 2 %} FINALIZADA {% elif i.match.status == 3 %} CANCELADA {% elif i.match.status == 4 %} PAUSADA {% else %} ---- {% endif %}</h2>
-                                <h3>H: {{i.match.time_match}}</h3>
-                            </div>
-                            <div class="games-config">
-                                <a class="games-config-link" {% if i.match.status == 1 %} href="{% url 'scoreboard' %}" {% endif %}>
-                                    <div {% if i.match.status == 1 %} class="games-config-item games-config-item-active" {% else %} class="games-config-item games-config-item-desactive"{% endif %}>
-                                        <img class="games-config-item-img" src="{% static 'images/icon-timer.png' %}"
-                                            alt="Timer Icon" />
-                                    </div>
-                                </a>
-                                <a class="games-config-link" href="{% url 'general_data' i.match.id %}">
-                                    <div class="games-config-item">
-                                        <img class="games-config-item-img" src="{% static 'images/icon-config.png' %}"
-                                            alt="Gear Icon" />
-                                    </div>
-                                </a>
-                                <a class="games-config-link" href="{% url 'players_in_teams' i.match.id %}">
-                                    <div class="games-config-item games-config-item-player">
-                                        <img class="games-config-item-img" src="{% static 'images/icon-player.png' %}"
-                                            alt="Player Icon" />
-                                    </div>
-                                </a>
-                            </div>
-                        </section>
-                        {% empty %}
-                        <img style="width: clamp(250px, 40%, 500px);" src="{% static 'images/games-empty.svg' %}">
-                        <h1>NÃO HÁ NENHUMA PARTIDA CADASTRADA!</h1>
-                        {% endfor %}
-                    </div>
-                </div>
+            {% empty %}
+            <img class="image-no-players" src="{% static 'images/games-empty.svg' %}">
+            <div class="title2">
+                <h2>NÃO HÁ NENHUM JOGO CADASTRADO!</h2>
             </div>
+            {% endfor %}
         </div>
-    </main>
-
-    <script src="{% static 'js/script.js' %}"></script>
-</body>
-
-</html>
+    </div>
+</div>
+{% endblock content %}
