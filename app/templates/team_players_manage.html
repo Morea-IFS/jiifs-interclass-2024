@@ -1,157 +1,86 @@
-{%load static%}
+{% extends 'base.html' %}
+{% load static %}
 
-<!DOCTYPE html>
-<html lang="pt-br">
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/team_players_manage.css' %}">
+<title>JIIFS ADMIN</title>
+{% endblock head %}
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="{% static 'images/icon-jiifs.png' %}" type="image/x-icon" />
-    <link rel="stylesheet" href="{% static 'css/navbar-layout.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/team_players_manage.css' %}" />
-    <title>JIIFS ADMIN</title>
-</head>
+{% block navbar %}
+<a href="{% url 'Home' %}">
+    <button class="side-bar-buttons-items">HOME</button>
+</a>
+<a href="{% url 'player_manage' %}">
+    <button class="side-bar-buttons-items">JOGADORES</button>
+</a>
+<a href="{% url 'team_manage' %}">
+    <button class="side-bar-buttons-items">TIMES</button>
+</a>
+<a href="{% url 'matches_manage' %}">
+    <button class="side-bar-buttons-items">PARTIDAS</button>
+</a>
+<a href="{% url 'sport_manage' %}">
+    <button class="side-bar-buttons-items">ESPORTES</button>
+</a>
+{% endblock navbar %}
 
-<body>
-    <main>
-        <section class="side-bar">
-            <div class="side-bar-top">
-                <img class="side-bar-logo" src="{% static 'images/logo-jiifs-2024.svg' %}" alt="Logo JIIFS24" />
-                <div class="side-bar-buttons">
-                    <a href="{% url 'Home' %}">
-                        <button class="side-bar-buttons-items">HOME</button>
-                    </a>
-                    <a href="{% url 'player_manage' %}">
-                        <button class="side-bar-buttons-items">JOGADORES</button>
-                    </a>
-                    <a href="{% url 'team_manage' %}">
-                        <button class="side-bar-buttons-items">TIMES</button>
-                    </a>
-                    <a href="{% url 'matches_manage' %}">
-                        <button class="side-bar-buttons-items">PARTIDAS</button>
-                    </a>
-                    <a href="{% url 'sport_manage' %}">
-                        <button class="side-bar-buttons-items">ESPORTES</button>
-                    </a>
-                </div>
-            </div>
-            <div class="side-bar-bottom">
-                <section class="side-bar-register">
-                    <h3 class="side-bar-register-title">CADASTRO</h3>
-                    <button class="side-bar-buttons-items2">
-                        <a href="{% url 'add_player_team' team.id %}">Adicionar</a>
-                    </button>
-                </section>
-                <div class="logos">
-                    <img class="logos-items" src="{% static 'images/logo-morea.svg' %}" alt="Logo Morea" />
-                    <img class="logos-items" src="{% static 'images/logo-ifs-black.svg' %}" alt="Logo IFS" />
-                </div>
-                <button class="side-bar-buttons-items2">
-                    <a href="">Sair</a>
-                </button>
-            </div>
-        </section>
+{% block register %}
+<section class="side-bar-register">
+    <h3 class="side-bar-register-title">CADASTRO</h3>
+    <button class="side-bar-buttons-items2">
+        <a href="{% url 'add_players_team' team.id %}">Adicionar</a>
+    </button>
+</section>
+{% endblock register %}
+
+{% block content %}
+<div class="all-block">
+    <div class="block1">
+        <div class="title">
+            <h1>GERENCIAMENTO DE JOGADORES DO TIME</h1>
         </div>
-        <main>
-            <div class="all">
-                <div class="invisible-navbar"></div>
-                <div class="hamburguer-menu" onclick="toggle(this)">
-                    <span class="line first-line"></span>
-                    <span class="line second-line"></span>
-                </div>
-                <section class="side-bar">
-                    <div class="side-bar-top">
-                        <img class="side-bar-logo" src="{% static 'images/logo-jiifs-2024.svg' %}" alt="Logo JIIFS24" />
-                        <div class="side-bar-buttons">
-                            <a href="{% url 'Home' %}">
-                                <button class="side-bar-buttons-items">HOME
-                                </button>
-                            </a>
-                            <a href="{% url 'player_manage' %}">
-                                <button class="side-bar-buttons-items">JOGADORES</button>
-                            </a>
-                            <a href="{% url 'team_manage' %}">
-                                <button class="side-bar-buttons-items">TIMES</button>
-                            </a>
-                            <a href="{% url 'matches_manage' %}">
-                                <button class="side-bar-buttons-items">PARTIDAS</button>
-                            </a>
-                            <a href="{% url 'sport_manage' %}">
-                                <button class="side-bar-buttons-items">ESPORTES</button>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="side-bar-bottom">
-                        <section class="side-bar-register">
-                            <h3 class="side-bar-register-title">CADASTRO</h3>
-                            <button class="side-bar-buttons-items2">
-                                <a href="{% url 'add_player_team' team.id %}">Adicionar</a>
-                            </button>
-                        </section>
-                        <div class="logos">
-                            <img class="logos-items" src="{% static 'images/logo-morea.svg' %}" alt="Logo Morea" />
-                            <img class="logos-items" src="{% static 'images/logo-ifs-black.svg' %}" alt="Logo IFS" />
-                        </div>
-                        <button class="side-bar-buttons-items2">
-                            <a href="">Sair</a>
-                        </button>
-                    </div>
-                </section>
-                <div class="all-block">
-                    <div class="block1">
-                        <div class="title">
-                            <h1>GERENCIAMENTO DE JOGADORES DO TIME</h1>
-                        </div>
-                        <section class="block-inputs">
-                            <form class="block-inputs-form" id="function_validate_form" method="post">{% csrf_token %}
-                                <div class="block-inputs-div">
-                                    <select class="select-action" name="select-action" id="select-action">
-                                        <option selected disabled>Selecione a ação</option>
-                                        <option value="excluir">Excluir jogadores</option>
-                                    </select>
-                                    <div>
-                                        <input class="input-confirm" type="submit" value="Confirmar" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <section class="all-table">
-                                        <table id="search-table">
-                                            <tr>
-                                                <th>
-                                                    <input type="checkbox" onclick="toggle_checkbox(this)" />
-                                                </th>
-                                                <th>NOMES</th>
-                                                <th>SITUAÇÃO</th>
-                                                <th>SEXO</th>
-                                            </tr>
-                                            {% for i in player_team_sport %}
-                                            <tr>
-                                                <td>
-                                                    <input type="checkbox" name="input-checkbox"
-                                                        value="{{ i.player.id }}">
-                                                </td>
-                                                <td>{{ i.player.name }}</td>
-                                                <td>----</td>
-                                                <td>{% if i.player.sexo == 0 %} Masculino {% else %} Feminino {% endif %}</td>
-                                            </tr>
-                                            {% endfor %}
-                                            {% if messages %}
-                                                {% for m in messages %}
-                                                    <p style="color: red;">{{m}}</p>
-                                                {% endfor %}
-                                            {% endif %}
-                                        </table>
-                                    </section>
-                                </div>
-                            </form>
-                        </section>
+        <section class="block-inputs">
+            <form class="block-inputs-form" id="function_validate_form" method="post">{% csrf_token %}
+                <div class="block-inputs-div">
+                    <select class="select-action" name="select-action" id="select-action">
+                        <option selected disabled>Selecione a ação</option>
+                        <option value="excluir">Excluir jogadores</option>
+                    </select>
+                    <div>
+                        <input class="input-confirm" type="submit" value="Confirmar" />
                     </div>
                 </div>
-            </div>
-        </main>
-
-        <script src="{% static 'js/script.js' %}"></script>
-</body>
-
-</html>
+                <div>
+                    <section class="all-table">
+                        <table id="search-table">
+                            <tr>
+                                <th>
+                                    <input type="checkbox" onclick="toggle_checkbox(this)" />
+                                </th>
+                                <th>NOMES</th>
+                                <th>SITUAÇÃO</th>
+                                <th>SEXO</th>
+                            </tr>
+                            {% for i in player_team_sport %}
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="input-checkbox" value="{{ i.player.id }}">
+                                </td>
+                                <td>{{ i.player.name }}</td>
+                                <td>----</td>
+                                <td>{% if i.player.sexo == 0 %} Masculino {% else %} Feminino {% endif %}</td>
+                            </tr>
+                            {% endfor %}
+                            {% if messages %}
+                            {% for m in messages %}
+                            <p style="color: red;">{{m}}</p>
+                            {% endfor %}
+                            {% endif %}
+                        </table>
+                    </section>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+{% endblock content %}

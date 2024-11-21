@@ -6,7 +6,7 @@ a {
 }
 
 .invisible-navbar {
-    width: 9em;
+    width: 10em;
     height: 100%;
 }
 
@@ -18,7 +18,7 @@ a {
     background-color: var(--global-secondary-color);
     position: fixed;
     height: 100%;
-    width: 9em;
+    width: 10em;
 }
 
 .side-bar .hamburguer-menu {
@@ -34,7 +34,7 @@ a {
 }
 
 .side-bar-logo {
-    height: 2em;
+    height: 7em;
 }
 
 .side-bar-buttons {
@@ -49,6 +49,7 @@ a {
     background-color: var(--global-ninth-color);
     padding-block: 0.5em;
     width: 9em;
+    border-radius: 0.5em;
 }
 
 .side-bar-register {
@@ -66,6 +67,7 @@ a {
     background-color: var(--global-eighth-color);
     padding: 0.5em 1em;
     border: none;
+    border-radius: 0.5em;
 }
 
 .side-bar-buttons-items2 a {
