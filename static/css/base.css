@@ -16,7 +16,7 @@
     --global-fifth-color: #d4d4d4;
     --global-sixth-color: #B4B4B4;
     --global-seventh-color: #AB0000;
-    --global-eighth-color: #00AB11;
+    --global-eighth-color: #00A3FF;
     --global-ninth-color: #525352;
     --global-tenth-color: #2727c2;
     --global-eleventh-color: #004903;
@@ -57,7 +57,8 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 10em;
+    text-align: center;
+    height: 9em;
     width: 100%;
 }
 
@@ -65,6 +66,7 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
     height: 8em;
     width: 100%;
 }
@@ -90,6 +92,10 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.image-no-players{
+    max-height: 25em;
 }
 
 .block-inputs {
@@ -209,7 +215,7 @@ input[type=search] {
 }
 
 .all-table {
-    max-width: 85vw;
+    max-width: 80vw;
     text-align: center;
     overflow: auto;
 }
@@ -312,6 +318,7 @@ tr:nth-child(even) {
 }
 
 .game-title {
+    margin-inline: 1em;
     text-align: center;
     color: var(--global-thirteenth-color);
 }
@@ -567,7 +574,11 @@ tr:nth-child(even) {
     }
 
     .title h1 {
-        font-size: 1.5em;
+        font-size: 1.8em;
+    }
+
+    .title2 h2 {
+        font-size: 1.4em;
     }
 
 
