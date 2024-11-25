@@ -33,6 +33,10 @@ class Sexo(models.IntegerChoices):
     feminine = 1, "Feminino"
     empty = 2, "Nenhum"
 
+class Type_Banner(models.IntegerChoices):
+    In_use = 0, "Em uso"
+    empty = 1, "Nenhum"
+
 class Player(models.Model):
     name = models.CharField(max_length=100)
     instagram = models.CharField(max_length=100, blank=True)
@@ -44,7 +48,7 @@ class Player(models.Model):
 
 class Team(models.Model):
     name = models.CharField(max_length=100, blank=True)
-    photo = models.ImageField(upload_to='logo_team/', default='defaults/team_default.png', blank=True)
+    photo = models.ImageField(upload_to='logo_team/', default='defaults/team.svg', blank=True)
     hexcolor = models.CharField(max_length=7, null=True)
 
     def __str__(self):    
@@ -54,6 +58,7 @@ class Sport(models.Model):
     name = models.CharField(max_length=50)
     max_titulares = models.IntegerField(validators=[MaxValueValidator(50)])
     sets = models.BooleanField(default=False, null=True, blank=True)
+    logs = models.BooleanField(default=False, null=True, blank=True)
 
     def __str__(self):    
         return f"{self.name}"
@@ -74,7 +79,7 @@ class Player_team_sport(models.Model):
 
 class Team_match(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
-    match = models.ForeignKey('Match', on_delete=models.CASCADE, related_name='teams')  # Referencia por string
+    match = models.ForeignKey('Match', on_delete=models.CASCADE, related_name='teams')
 
     def __str__(self):    
         return f"{self.team} | {self.match}"
@@ -95,7 +100,7 @@ class Match(models.Model):
     sexo = models.IntegerField(choices=Sexo.choices, default=Sexo.empty, blank=True)
     mvp_player_player = models.ForeignKey(Player, on_delete=models.CASCADE, blank=True, null=True)
     Winner_team = models.ForeignKey(Team, on_delete=models.CASCADE, blank=True, null=True)
-    volley_match = models.ForeignKey(Volley_match, on_delete=models.CASCADE, blank=True, null=True)
+    volley_match = models.ForeignKey(Volley_match, on_delete=models.CASCADE, blank=True, null=True, related_name="matches")
     add = models.TimeField(blank=True, null=True)
     time_match = models.DateTimeField(null=True, blank=True)
 
@@ -151,3 +156,25 @@ class Time_pause(models.Model):
             return f"{self.start_pause} | {self.match}"
         elif self.start_pause and self.end_pause:
             return f"{self.start_pause} | {self.end_pause} | {self.match}"
+
+class Events(models.Model):
+    name = models.CharField(max_length=50)
+    details = models.CharField(max_length=200)
+    match = models.ForeignKey(Match, on_delete=models.CASCADE, null=True)
+    datetime = models.TimeField(auto_now_add=True)
+    def __str__(self):    
+        return f"{self.name} | {self.details} | {self.details} | {self.datetime}"
+    
+class Config(models.Model):
+    site = models.CharField(max_length=200,null=True, blank=True)
+    qrcode = models.ImageField(upload_to='photos_config/', default='defaults/qrcode.png',null=True, blank=True)
+    areasup = models.CharField(max_length=50,null=True, blank=True)
+    def __str__(self):    
+        return f"{self.id} | {self.site}"
+    
+class Banner(models.Model):
+    name = models.CharField(max_length=100, null=True, blank=True)
+    image = models.ImageField(upload_to='photos_config/', null=True, blank=True)
+    status = models.IntegerField(choices=Type_Banner.choices, default=Type_Banner.empty)
+    def __str__(self):    
+        return f"{self.id} | {self.name} | {self.status}"
