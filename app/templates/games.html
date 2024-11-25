@@ -9,11 +9,11 @@
 <a href="{% url 'Home' %}">
     <button class="side-bar-buttons-items">HOME</button>
 </a>
-<a href="{% url 'player_manage' %}">
-    <button class="side-bar-buttons-items">GERENCIAMENTO</button>
+<a href="{% url 'settings_manage' %}">
+    <button class="side-bar-buttons-items">CONFIGURAÇÕES</button>
 </a>
-<a href="{% url 'games' %}">
-    <button class="side-bar-buttons-items">JOGOS</button>
+<a href="{% url 'banner_manage' %}">
+    <button class="side-bar-buttons-items">BANNERS</button>
 </a>
 {% endblock navbar %}
 
@@ -23,25 +23,34 @@
         <div class="title">
             <h1>JOGOS</h1>
         </div>
+        {% if messages %}
+        <style>.k select{background-color: #AB0000; color: rgb(255, 255, 255);} 
+            .ll{background-color: #c5c5c5; padding: 20px;}
+        </style>
+        {% for m in messages %}
+        <div class="ll">
+            <p style="color: #AB0000;">{{m}}</p>
+        </div>
+        {% endfor %}
+        <br>
+        {% endif %}
         <div class="games">
             {% for i in context %}
             <section class="game-section">
                 <div class="game-block1">
                     <div class="game-title">
-                        <h1 {% if i.match.sexo == 1 %} style="color: #ee005b;" {% endif %}>{{ i.times.0.team.name }} <span style="color: black;">X</span> {{ i.times.1.team.name }}</h1>
+                        <h1 {% if i.match.sexo == 1 %}  style="color: #ee005b;" {% endif %}>{{ i.times.0.team.name }} <span style="color: black;">X</span> {{ i.times.1.team.name }}</h1>
                     </div>
                     <div {% if i.match.sexo == 1 %} style="background-color: #ee005b;" {% endif %} class="game-score">{{ i.points_a }} x {{ i.points_b }}</div>
                 </div>
                 <div class="game-block2">
-                    <p>PARTIDA #{{i.match.id}}<br>{{i.match.sport}} - {% if i.match.sexo == 0 %} Masculino {% else %}
-                        Feminino {% endif %}<br>TEMPO:{% if i.time_start %} {{i.time_start}} {% else %} 00:00 {% endif %}</p>
-                    <h2>{% if i.match.status == 0 %} EM BREVE {% elif i.match.status == 1 %} ACONTECENDO {% elif i.match.status == 2 %} FINALIZADA {% elif i.match.status == 3 %} CANCELADA {% elif i.match.status == 4 %} PAUSADA {% else %} ---- {% endif %}</h2>
-                    <h3>H: {{i.match.time_match}}</h3>
+                    <p>PARTIDA #{{i.match.id}}<br>{{i.match.get_sexo_display}}<br>{% if i.match.sport.sets %} VOLLEY {{i.match.volley_match.id}} {% endif %} </p>
+                    <h2>{{i.match.get_status_display}}</h2>
+                    <h3>{% if i.match.Winner_team %} Vencedor:  {{ i.match.Winner_team }} {% else %} H: {{i.match.time_match}} {% endif %}</h3>
                 </div>
-                <div class="games-config">
+                <div class="games-config">  
                     <a class="games-config-link" {% if i.match.status == 1 %} href="{% url 'scoreboard' %}" {% endif %}>
-                        <div {% if i.match.status == 1 %} class="games-config-item games-config-item-active" {% else %}
-                            class="games-config-item games-config-item-desactive" {% endif %}>
+                        <div {% if i.match.status == 1 %} class="games-config-item games-config-item-active" {% else %} class="games-config-item games-config-item-desactive"{% endif %}>
                             <img class="games-config-item-img" src="{% static 'images/icon-timer.png' %}"
                                 alt="Timer Icon" />
                         </div>
@@ -61,10 +70,8 @@
                 </div>
             </section>
             {% empty %}
-            <img class="image-no-players" src="{% static 'images/games-empty.svg' %}">
-            <div class="title2">
-                <h2>NÃO HÁ NENHUM JOGO CADASTRADO!</h2>
-            </div>
+            <img style="width: clamp(250px, 40%, 500px);" src="{% static 'images/games-empty.svg' %}">
+            <h1>NÃO HÁ NENHUMA PARTIDA CADASTRADA!</h1>
             {% endfor %}
         </div>
     </div>

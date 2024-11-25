@@ -53,10 +53,17 @@
                     </table>
                     <label for="fotos" id="label-foto" class="custom-file-button">Adicione a imagem do time</label>
                     <input type="file" name="photo" id="fotos" accept=".jpg, .jpeg, .png" onchange="trocarTextoLabel()">
+                    <br>
                     {% if messages %}
+                    <style>
+                        .ll{background-color: #c5c5c5; padding: 20px;} 
+                    </style>
                     {% for m in messages %}
-                    <p style="color: red;">{{m}}</p>
+                    <div class="ll">
+                        <p style="color: #AB0000;">{{m}}</p>
+                    </div>
                     {% endfor %}
+                    <br>
                     {% endif %}
                 </div>
                 <div>

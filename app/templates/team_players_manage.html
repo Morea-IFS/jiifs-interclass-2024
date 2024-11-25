@@ -28,7 +28,7 @@
 <section class="side-bar-register">
     <h3 class="side-bar-register-title">CADASTRO</h3>
     <button class="side-bar-buttons-items2">
-        <a href="{% url 'add_players_team' team.id %}">Adicionar</a>
+        <a href="{% url 'add_player_team' team.id %}">Adicionar</a>
     </button>
 </section>
 {% endblock register %}
@@ -64,7 +64,8 @@
                             {% for i in player_team_sport %}
                             <tr>
                                 <td>
-                                    <input type="checkbox" name="input-checkbox" value="{{ i.player.id }}">
+                                    <input type="checkbox" name="input-checkbox"
+                                        value="{{ i.player.id }}">
                                 </td>
                                 <td>{{ i.player.name }}</td>
                                 <td>----</td>
@@ -72,9 +73,9 @@
                             </tr>
                             {% endfor %}
                             {% if messages %}
-                            {% for m in messages %}
-                            <p style="color: red;">{{m}}</p>
-                            {% endfor %}
+                                {% for m in messages %}
+                                    <p style="color: red;">{{m}}</p>
+                                {% endfor %}
                             {% endif %}
                         </table>
                     </section>

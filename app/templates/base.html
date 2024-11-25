@@ -38,8 +38,11 @@
                         <img class="logos-items" src="{% static 'images/logo-morea.svg' %}" alt="Logo Morea" />
                         <img class="logos-items" src="{% static 'images/logo-ifs-black.svg' %}" alt="Logo IFS" />
                     </div>
+                    <div class="user-admin">
+                        <p></p>USUÁRIO: <br> {{ user.username }}
+                    </div>
                     <button class="side-bar-buttons-items2">
-                        <a href="">Sair</a>
+                        <a href="{% url 'logout' %}">Sair</a>
                     </button>
                 </div>
             </section>

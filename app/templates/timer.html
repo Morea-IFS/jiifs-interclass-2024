@@ -1,86 +1,62 @@
-{%load static%}
+{% extends 'base.html' %}
+{% load static %}
 
-<!DOCTYPE html>
-<html lang="pt-br">
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/team_players_manage.css' %}" />
+<title>JIIFS ADMIN</title>
+{% endblock head %}
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="{% static 'images/icon-jiifs.png' %}" type="image/x-icon" />
-    <link rel="stylesheet" href="{% static 'css/navbar-layout.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/team_players_manage.css' %}" />
-    <title>JIIFS ADMIN</title>
-</head>
+{% block navbar %}
+<a href="{% url 'Home' %}">
+    <button class="side-bar-buttons-items">HOME</button>
+</a>
+<a href="{% url 'player_manage' %}">
+    <button class="side-bar-buttons-items">GERENCIAMENTO</button>
+</a>
+<a href="{% url 'games' %}">
+    <button class="side-bar-buttons-items">JOGOS</button>
+</a>
+<a href="{% url 'settings_manage' %}">
+    <button class="side-bar-buttons-items">CONFIGURAÇÕES</button>
+</a>
+{% endblock navbar %}
 
-<body>
-    <main>
-        <div class="all">
-            <div class="invisible-navbar"></div>
-            <div class="hamburguer-menu" onclick="toggle(this)">
-                <span class="line first-line"></span>
-                <span class="line second-line"></span>
-            </div>
-            <section class="side-bar">
-                <div class="side-bar-top">
-                    <img class="side-bar-logo" src="{% static 'images/logo-jiifs-2024.svg' %}" alt="Logo JIIFS24" />
-                    <div class="side-bar-buttons">
-                        <a href="{% url 'Home' %}">
-                            <button class="side-bar-buttons-items">HOME</button>
-                        </a>
-                        <a href="{% url 'player_manage' %}">
-                            <button class="side-bar-buttons-items">GERENCIAMENTO</button>
-                        </a>
-                        <a href="{% url 'games' %}">
-                            <button class="side-bar-buttons-items">JOGOS</button>
-                        </a>
-                    </div>
-                </div>
-                <div class="side-bar-bottom">
-                    <div class="logos">
-                        <img class="logos-items" src="{% static 'images/logo-morea.svg' %}" alt="Logo Morea" />
-                        <img class="logos-items" src="{% static 'images/logo-ifs-black.svg' %}" alt="Logo IFS" />
-                    </div>
-                    <button class="side-bar-buttons-items2">
-                        <a href="">Sair</a>
-                    </button>
-                </div>
-            </section>
-            <div class="all-block">
-                <div class="block1">
-                    <div class="title">
-                        <h1>TEMPO</h1>
-                    </div>
-                    <section class="table-timer">
-                        <table class="table-timer-item">
-                            <tr>
-                                <th>HORÁRIO INÍCIO</th>
-                                <th>HORÁRIO FINAL</th>
-                            </tr>
-                            <tr>
-                                <td>14:00</td>
-                                <td>20:00</td>
-                            </tr>
-                        </table>
-                        <table class="table-timer-item">
-                            <tr>
-                                <th>ID</th>
-                                <th>INÍCIO PAUSA</th>
-                                <th>FINAL PAUSA</th>
-                            </tr>
-                            <tr>
-                                <td>01</td>
-                                <td>14:00</td>
-                                <td>20:00</td>
-                            </tr>
-                        </table>
-                    </section>
-                </div>
-            </div>
+{% block content %}
+<div class="all-block">
+    <div class="block1">
+        <div class="title">
+            <h1>TEMPO</h1>
         </div>
-    </main>
-
-    <script src="{% static 'js/script.js' %}"></script>
-</body>
-
-</html>
+        <section class="table-timer">
+            <table class="table-timer-item">
+                <tr>
+                    <th>HORÁRIO INÍCIO</th>
+                    <th>HORÁRIO FINAL</th>
+                </tr>
+                <tr>
+                    <td>{% if match.time_start %}{{match.time_start}}{% else %}---{% endif %}</td>
+                    <td>{% if match.time_end %}{{match.time_end}}{% else %}---{% endif %}</td>
+                </tr>
+            </table>
+            {% if pauses %}
+            <table class="table-timer-item">
+                <tr>
+                    <th>ID</th>
+                    <th>INÍCIO PAUSA</th>
+                    <th>FINAL PAUSA</th>
+                    <th>TRASH</th>
+                </tr>
+                {% for i in pauses %}
+                <tr>
+                    <td>{{i.id}}</td>
+                    <td>{% if i.start_pause %}{{i.start_pause}}{% else %}---{% endif %}</td>
+                    <td>{% if i.end_pause %}{{i.end_pause}}{% else %}---{% endif %}</td>
+                    <td><form method="POST" action="">{% csrf_token %}<button name="pause_delete" value="{{i.id}}" style="background-color: transparent; border: none;"><img src="{% static 'images/icon-trash.svg' %}" style="color: blue;" alt=""></button></form></td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% endif %}
+        </section>
+    </div>
+</div>
+{% endblock content %}
