@@ -30,11 +30,20 @@ a {
     display: flex;
     align-items: center;
     flex-direction: column;
-    gap: 2em;
+    gap: 1em;
 }
 
 .side-bar-logo {
     height: 7em;
+}
+
+.user-admin {
+    text-align: center;
+    width: 7em;
+    padding: 5px;
+    color: white;
+    border-radius: 10px;
+    background-color: var(--global-ninth-color);
 }
 
 .side-bar-buttons {

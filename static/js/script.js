@@ -11,26 +11,6 @@ function trocarTextoLabel() {
     }
 }
 
-document
-    .getElementById("function_validate_form")
-    .addEventListener("submit", function (event) {
-        // Usando window.confirm para validação
-        if (!window.confirm("Você tem certeza que deseja ENVIAR os dados?")) {
-            // Se o usuário clicar em "Cancelar", prevenimos o envio do formulário
-            event.preventDefault();
-        }
-    });
-
-document
-    .getElementById("function_validate_form_delete")
-    .addEventListener("submit", function (event) {
-        // Usando window.confirm para validação
-        if (!window.confirm("Você tem certeza que deseja EXCLUIR os dados?")) {
-            // Se o usuário clicar em "Cancelar", prevenimos o envio do formulário
-            event.preventDefault();
-        }
-    });
-
 function toggle_checkbox(source) {
     checkboxes = document.getElementsByName("input-checkbox");
     for (i = 0, n = checkboxes.length; i < n; i++) {
@@ -72,6 +52,7 @@ function exibirAlerta(mensagem) {
     }
 }
 function enviar1Formularios() {
+    console.log("form1")
     // Obter os dados do primeiro formulário
     const form1 = new FormData(document.getElementById('form1'));
     const form2 = document.getElementById('form2');
@@ -89,6 +70,7 @@ function enviar1Formularios() {
     form2.submit();
 }
 function enviar2Formularios() {
+    console.log("form2")
     // Obter os dados do primeiro formulário
     const form3 = new FormData(document.getElementById('form3'));
     const form4 = document.getElementById('form4');
@@ -105,16 +87,65 @@ function enviar2Formularios() {
     // Submeter o segundo formulário com os dados combinados
     form4.submit();
 }
+function enviar3Formularios() {
+    console.log("form3")
+    // Obter os dados do primeiro formulário
+    const form1 = new FormData(document.getElementById('form1'));
+    const form5 = document.getElementById('form5');
+
+    // Adicionar os dados do form1 ao form2
+    for (let [key, value] of form1.entries()) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = value;
+        form5.appendChild(input);
+    }
+    console.log(form5, form1)
+    // Submeter o segundo formulário com os dados combinados
+    form5.submit();
+}
+
+function enviar4Formularios() {
+    console.log("form2")
+    // Obter os dados do primeiro formulário
+    const form3 = new FormData(document.getElementById('form3'));
+    const form6 = document.getElementById('form6');
+
+    // Adicionar os dados do form1 ao form2
+    for (let [key, value] of form3.entries()) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = value;
+        form6.appendChild(input);
+    }
+
+    // Submeter o segundo formulário com os dados combinados
+    form6.submit();
+}
+
+
+
+
 function mostrarCampos() {
     const tipo = document.getElementById('tipo').value;
     const camposPenalidade = document.getElementById('camposPenalidade');
     const camposAssistencia = document.getElementById('camposAssistencia');
     const camposAcrescimo = document.getElementById('camposAcrescimo');
+    const camposSets = document.getElementById('camposSets');
+    const camposEnd = document.getElementById('camposEnd');
+    const camposWinner = document.getElementById('camposWinner');
+    const camposBanner = document.getElementById('camposBanner')
 
     // Esconder todos os campos inicialmente
     camposPenalidade.classList.add('hidden');
     camposAssistencia.classList.add('hidden');
     camposAcrescimo.classList.add('hidden');
+    camposSets.classList.add('hidden');
+    camposEnd.classList.add('hidden');
+    camposWinner.classList.add('hidden');
+    camposBanner.classList.add('hidden');
 
     // Exibir os campos com base na escolha
     if (tipo === 'penalidade') {
@@ -123,5 +154,13 @@ function mostrarCampos() {
         camposAssistencia.classList.remove('hidden');
     }else if (tipo === 'acrescimo') {
         camposAcrescimo.classList.remove('hidden');
+    }else if (tipo === 'sets') {
+        camposSets.classList.remove('hidden');
+    }else if (tipo === 'end') {
+        camposEnd.classList.remove('hidden');
+    }else if (tipo === 'winner') {
+        camposWinner.classList.remove('hidden');
+    }else if (tipo === 'banner') {
+        camposBanner.classList.remove('hidden');
     }
 }

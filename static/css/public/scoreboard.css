@@ -11,7 +11,7 @@
     --gray-background-cards: #6060604f;
     --gray-background: #1E1E1E;
     --gray-information-area-background: #343434;
-    --green-links-line: #2DFF46;
+    --green-links-line: #00A3FF;
     --green-title-time-or-set: #11BE18;
     --red-live: #FF3232;
     --pink-feminine: #FF32AA;
@@ -51,7 +51,7 @@ nav {
 }
 
 img.logo-jiifs {
-    height: 40px;
+    height: 60px;
 }
 
 header nav ul {
@@ -286,7 +286,8 @@ main {
 }
 
 .sets-or-time {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     background-color: var(--white);
     width: 275px;
     height: 163px;
@@ -294,8 +295,6 @@ main {
     top: 80px;
     left: calc(50% - 137.5px);
     border-radius: 16px;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
 }
 
 .sets-or-time .title-set {
@@ -307,25 +306,20 @@ main {
     font-weight: 600;
     background-color: var(--green-title-time-or-set);
     color: var(--white);
-    grid-column: 1/3;
     border-radius: 16px 16px 0 0;
-}
-
-.sets-or-time div {
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    font-size: 90px;
-    font-weight: 400;
-    height: 118px;
-
 }
 
 .sets-or-time>p {
     display: flex;
     justify-content: center;
-    font-size: 90px;
-    font-weight: 400;
+    width: 100%;
+    font-size: 95px;
+}
+.sets-or-time>p span{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
 }
 
 .information {
@@ -536,7 +530,7 @@ footer img {
     }
 
     img.logo-jiifs {
-        height: 30px;
+        height: 45px;
     }
 
     main {
@@ -626,9 +620,8 @@ footer img {
         height: 30px;
     }
 
-    .sets-or-time div {
-        font-size: 60px;
-        height: 80px;
+    .sets-or-time .time-and-sets-counter{
+        font-size: 60px ;
     }
 
     .information nav ul {
@@ -832,9 +825,8 @@ footer img {
         border-radius: 8px 8px 0 0;
     }
 
-    .sets-or-time div {
-        font-size: 32px;
-        height: 40px;
+    .sets-or-time .time-and-sets-counter{
+        font-size: 28px;
     }
 
     .information {

@@ -15,6 +15,9 @@
 <a href="{% url 'games' %}">
     <button class="side-bar-buttons-items">JOGOS</button>
 </a>
+<a href="{% url 'settings_manage' %}">
+    <button class="side-bar-buttons-items">CONFIGURAÇÕES</button>
+</a>
 {% endblock navbar %}
 
 {% block content %}
@@ -23,9 +26,17 @@
         <div class="title">
             <h1>DADOS GERAIS DA PARTIDA</h1>
         </div>
+        {% if messages %} 
+        {% for m in messages %}
+        <div style="background-color: #c5c5c5; padding: 20px;">
+            <p style="color: #AB0000;">{{m}}</p>
+        </div>
+        {% endfor %}
+        <br>
+        {% endif %}
         <form id="function_validate_form" class="block-inputs-form" method="post">
             {% csrf_token %}
-            <section class="match-status">
+            <section class="match-status k">
                 <select class="select-status" name="status">
                     <option {% if match.status == 0 %} selected {% endif %} value="0">EM BREVE</option>
                     <option {% if match.status == 1 %} selected {% endif %} value="1">ACONTECENDO</option>
@@ -35,88 +46,91 @@
                 <input class="input-confirm" type="submit" value="Confirmar">
             </section>
         </form>
+        {% if match.sport.sets %}
+        <style>
+            .hidden {
+                display: none;
+            }
+        </style>
+        <img class="image-no-players" src="{% static 'images/construction-animate.svg' %}">
+        <div class="title2">
+            <h2>A AREA DE VOLEIBOL ESTÁ EM DESENVOLVIMENTO</h2>
+        </div>
+        {% else %}
         <section class="all-table">
             <table id="search-table">
                 <tr>
-                    <th>SETS</th>
-                    <th>STATUS</th>
+                    <th>ID</th>
                     <th>TEMPO</th>
+                    <th>STATUS</th>
                     <th>SEXO</th>
                     <th>ESPORTE</th>
                     <th>VENCEDOR</th>
+                    {% if match.add %}
+                    <td>acrescimo</td>
+                    {% endif %}
                 </tr>
                 <tr>
-                    <td>3</td>
-                    <td>EM BREVE</td>
-                    <td>00:00</td>
-                    <td>MASCULINO</td>
-                    <td>VOLEIBOL</td>
-                    <td>2 IRC</td>
+                    <td>{{match.id}}</td>
+                    <td><a href="{% url 'timer' match.id %}">{{time_totally}}</a></td>
+                    <td>{{match.get_status_display}}</td>
+                    <td>{{match.get_sexo_display}}</td>
+                    <td>{{match.sport}}</td>
+                    <td>{{match.Winner_team}}</td>
+                    {% if match.add %}
+                    <td>{{match.add}}</td>
+                    {% endif %}
                 </tr>
             </table>
         </section>
         <div class="title2">
-            <h2>TIME-A</h2>
+            <h2>{{team_match_a.team.name}}</h2>
         </div>
         <section class="all-table">
             <table id="matches-table">
                 <tr>
-                    <th class="green-th">SET</th>
+                    <th class="green-th">ID</th>
                     <th class="green-th">JOGADORES</th>
-                    <th class="green-th">TEMPO</th>
-                    <th class="green-th">PONTOS</th>
-                    <th class="green-th">PENALIDADES</th>
-                    <th class="green-th">VENCEDOR</th>
+                    <th class="green-th">{% if match.sports.logs %} GOL {% else %} PONTOS {% endif %}</th>
+                    <th class="green-th">C. Amarelo</th>
+                    <th class="green-th">C. Vermelho</th>
+                    <th class="green-th">Faltas</th>
                 </tr>
                 <tr>
-                    <td>1</td>
-                    <td><a href="">VER</a></td>
-                    <td><a href="{% url 'timer' %}">14:10</a></td>
-                    <td>14</td>
-                    <td>0</td>
-                    <td>2 IRC</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td><a href="">VER</a></td>
-                    <td><a href="{% url 'timer' %}">12:52</a></td>
-                    <td>7</td>
-                    <td>0</td>
-                    <td>3 IRC</td>
+                    <td>{{team_match_a.id}}</td>
+                    <td><a href="{% url 'players_match' team_match_a.id %}">VER</a></td>
+                    <td>{{point_a}}</td>
+                    <td>{{card_yellow_a}}</td>
+                    <td>{{card_red_a}}</td>
+                    <td>{{lack_a}}</td>
                 </tr>
             </table>
         </section>
         <div class="title2">
-            <h2>TIME-B</h2>
+            <h2>{{team_match_b.team.name}}</h2>
         </div>
         <section class="all-table bottom-space">
             <table id="matches-table">
                 <tr>
-                    <th class="red-th">SET</th>
+                    <th class="red-th">ID</th>
                     <th class="red-th">JOGADORES</th>
-                    <th class="red-th">TEMPO</th>
-                    <th class="red-th">PONTOS</th>
-                    <th class="red-th">PENALIDADES</th>
-                    <th class="red-th">VENCEDOR</th>
+                    <th class="red-th">{% if match.sports.logs %} GOL {% else %} PONTOS {% endif %}</th>
+                    <th class="red-th">C. Amarelo</th>
+                    <th class="red-th">C. Vermelho</th>
+                    <th class="red-th">Faltas</th>
                 </tr>
                 <tr>
-                    <td>1</td>
-                    <td><a href="">VER</a></td>
-                    <td><a href="{% url 'timer' %}">14:10</a>
-                    <td>14</td>
-                    <td>0</td>
-                    <td>2 IRC</td>
+                    <td>{{team_match_b.id}}</td>
+                    <td><a href="{% url 'players_match' team_match_b.id %}">VER</a></td>
+                    <td>{{point_b}}</td>
+                    <td>{{card_yellow_b}}</td>
+                    <td>{{card_red_b}}</td>
+                    <td>{{lack_b}}</td>
                 </tr>
-                <tr>
-                    <td>2</td>
-                    <td><a href="">VER</a></td>
-                    <td><a href="{% url 'timer' %}">12:52</a></td>
-                    <td>7</td>
-                    <td>0</td>
-                    <td>3 IRC</td>
-                </tr>
+
             </table>
         </section>
+        {% endif %}
     </div>
 </div>
 {% endblock content %}

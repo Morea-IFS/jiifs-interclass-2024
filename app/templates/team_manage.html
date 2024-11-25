@@ -42,11 +42,13 @@
             <input type="search" id="search-input" onkeyup="search_table()" placeholder="Pesquisar os times" />
             <section class="all-table">
                 <table id="search-table">
-                    <tr class="hidden">
+                    <tr class="hidden error" >
                         <th>NOME</th>
                         <th>COLOR-HEX</th>
                         <th>ESPORTE</th>
+                        <th>LOGO</th>
                         <th>JOGADORES</th>
+                        <th>DELETAR</th>
                     </tr>
                     {% for team_sport in team_sports %}
                     <tr>
@@ -55,9 +57,12 @@
                         </td>
                         <td>{{ team_sport.team.hexcolor }}</td>
                         <td>{{ team_sport.sport.name }}</td>
+                        <td>{% if team_sport.team.photo %} <img src="{% static 'images/icon-true.svg' %}"> {% else %} <img src="{% static 'images/icon-false.svg' %}"> {% endif %}</td>
                         <td>
                             <a href="{% url 'team_players_manage' team_sport.id %}">ACESSAR</a>
                         </td>
+                        <td><form method="POST" action="">{% csrf_token %}<button name="team_sport_delete" value="{{team_sport.id}}" style="background-color: transparent; border: none;"><img src="{% static 'images/icon-trash.svg' %}" style="color: blue;" alt=""></button></form></td>
+
                     </tr>
                     {% empty %}
                     <style>
@@ -70,6 +75,7 @@
                         <h2>NÃO HÁ NENHUM TIME CADASTRADO!</h2>
                     </div>
                     {% endfor %}
+                
                 </table>
             </section>
         </div>

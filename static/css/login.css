@@ -1,0 +1,29 @@
+@charset "UTF-8";
+
+.hero {
+    background-color: #14161a;
+}
+
+.title-login {
+    color: #01aefa;
+}
+
+.login-hr {
+    background-color: #36d34a;
+}
+
+.image-login {
+    height: 9em;
+}
+
+.box-logo {
+    box-shadow: none;
+}
+
+.button-login {
+    margin-top: 2em;
+}
+
+.button{
+    background-color: #00A3FF;
+}

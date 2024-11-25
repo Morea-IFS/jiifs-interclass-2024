@@ -32,18 +32,20 @@
         <form id="function_validate_form" class="block-inputs" method="post">{% csrf_token %}
             <div class="block-inputs-form">
                 <div>
-                    <input type="text" autocomplete="on" autocorrect="on" name="name" placeholder="Nome do esporte"
-                        required>
-                    <input type="text" autocomplete="on" autocorrect="on" name="max_titulares"
-                        placeholder="Número de titulares" required>
+                    <input type="text" autocomplete="on" autocorrect="on" name="name" placeholder="Nome do esporte" required>
+                    <input type="text" autocomplete="on" autocorrect="on" name="max_titulares" placeholder="Número de titulares" required>
                     <select name="sets" id="">
-                        <option value="True">precisa de sets</option>
-                        <option value="False" selected>não precisa de sets</option>
+                        <option value="True">Precisa de sets</option>
+                        <option value="False" selected>Não precisa de sets</option>
+                    </select>
+                    <select name="logs" id="">
+                        <option value="True">Precisa de logs</option>
+                        <option value="False" selected>Não precisa de logs</option>
                     </select>
                     {% if messages %}
-                    {% for m in messages %}
-                    <p style="color: red;">{{m}}</p>
-                    {% endfor %}
+                        {% for m in messages %}
+                            <p style="color: red;">{{m}}</p>
+                        {% endfor %}
                     {% endif %}
                 </div>
                 <div>

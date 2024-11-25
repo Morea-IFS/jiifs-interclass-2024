@@ -45,6 +45,7 @@
                     <tr class="hidden">
                         <th>NOME DO ESPORTE</th>
                         <th>MAXIMO DE TITULARES</th>
+                        <th>DELETAR</th>
                     </tr>
                     {% for sport in sport %}
                     <tr>
@@ -52,6 +53,7 @@
                             <a href="{% url 'sport_edit' sport.id %}">{{sport.name}}</a>
                         </td>
                         <td>{{sport.max_titulares}}</td>
+                        <td><form method="POST" action="">{% csrf_token %}<button name="sport_delete" value="{{sport.id}}" style="background-color: transparent; border: none;"><img src="{% static 'images/icon-trash.svg' %}" style="color: blue;" alt=""></button></form></td>
                     </tr>
                     {% empty %}
                     <style>

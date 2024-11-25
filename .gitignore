@@ -4,5 +4,7 @@ __pycache__
 interclasse/__pycache__
 
 db.*
-media/*
+media/logo_team/*
+media/photo_player/*
+media/photos_config/*
 .env

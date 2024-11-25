@@ -2,59 +2,282 @@
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.conf import settings
+from django.templatetags.static import static
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
-from .models import Point, Match, Team_match
+from .models import Point, Match, Team_match, Team, Penalties, Volley_match, Player_match, Time_pause, Banner
+import time
 
-default_photo_url = f"{settings.MEDIA_URL}defaults/person.png"
+default_photo_url = f"{settings.MEDIA_URL}defaults/team.svg"
 
-@receiver([post_save,post_delete], sender=Point)
-def point_removed(sender, instance, using, **kwargs):
-    match = Match.objects.get(status=1)
-    team_matchs = Team_match.objects.filter(match=match)
-    team_match_a = team_matchs[0]
-    team_match_b = team_matchs[1]
-    point_a = Point.objects.filter(team_match=team_match_a).count()
-    point_b = Point.objects.filter(team_match=team_match_b).count()
-    channel_layer = get_channel_layer()
-    async_to_sync(channel_layer.group_send)(
-        "placar",
-        {
-            'type': 'send_score',
-            'score': {
-                'team_a': team_match_a.team.name,
-                'team_b': team_match_b.team.name,
-                'points_a': point_a,
-                'points_b': point_b,
-                'photoA': team_match_a.team.photo.url,
-                'photoB': team_match_b.team.photo.url,
-            },
-        }
-    )
+def generate_score_data():
+    if Volley_match.objects.filter(status=1):
+        volley_match = Volley_match.objects.get(status=1)
+        if Match.objects.filter(volley_match=volley_match, status=1):
+            volley_match = Volley_match.objects.get(status=1)
+            if len(Match.objects.filter(volley_match=volley_match)) > 1:
+                match = Match.objects.filter(volley_match=volley_match, status=1).last()
+            else:
+                match = Match.objects.get(volley_match=volley_match, status=1)
+            team_matchs = Team_match.objects.filter(match=match)
+            if team_matchs[0]:
+                team_match_a = team_matchs[0]
+            else:
+                match.status = 3
+                match.save()
+            if team_matchs[1]:
+                team_match_b = team_matchs[1]
+            else:
+                match.status = 3
+                match.save()
+            if (match.volley_match.sets_team_a + match.volley_match.sets_team_b) % 2 == 0:
+                print("par")
+                sets_1 = match.volley_match.sets_team_a
+                sets_2 = match.volley_match.sets_team_b
+                team_1 = team_match_a
+                team_2 = team_match_b
+                point_1 = Point.objects.filter(team_match=team_match_a).count()
+                point_2 = Point.objects.filter(team_match=team_match_b).count()
+                aces_1 = Point.objects.filter(point_types=2, team_match=team_match_a).count()
+                aces_2 = Point.objects.filter(point_types=2, team_match=team_match_b).count()
+                lack_1 = Penalties.objects.filter(type_penalties=2, team_match=team_match_a).count()
+                lack_2 = Penalties.objects.filter(type_penalties=2, team_match=team_match_b).count()
+                card_1 = Penalties.objects.filter(type_penalties=0,team_match=team_match_a).count() + Penalties.objects.filter(type_penalties=1,team_match=team_match_a).count()
+                card_2 = Penalties.objects.filter(type_penalties=0,team_match=team_match_b).count() + Penalties.objects.filter(type_penalties=1,team_match=team_match_b).count()
+            else:
+                print("impar")
+                sets_1 = match.volley_match.sets_team_b
+                sets_2 = match.volley_match.sets_team_a
+                team_1 = team_match_b
+                team_2 = team_match_a
+                point_1 = Point.objects.filter(team_match=team_match_b).count()
+                point_2 = Point.objects.filter(team_match=team_match_a).count()
+                aces_1 = Point.objects.filter(point_types=2, team_match=team_match_b).count()
+                aces_2 = Point.objects.filter(point_types=2, team_match=team_match_a).count()
+                lack_1 = Penalties.objects.filter(type_penalties=2, team_match=team_match_b).count()
+                lack_2 = Penalties.objects.filter(type_penalties=2, team_match=team_match_a).count()
+                card_1 = Penalties.objects.filter(type_penalties=0,team_match=team_match_a).count() + Penalties.objects.filter(type_penalties=1,team_match=team_match_a).count()
+                card_2 = Penalties.objects.filter(type_penalties=0,team_match=team_match_b).count() + Penalties.objects.filter(type_penalties=1,team_match=team_match_b).count()
+            point_a = Point.objects.filter(point_types=1, team_match=team_match_a).count()
+            point_b = Point.objects.filter(point_types=1, team_match=team_match_b).count()
+            aces_a = Point.objects.filter(point_types=2, team_match=team_match_a).count()
+            aces_b = Point.objects.filter(point_types=2, team_match=team_match_b).count()
+            if Banner.objects.filter(status=0): 
+                banner_score = Banner.objects.get(status=0).image.url
+                banner_status_score = True
+            else: 
+                banner_score = static('images/logo-jifs-intercampi.svg')
+                banner_status_score = False
+            name_scoreboard = 'Sets'
+            ball_sport = static('images/ball-of-volley.png')
+            if match.sexo == 1: 
+                img_sexo = static('images/icon-female.svg')
+                sexo_color = '#ff32aa' 
+            else: 
+                img_sexo = static('images/icon-male.svg')
+                sexo_color = '#3a7bd5'
+            match_data = {
+                'agua': "agua",
+                'team_a': team_1.team.name,
+                'team_b': team_2.team.name,
+                'team_a_score': team_match_a.team.name,
+                'team_b_score': team_match_b.team.name,
+                'sets_a':sets_1,
+                'sets_b':sets_2,
+                'teamAcolor': team_1.team.hexcolor,
+                'teamBcolor': team_2.team.hexcolor,
+                'points_a_score':point_a,
+                'points_b_score':point_b,
+                'banner_score':banner_score,
+                'banner_status_score':banner_status_score,
+                'points_a':point_1,
+                'points_b':point_2,
+                'points_a_score':point_a,
+                'points_b_score':point_b,
+                'lack_a':lack_1,
+                'lack_b':lack_2,
+                'img_sexo':img_sexo,
+                'sexo_color': sexo_color,
+                'ball_sport': ball_sport,
+                'aces_or_card': "Aces",
+                'aces_or_card_a': aces_1,
+                'aces_or_card_b': aces_2,
+                'card_a': card_1,
+                'card_b': card_2,
+                'aces_a_score': aces_a,
+                'aces_b_score': aces_b,
+                'sexo_text':match.get_sexo_display(),
+                'name_scoreboard': name_scoreboard,
+                'photoA': team_1.team.photo.url if team_1.team.photo else default_photo_url,
+                'photoB': team_2.team.photo.url if team_2.team.photo else default_photo_url,
+                'sets_time_auto': False,
+            }
+            print("sets on: ",match_data)
+            return match_data
 
-@receiver(post_save, sender=Match)
-def match_status_updated(sender, instance, created, **kwargs):
-    if Match.objects.filter(status=1):
+    elif Match.objects.filter(status=1):
+        print("ff")
         match = Match.objects.get(status=1)
+        print("j: ",match)
         team_matchs = Team_match.objects.filter(match=match)
         team_match_a = team_matchs[0]
-        team_match_b = team_matchs[1] 
+        team_match_b = team_matchs[1]
         point_a = Point.objects.filter(team_match=team_match_a).count()
         point_b = Point.objects.filter(team_match=team_match_b).count()
-        channel_layer = get_channel_layer()
+        lack_a = Penalties.objects.filter(type_penalties=2,team_match=team_match_a).count()
+        lack_b = Penalties.objects.filter(type_penalties=2,team_match=team_match_b).count()
+        card_a = Penalties.objects.filter(type_penalties=0,team_match=team_match_a).count() + Penalties.objects.filter(type_penalties=1,team_match=team_match_a).count()
+        card_b = Penalties.objects.filter(type_penalties=0,team_match=team_match_b).count() + Penalties.objects.filter(type_penalties=1,team_match=team_match_b).count()
+        seconds, status = timer()
+        if Banner.objects.filter(status=0): 
+            banner_score = Banner.objects.get(status=0).image.url
+            banner_status_score = True
+        else: 
+            banner_score = static('images/logo-jifs-intercampi.svg')
+            banner_status_score = False
+        if match.sexo == 1: 
+            img_sexo = static('images/icon-female.svg')
+            sexo_color = '#ff32aa' 
+        else: 
+            img_sexo = static('images/icon-male.svg')
+            sexo_color = '#3a7bd5'
+        if match.sport.sets:
+            name_scoreboard = 'Sets'
+            ball_sport = static('images/ball-of-volley.png')
+        else:
+            name_scoreboard = 'Tempo'
+            ball_sport = static('images/ball-of-futsal.png')
         match_data = {
             'team_a': team_match_a.team.name,
             'team_b': team_match_b.team.name,
+            'team_a_score': team_match_a.team.name,
+            'team_b_score': team_match_b.team.name,
+            'teamAcolor': team_match_a.team.hexcolor,
+            'teamBcolor': team_match_b.team.hexcolor,
             'points_a': point_a,
             'points_b': point_b,
+            'lack_a':lack_a,
+            'lack_b':lack_b,
+            'sets_a': "00:00",
+            'sets_b': 0,
+            'card_a':card_a,
+            'card_b':card_b,
+            'banner_score':banner_score,
+            'banner_status_score':banner_status_score,
+            'points_a_score': point_a,
+            'points_b_score': point_b,
+            'aces_or_card': "Cartões",
+            'aces_or_card_a': card_a,
+            'aces_or_card_b': card_b,
+            'img_sexo':img_sexo,
+            'sexo_color':sexo_color,
+            'sexo_text':match.get_sexo_display(),
+            'sexo_color':sexo_color,
+            'ball_sport':ball_sport,
+            'name_scoreboard': name_scoreboard,
+            'photoA': team_match_a.team.photo.url if team_match_a.team.photo else default_photo_url,
+            'photoB': team_match_b.team.photo.url if team_match_b.team.photo else default_photo_url,
+            'seconds':seconds,
+            'status':status,
+            'sets_time_auto': True,
         }
-        match_data['photoA'] = team_match_a.team.photo.url if team_match_a.team.photo else default_photo_url
-        match_data['photoB'] = team_match_b.team.photo.url if team_match_b.team.photo else default_photo_url
+        print("sets off: ",match_data)
+        return match_data
 
-        async_to_sync(channel_layer.group_send)(
-            'placar',  # Nome do grupo para enviar a mensagem
-            {
-                'type': 'match_update',
-                'match': match_data,
-            }
-        )
+def send_score_update():
+    channel_layer = get_channel_layer()
+    match_data = generate_score_data()
+    async_to_sync(channel_layer.group_send)(
+        'placar',
+        {
+            'type': 'match_update',
+            'match': match_data,
+        }
+    )
+
+@receiver([post_save, post_delete], sender=Point)
+def point_changed(sender, instance, using, **kwargs):
+    print("hmm, mudanças nos times :)")
+    send_score_update()
+
+@receiver([post_save, post_delete], sender=Time_pause)
+def point_changed(sender, instance, using, **kwargs):
+    print("hmm, teremos uma pausa ou retorno! :)")
+    send_score_update()
+
+@receiver([post_save, post_delete], sender=Match)
+def match_updated(sender, instance, using, **kwargs):
+    print("hmm, mudanças nas partidas :)")
+    send_score_update()
+
+@receiver([post_save, post_delete], sender=Team)
+def team_updated(sender, instance, using, **kwargs):
+    print("hmm, mudanças nos times :)")
+    send_score_update()
+
+@receiver([post_save, post_delete], sender=Penalties)
+def penalties_updated(sender, instance, using, **kwargs):
+    print("hmm, mudanças nas penalidades :(")
+    send_score_update()
+
+@receiver([post_save, post_delete], sender=Volley_match)
+def penalties_updated(sender, instance, using, **kwargs):
+    print("hmm, mudanças no volley_match :)")
+    send_score_update()
+
+@receiver([post_save, post_delete], sender=Banner)
+def penalties_updated(sender, instance, using, **kwargs):
+    print("hmm, mudanças no volley_match :)")
+    send_score_update()
+
+def timer():
+    print("kkkkkkkkkk")
+    rel = time.localtime()
+    match = Match.objects.get(status=1)
+    seconds = 0
+    if match.time_start and match.time_end:
+        seconds = (match.time_end.hour * 60 * 60 + match.time_end.minute * 60 + match.time_end.second) - (match.time_start.hour * 60 * 60 + match.time_start.minute * 60 + match.time_start.second)
+        status = 3
+        if Time_pause.objects.filter(match=match):
+            pausas_totais = Time_pause.objects.filter(match=match)
+            somatorio = 0
+            for i in pausas_totais: somatorio += (i.end_pause.hour * 60 * 60 + i.end_pause.minute * 60 + i.end_pause.second) - (i.start_pause.hour * 60 * 60 + i.start_pause.minute * 60 + i.start_pause.second)
+            seconds -= somatorio
+            print(seconds)
+    elif match.time_start:
+        print("kk: ",seconds)
+        if Time_pause.objects.filter(match=match):
+            seconds = (rel.tm_hour * 60 * 60 + rel.tm_min * 60 + rel.tm_sec) - (match.time_start.hour * 60 * 60 + match.time_start.minute * 60 + match.time_start.second)
+            pause = Time_pause.objects.filter(match=match).last()
+            pausas_totais = Time_pause.objects.filter(match=match)
+            somatorio = 0
+            if pause.start_pause and pause.end_pause:
+                print("Entrou no pausa finalizada jogo continua")
+                status = 1
+                for i in pausas_totais:
+                    print(i.end_pause,i.start_pause)
+                    somatorio += (i.end_pause.hour * 60 * 60 + i.end_pause.minute * 60 + i.end_pause.second) - (i.start_pause.hour * 60 * 60 + i.start_pause.minute * 60 + i.start_pause.second)
+                    print(somatorio)
+                seconds -= somatorio
+            elif pause.start_pause and not pause.end_pause and Time_pause.objects.filter(match=match).count() > 1:
+                seconds = (pause.start_pause.hour * 60 * 60 + pause.start_pause.minute * 60 + pause.start_pause.second) - (match.time_start.hour * 60 * 60 + match.time_start.minute * 60 + match.time_start.second)        
+                print("Entrou no pausa iniciada não é a primeira")
+                print("g:",seconds)
+                status = 2
+                for i in pausas_totais:
+                    if i == pausas_totais.last():
+                        break
+                    somatorio += (i.end_pause.hour * 60 * 60 + i.end_pause.minute * 60 + i.end_pause.second) - (i.start_pause.hour * 60 * 60 + i.start_pause.minute * 60 + i.start_pause.second)
+                seconds -= somatorio
+            elif pause.start_pause and not pause.end_pause:
+                print("Entrou no pausa iniciada, a primeira")
+                status = 2
+                seconds = (pause.start_pause.hour * 60 * 60 + pause.start_pause.minute * 60 + pause.start_pause.second) - (match.time_start.hour * 60 * 60 + match.time_start.minute * 60 + match.time_start.second)
+        else:
+            status = 1
+            seconds = (rel.tm_hour * 60 * 60 + rel.tm_min * 60 + rel.tm_sec) - (match.time_start.hour * 60 * 60 + match.time_start.minute * 60 + match.time_start.second)
+    else:
+        seconds = 0
+        status = 0
+    print("Tempo: ",seconds, " status: ",status)
+    return seconds, status

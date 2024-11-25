@@ -42,19 +42,20 @@
             <form id="function_validate_form" class="block-inputs" method="post">{% csrf_token %}
                 <div class="block-inputs-form">
                     <div>
-                        <input type="text" autocomplete="on" autocorrect="on" value="{{sport.name}}"
-                            placeholder="{{sport.name}}" name="name" required />
-                        <input type="text" autocomplete="on" autocorrect="on" value="{{sport.max_titulares}}"
-                            placeholder="{{sport.max_titulares}}" name="max_titulares" />
+                        <input type="text" autocomplete="on" autocorrect="on" value="{{sport.name}}" placeholder="{{sport.name}}" name="name" required/>
+                        <input type="text" autocomplete="on" autocorrect="on" value="{{sport.max_titulares}}" placeholder="{{sport.max_titulares}}" name="max_titulares" />
                         <select name="sets">
                             <option {% if sport.sets %} selected {% endif %} value="True">precisa de sets</option>
-                            <option {% if not sport.sets %} selected {% endif %} value="False">não precisa de sets
-                            </option>
+                            <option {% if not sport.sets %} selected {% endif %} value="False">não precisa de sets</option>
+                        </select>
+                        <select name="logs" id="">
+                            <option {% if sport.logs %} selected {% endif %} value="True">Precisa de logs</option>
+                            <option {% if not sport.logs %} selected {% endif %} value="False">Não precisa de logs</option>
                         </select>
                         {% if messages %}
-                        {% for m in messages %}
-                        <p style="color: red;">{{m}}</p>
-                        {% endfor %}
+                            {% for m in messages %}
+                                <p style="color: red;">{{m}}</p>
+                            {% endfor %}
                         {% endif %}
                     </div>
                     <div>
@@ -64,7 +65,7 @@
             </form>
             <form id="function_validate_form_delete" class="block-inputs" method="post">{% csrf_token %}
                 <div class="block-inputs-form">
-                    <input class="input-delete" type="submit" value="Excluir" name="excluir" />
+                    <input class="input-delete" type="submit" value="excluir" name="excluir" />
                 </div>
             </form>
         </div>

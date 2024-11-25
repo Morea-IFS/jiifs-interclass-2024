@@ -58,7 +58,7 @@
                                     <input type="checkbox" name="input-checkbox" value="{{ player.id }}">
                                 </td>
                                 <td>{{ player.name }}</td>
-                                <td>{% if player.sexo == 0 %} Masculino {% elif player.sexo == 1 %} Feminino {% else %} ---- {% endif %}</td>
+                                <td>{% if player.sexo %} {{ player.get_sexo_display }} {% else %} ---- {% endif %}</td>
                             </tr>
                             {% endfor %}
                         </table>

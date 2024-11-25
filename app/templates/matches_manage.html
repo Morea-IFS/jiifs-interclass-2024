@@ -51,6 +51,7 @@
                         <th>SEXO</th>
                         <th>ESPORTE</th>
                         <th>VENCEDOR</th>
+                        <th>DELETAR</th>
                     </tr>
                     {% for i in context %}
                     <tr>
@@ -62,6 +63,7 @@
                         <td>{% if i.match.sexo == 0 %} Masculino {% else %} Feminino {% endif %} </td>
                         <td>{{i.match.sport}}</td>
                         <td>{% if i.match.winner_team %} {{match.Winner_team}} {% else %} ---- {% endif %}</td>
+                        <td><form method="POST" action="">{% csrf_token %}<button name="match_delete" value="{{i.match.id}}" style="background-color: transparent; border: none;"><img src="{% static 'images/icon-trash.svg' %}" style="color: blue;" alt=""></button></form></td>
                     </tr>
                     {% empty %}
                     <style>
