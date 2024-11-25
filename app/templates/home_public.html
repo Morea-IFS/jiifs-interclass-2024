@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static 'images/morea-sports.png' %}" type="image/x-icon" />
     <link rel="stylesheet" href="{% static 'css/public/nav.css' %}">
     <link rel="stylesheet" href="{% static 'css/public/home.css' %}">
     <title>JIIFS HOME</title>
@@ -15,7 +16,7 @@
         <nav>
             <img
                 class="logo-jiifs"
-                src="{% static 'images/morea-sports.png' %}"
+                src="{% static 'images/logo-morea-sports.svg' %}"
                 alt="JIIFS"
             />
             <ul>
@@ -26,10 +27,10 @@
                         alt="Menu"
                     />
                 </li>
-                <li><a href="{%url 'home_public'%}" class="home-link">Home</a></li>
-                <li><a href="{%url 'scoreboard_public'%}" class="scoreboard-link">Placar</a></li>
+                <li><a href="{% url 'home_public' %}" class="home-link">Home</a></li>
+                <li><a href="{% url 'scoreboard_public' %}" class="scoreboard-link">Placar</a></li>
                 <!-- <li><a href="#" class="games-link">Jogos</a></li> -->
-                <li><a href="#" class="about-us-link">Sobre Nós</a></li>
+                <li><a href="{% url 'about_us' %}" class="about-us-link">Sobre Nós</a></li>
             </ul>
             <img
                 class="icon-burguer"
@@ -93,7 +94,7 @@
                         {% for i in context_futsal_masc %}
                         <div class="game">
                             <p class="team-a">{{ i.times.0.team.name }} <img class="logo-time" src="{{ i.times.0.team.photo.url }}" alt="Logo time"></p>
-                            <p class="score">{{ i.points_a }} x {{ i.points_b }}</p>
+                            <p class="score">{{ i.points_a }} - {{ i.points_b }}</p>
                             <p class="team-b"><img class="logo-time" src="{{ i.times.1.team.photo.url }}" alt="Logo time">{{ i.times.1.team.name }}</p>
                         </div>
                         <br>
@@ -110,7 +111,7 @@
                         {% for i in context_futsal_fem %}
                         <div class="game">
                             <p class="team-a">{{ i.times.0.team.name }} <img class="logo-time" src="{{ i.times.0.team.photo.url }}" alt="Logo time"></p>
-                            <p class="score">{{ i.points_a }} x {{ i.points_b }}</p>
+                            <p class="score">{{ i.points_a }} - {{ i.points_b }}</p>
                             <p class="team-b"><img class="logo-time" src="{{ i.times.1.team.photo.url }}" alt="Logo time">{{ i.times.1.team.name }}</p>
                         </div>
                         <br>
@@ -129,7 +130,7 @@
                             {% for match in i.matches %}
                                 <div class="game">
                                     <p class="team-a">{{ match.times.0.name }} <img class="logo-time" src="{{ match.times.0.photo_url }}" alt="Logo time"></p>
-                                    <p class="score">{{ match.times.0.points }} x {{ match.times.1.points }}</p>
+                                    <p class="score">{{ match.times.0.points }} - {{ match.times.1.points }}</p>
                                     <p class="team-b"><img class="logo-time" src="{{ match.times.1.photo_url }}" alt="Logo time">{{ match.times.1.name }}</p>
                                 </div>
                             {% endfor %}
@@ -148,7 +149,7 @@
                             {% for match in i.matches %}
                                 <div class="game">
                                     <p class="team-a">{{ match.times.0.name }} <img class="logo-time" src="{{ match.times.0.photo_url }}" alt="Logo time"></p>
-                                    <p class="score">{{ match.times.0.points }} x {{ match.times.1.points }}</p>
+                                    <p class="score">{{ match.times.0.points }} - {{ match.times.1.points }}</p>
                                     <p class="team-b"><img class="logo-time" src="{{ match.times.1.photo_url }}" alt="Logo time">{{ match.times.1.name }}</p>
                                 </div>
                             {% endfor %}
@@ -166,7 +167,7 @@
                         {% for i in context_queimado_masc %}
                         <div class="game">
                             <p class="team-a">{{ i.times.0.team.name }} <img class="logo-time" src="{{ i.times.0.team.photo.url }}" alt="Logo time"></p>
-                            <p class="score">{{ i.points_a }} x {{ i.points_b }}</p>
+                            <p class="score">{{ i.points_a }} - {{ i.points_b }}</p>
                             <p class="team-b"><img class="logo-time" src="{{ i.times.1.team.photo.url }}" alt="Logo time">{{ i.times.1.team.name }}</p>
                         </div>
                         <br>
@@ -183,7 +184,7 @@
                         {% for i in context_queimado_fem %}
                         <div class="game">
                             <p class="team-a">{{ i.times.0.team.name }} <img class="logo-time" src="{{ i.times.0.team.photo.url }}" alt="Logo time"></p>
-                            <p class="score">{{ i.points_a }} x {{ i.points_b }}</p>
+                            <p class="score">{{ i.points_a }} - {{ i.points_b }}</p>
                             <p class="team-b"><img class="logo-time" src="{{ i.times.1.team.photo.url }}" alt="Logo time">{{ i.times.1.team.name }}</p>
                         </div>
                         <br>
@@ -197,17 +198,19 @@
             <h2>Jogos do Dia</h2>
             <div class="today-games-container">
                 <div class="today-games">
-                    {% for game in context_games_day %}
+                    {% for i in context_games_day %}
                         <div class="today-game">
                             <p class="team-a">
-                                {{ game.teams.0.name }}
+                                {{ i.times.0.team.name }} <img class="logo-time" src="{{ i.times.0.team.photo.url }}" alt="Logo time">
                             </p>
-                            {% if game.match.sport.sets %}<img class="sport" src="{% static 'images/ball-of-volley.png' %}" alt="" aria-hidden="true">{% else %}<img class="sport" src="{% static 'images/ball-of-futsal.png' %}" alt="" aria-hidden="true">{% endif %}
+                            {% if i.match.sport.sets %}<img class="sport" src="{% static 'images/ball-of-volley.png' %}" alt="" aria-hidden="true">{% else %}<img class="sport" src="{% static 'images/ball-of-futsal.png' %}" alt="" aria-hidden="true">{% endif %}
                             <p class="team-b">
-                                {{ game.teams.1.name }}
+                                <img class="logo-time" src="{{ i.times.1.team.photo.url }}" alt="Logo time">
+                                {{ i.times.1.team.name }}
                             </p>
                         </div>
                     {% endfor %}
+
                 </div>                
                 
             </div>

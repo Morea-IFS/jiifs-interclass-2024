@@ -6,8 +6,9 @@ from . import views
 
 urlpatterns = [
     path('' , views.home_public, name = "home_public"),
-    path('placar' , views.scoreboard_public, name = "scoreboard_public"),
-    path('scoreboard_projector', views.scoreboard_projector, name = "scoreboard_projector"),
+    path('placar' , views.scoreboard_public, name="scoreboard_public"),
+    path('scoreboard_projector', views.scoreboard_projector, name="scoreboard_projector"),
+    path('sobre', views.about_us, name="about_us"),
     path('login' , views.login, name = "login"),
     path('logout', views.sair, name='logout'),
     path('morea', views.index, name = "Home"),

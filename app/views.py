@@ -66,26 +66,11 @@ def timer_page(request, id):
 def home_public(request):
     try:
         hoje = date.today()
-        games_day = Match.objects.filter(time_match__date=hoje).prefetch_related(
-            Prefetch(
-                'teams',
-                queryset=Team_match.objects.select_related('team'),
-                to_attr='prefetched_teams'
-            )
-        ).select_related('sport').distinct()
-
+        games_day = Match.objects.filter(time_match__date=hoje).prefetch_related('teams__team').order_by('time_match')
         context_games_day = [
             {
                 'match': match,
-                'sport': match.sport,
-                'teams': [
-                    {
-                        'team': team_match.team,
-                        'name': team_match.team.name,
-                        'photo_url': team_match.team.photo.url,
-                    }
-                    for team_match in match.prefetched_teams
-                ]
+                'times': list(match.teams.all()),
             }
             for match in games_day
         ]
@@ -202,6 +187,8 @@ def home_public(request):
         messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
         return render(request, 'home_public.html')
 
+def about_us(request):
+    return render(request, 'about_us.html')
 def player_manage(request):
     try:
         if request.user.is_authenticated == False:
@@ -282,6 +269,9 @@ def matches_manage(request):
             else:
                 match_id = request.POST.get('match_delete')
                 match_delete = Match.objects.get(id=match_id)
+                if match_delete.sport.sets:
+                    volley_match = Volley_match.objects.get(id=match_delete.volley_match.id)
+                    volley_match.delete()
                 match_delete.delete()
                 return redirect('matches_manage')
     except Exception as e:
@@ -319,6 +309,9 @@ def matches_edit(request, id):
                 if 'excluir' in request.POST:
                     print("certin")
                     match.delete()
+                    if match.sport.sets:
+                        volley_match = Volley_match.objects.get(id=match.volley_match.id)
+                        volley_match.delete()
                     team_match_a.delete()
                     team_match_b.delete()
                     return redirect('matches_manage')
@@ -799,7 +792,13 @@ def players_match(request, id):
                             player_match = Player_match.objects.get(player=player, team_match=team_match)
                             player_match.delete()
                         return redirect('players_match', team_match.id)
-            except (Player.DoesNotExist,Player_match.DoesNotExist):
+                if 'player_match_delete' in request.POST:
+                    pass
+                    player_match_id = request.POST.get('player_match_delete')
+                    player_match = Player_match.objects.get(id=player_match_id)
+                    player_match.delete()
+                    return redirect('players_match', team_match.id)
+            except (Player.DoesNotExist, Player_match.DoesNotExist):
                 print('O jogador não foi encontrado :(')
             except Exception as e:
                 print(f'Um erro inesperado aconteceu: {str(e)}')

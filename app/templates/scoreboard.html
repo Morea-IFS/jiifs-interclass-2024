@@ -276,9 +276,10 @@
 {% block scripts %}
     <script src="{% static 'js/timer.js' %}"></script>
     {% if seconds %}
-    <script>
-        console.log("CHEGANDO DADOS: ",{{seconds}}," ", {{status}})
-        stopwatch({{seconds}}, {{status}})
-    </script>
+        <script>
+            stopwatch({{seconds}}, {{status}})
+            console.log("Chegou o horario!")
+        </script>
+        
     {% endif %}
 {% endblock scripts %}

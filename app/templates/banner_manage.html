@@ -12,6 +12,9 @@
 <a href="{% url 'games' %}">
     <button class="side-bar-buttons-items">JOGOS</button>
 </a>
+<a href="{% url 'settings_manage' %}">
+    <button class="side-bar-buttons-items">CONFIGURAÇÕES</button>
+</a>
 <a href="{% url 'banner_manage' %}">
     <button class="side-bar-buttons-items">BANNERS</button>
 </a>
@@ -40,7 +43,7 @@
                         <th>NONE</th>
                         <th>BANNER</th>
                         <th>STATUS</th>
-                        <th>TRASH</th>
+                        <th>DELETAR</th>
                     </tr>
                     {% for banner in banner %}
                     <tr>

@@ -89,8 +89,6 @@ socket.onmessage = function(e) {
     if (sexocolor) sexocolor.textContent = data.sexo_text;
     if (ballsport) ballsport.src = data.ball_sport;
     if (bannerScoreboard) bannerScoreboard.src = data.banner_score;
-    console.log("Atualização recebida", data);
-    console.log("Recebei", data.aces_or_card,data.aces_or_card_a,data.aces_or_card_b);
 
     if(SectionBoard) SectionBoard.style.display = data.banner_status_score ? 'none' : 'flex';
     if(FooterBoard) FooterBoard.style.display = data.banner_status_score ? 'none' : 'flex';

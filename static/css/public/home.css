@@ -55,7 +55,7 @@ nav {
 }
 
 img.logo-jiifs {
-    height: 70px;
+    height: 60px;
 }
 
 header nav ul {
@@ -339,6 +339,7 @@ footer {
     padding: 20px 0;
     height: calc(80vh - 45px);
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 .today-games-container::-webkit-scrollbar{
     width: 8px;
@@ -386,7 +387,7 @@ footer img {
     }
 
     img.logo-jiifs {
-        height: 50px;
+        height: 45px;
     }
     .future-feature{
         display: none;
@@ -399,7 +400,6 @@ footer img {
         padding-bottom: 180px;
     }
     .today-games{
-        display: none;
         width: 550px;
         height: auto;
     }

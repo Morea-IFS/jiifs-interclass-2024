@@ -59,6 +59,7 @@
                                 <th>NUMERO</th>
                                 <th>SITUAÇÃO</th>
                                 <th>SEXO</th>
+                                <th>DELETAR</th>
                             </tr>
                             {% for i in player_match %}
                             <tr>
@@ -70,6 +71,7 @@
                                 <td>{{i.player_number}}</td>
                                 <td>{{i.get_activity_display}}</td>
                                 <td>{{i.player.get_sexo_display}}</td>
+                                <td><form method="POST" action="">{% csrf_token %}<button name="player_match_delete" value="{{i.id}}" style="background-color: transparent; border: none;"><img src="{% static 'images/icon-trash.svg' %}"></button></form></td>
                             </tr>
                             {% empty %}
                             <style>

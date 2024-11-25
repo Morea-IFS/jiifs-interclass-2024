@@ -15,6 +15,9 @@
 <a href="{% url 'settings_manage' %}">
     <button class="side-bar-buttons-items">CONFIGURAÇÕES</button>
 </a>
+<a href="{% url 'banner_manage' %}">
+    <button class="side-bar-buttons-items">BANNERS</button>
+</a>
 {% endblock navbar %}
 
 {% block register %}
@@ -40,7 +43,7 @@
                         <th>SITE</th>
                         <th>NOME SUPERIOR</th>
                         <th>IMAGEM</th>
-                        <th>TRASH</th>
+                        <th>DELETAR</th>
                     </tr>
                     {% for config in config %}
                     <tr>
