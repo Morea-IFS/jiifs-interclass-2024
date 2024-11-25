@@ -1,3 +1,27 @@
+const menuMobileManagment = () => {
+    const burguer = document.querySelector('.icon-burguer');
+    const nav = document.querySelector('header nav ul');
+    const elementsMobile = document.querySelectorAll('.mobile')
+    const close = document.querySelector('.icon-close');
+
+    const onBurguerClick = () => {
+        nav.style.display = 'flex';
+        elementsMobile.forEach((item) => {
+            item.style.display = 'flex';
+        })
+    };
+
+    const onCloseClick = () => {
+        nav.style.display = 'none';
+        elementsMobile.forEach((item) => {
+            item.style.display = 'none';
+        })
+    };
+
+    burguer.addEventListener('click', onBurguerClick);
+    close.addEventListener('click', onCloseClick);
+}
+
 const arrowControl = () => {
     const selectInputs = document.querySelectorAll('select')
 
@@ -48,8 +72,28 @@ const filterControl = () => {
         });
     });
 };
-
+const controlFunctionBar = () => {
+    const itensNav = document.querySelectorAll('.menu-of-functions li');
+    const gamesSection = document.querySelector('.games');
+    const todayGamesSection = document.querySelector('.today-games');
+    itensNav.forEach((item) => {
+        item.addEventListener('click', () => {
+            itensNav.forEach((item) => {
+                item.classList.value.includes('activate') ? item.classList.remove('activate') : item.classList.add('activate')
+            });
+            if ( item.classList.value.includes('activate') && item.classList.value.includes('today') ) {
+                gamesSection.style.display = 'none';
+                todayGamesSection.style.display = 'block';
+            }
+            else {
+                gamesSection.style.display = 'flex';
+                todayGamesSection.style.display = 'none';
+            }
+        })
+    });
+};
+controlFunctionBar();
 filterControl();
-
+menuMobileManagment();
 searchControl();
 arrowControl();

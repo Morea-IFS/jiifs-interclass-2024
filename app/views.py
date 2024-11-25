@@ -9,6 +9,8 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import authenticate, logout
+from datetime import date
+from django.db.models import Prefetch
 import time
 # Create your views here.
 def index(request):
@@ -62,205 +64,258 @@ def timer_page(request, id):
             return redirect('timer', match.id)
 
 def home_public(request):
-    volei_masc = Volley_match.objects.filter(matches__sexo=0).prefetch_related('matches__teams__team').distinct()
-    context_volei_masc = [
-        {
-            'volley_match': volley_match,
-            'sets_team_a': volley_match.sets_team_a,
-            'sets_team_b': volley_match.sets_team_b,
-            'matches': [
-                {
-                    'match': match,
-                    'times': [
-                        {
-                            'team': team_match.team,
-                            'name': team_match.team.name,
-                            'photo_url': team_match.team.photo.url,
-                            'points': Point.objects.filter(team_match=team_match).count()
-                        }
-                        for team_match in match.teams.all()
-                    ]
-                }
-                for match in volley_match.matches.all().order_by('time_match')
-            ]
-        }
-        for volley_match in volei_masc
-    ]
+    try:
+        hoje = date.today()
+        games_day = Match.objects.filter(time_match__date=hoje).prefetch_related(
+            Prefetch(
+                'teams',
+                queryset=Team_match.objects.select_related('team'),
+                to_attr='prefetched_teams'
+            )
+        ).select_related('sport').distinct()
 
-    volei_fem = Volley_match.objects.prefetch_related('matches__teams__team').filter(matches__sexo=1)
-    context_volei_fem = [
-        {
-            'volley_match': volley_match,
-            'sets_team_a': volley_match.sets_team_a,
-            'sets_team_b': volley_match.sets_team_b,
-            'matches': [
-                {
-                    'match': match,
-                    'times': list(match.teams.all()),
-                    'points_a': Point.objects.filter(team_match=match.teams.first()).count(),
-                    'points_b': Point.objects.filter(team_match=match.teams.last()).count(),
-                }
-                for match in volley_match.matches.all().order_by('time_match')
-            ]
-        }
-        for volley_match in volei_fem
-    ]
-    
-    matchs_futsal_masc = Match.objects.filter(sport__logs=True, sexo=0).prefetch_related('teams__team').order_by('time_match')
-    context_futsal_masc = [
-        {
-            'match': match,
-            'times': list(match.teams.all()),
-            'points_a': Point.objects.filter(team_match=match.teams.first()).count(),
-            'points_b': Point.objects.filter(team_match=match.teams.last()).count(),
-        }
-        for match in matchs_futsal_masc
-    ]
-
-    matchs_futsal_fem = Match.objects.filter(sport__logs=True, sexo=1).prefetch_related('teams__team').order_by('time_match')
-    context_futsal_fem = [
-        {
-            'match': match,
-            'times': list(match.teams.all()),
-            'points_a': Point.objects.filter(team_match=match.teams.first()).count(),
-            'points_b': Point.objects.filter(team_match=match.teams.last()).count(),
-        }
-        for match in matchs_futsal_fem
-
-    ]
-
-    matchs_queimado_fem = Match.objects.filter(sport__sets=False,sport__logs=False, sexo=0).prefetch_related('teams__team').order_by('time_match')
-    context_queimado_fem = [
-        {
-            'match': match,
-            'times': list(match.teams.all()),
-            'points_a': Point.objects.filter(team_match=match.teams.first()).count(),
-            'points_b': Point.objects.filter(team_match=match.teams.last()).count(),
-        }
-        for match in matchs_queimado_fem
-    ]
-
-    matchs_queimado_masc = Match.objects.filter(sport__sets=False,sport__logs=False, sexo=1).prefetch_related('teams__team').order_by('time_match')
-    context_queimado_masc = [
-        {
-            'match': match,
-            'times': list(match.teams.all()),
-            'points_a': Point.objects.filter(team_match=match.teams.first()).count(),
-            'points_b': Point.objects.filter(team_match=match.teams.last()).count(),
-        }
-        for match in matchs_queimado_masc
-    ]
-
-    if request.method == "GET":
-        context = {
-            'context_queimado_masc':context_queimado_masc,
-            'context_queimado_fem':context_queimado_fem,
-            'context_volei_masc':context_volei_masc,
-            'context_volei_fem':context_volei_fem,
-            'context_futsal_masc':context_futsal_masc,
-            'context_futsal_fem':context_futsal_fem,
-        }
-        print(context)
-        return render(request, 'home_public.html', context)
-
-def player_manage(request):
-    if request.user.is_authenticated == False:
-        return redirect('login')
-    else:
-        player = Player.objects.all()
-        if request.method == "GET":
-            if not player:
-                print("Não há nenhum jogador cadastrado!")
-            return render(request, 'player_manage.html', {'player': player})
-        else:
-            player_id = request.POST.get('player_delete')
-            player_delete = Player.objects.get(id=player_id)
-            player_delete.delete()
-            return redirect('player_manage')
-
-def team_manage(request):
-    if request.user.is_authenticated == False:
-        return redirect('login')
-    else:
-        teste = Team.objects.all()
-        team_sports = Team_sport.objects.select_related('team', 'sport').all()
-        if request.method == "GET":
-            return render(request, 'team_manage.html', {'team_sports': team_sports, 'teste': teste,})
-        else:
-            team_sport_id = request.POST.get('team_sport_delete')
-            team_sport_delete = Team_sport.objects.get(id=team_sport_id)
-            team_sport_delete.delete()
-            return redirect('team_manage')
-
-def team_players_manage(request, id):
-    if request.user.is_authenticated == False:
-        return redirect('login')
-    else:
-        team = get_object_or_404(Team_sport, id=id)
-        if request.method == "GET":
-            player_team_sport = Player_team_sport.objects.select_related('player', 'team_sport').filter(team_sport=id)
-            if not player_team_sport: messages.info(request, "Não há nenhum jogador cadastrado!")        
-            return render(request, 'team_players_manage.html', {'player_team_sport': player_team_sport,'team': team})
-        else:
-            player = request.POST.getlist('input-checkbox')
-            player_sport = Player_team_sport.objects.filter(team_sport=id)
-            for i in player:
-                player_filter = player_sport.filter(player=i)
-                player_filter.delete()
-            return redirect('team_players_manage', team.id)
-
-def matches_manage(request):
-    if request.user.is_authenticated == False:
-        return redirect('login')
-    else:
-        matchs = Match.objects.all().prefetch_related('teams__team')
-        sport = Sport.objects.all()
-        context = [
+        context_games_day = [
             {
                 'match': match,
-                'sport':sport,
-                'times': list(match.teams.all()),
+                'sport': match.sport,
+                'teams': [
+                    {
+                        'team': team_match.team,
+                        'name': team_match.team.name,
+                        'photo_url': team_match.team.photo.url,
+                    }
+                    for team_match in match.prefetched_teams
+                ]
             }
-            for match in matchs
+            for match in games_day
         ]
+
+
+        volei_masc = Volley_match.objects.filter(matches__sexo=0).prefetch_related('matches__teams__team').distinct()
+        context_volei_masc = [
+            {
+                'volley_match': volley_match,
+                'sets_team_a': volley_match.sets_team_a,
+                'sets_team_b': volley_match.sets_team_b,
+                'matches': [
+                    {
+                        'match': match,
+                        'times': [
+                            {
+                                'team': team_match.team,
+                                'name': team_match.team.name,
+                                'photo_url': team_match.team.photo.url,
+                                'points': Point.objects.filter(team_match=team_match).count()
+                            }
+                            for team_match in match.teams.all()
+                        ]
+                    }
+                    for match in volley_match.matches.all().order_by('time_match')
+                ]
+            }
+            for volley_match in volei_masc
+        ]
+
+        volei_fem = Volley_match.objects.filter(matches__sexo=1).prefetch_related('matches__teams__team').distinct()
+        context_volei_fem = [
+            {
+                'volley_match': volley_match,
+                'sets_team_a': volley_match.sets_team_a,
+                'sets_team_b': volley_match.sets_team_b,
+                'matches': [
+                    {
+                        'match': match,
+                        'times': [
+                            {
+                                'team': team_match.team,
+                                'name': team_match.team.name,
+                                'photo_url': team_match.team.photo.url,
+                                'points': Point.objects.filter(team_match=team_match).count()
+                            }
+                            for team_match in match.teams.all()
+                        ]
+                    }
+                    for match in volley_match.matches.all().order_by('time_match')
+                ]
+            }
+            for volley_match in volei_fem
+        ]
+        
+        matchs_futsal_masc = Match.objects.filter(sport__logs=True, sexo=0).prefetch_related('teams__team').order_by('time_match')
+        context_futsal_masc = [
+            {
+                'match': match,
+                'times': list(match.teams.all()),
+                'points_a': Point.objects.filter(team_match=match.teams.first()).count(),
+                'points_b': Point.objects.filter(team_match=match.teams.last()).count(),
+            }
+            for match in matchs_futsal_masc
+        ]
+
+        matchs_futsal_fem = Match.objects.filter(sport__logs=True, sexo=1).prefetch_related('teams__team').order_by('time_match')
+        context_futsal_fem = [
+            {
+                'match': match,
+                'times': list(match.teams.all()),
+                'points_a': Point.objects.filter(team_match=match.teams.first()).count(),
+                'points_b': Point.objects.filter(team_match=match.teams.last()).count(),
+            }
+            for match in matchs_futsal_fem
+
+        ]
+
+        matchs_queimado_fem = Match.objects.filter(sport__sets=False,sport__logs=False, sexo=0).prefetch_related('teams__team').order_by('time_match')
+        context_queimado_fem = [
+            {
+                'match': match,
+                'times': list(match.teams.all()),
+                'points_a': Point.objects.filter(team_match=match.teams.first()).count(),
+                'points_b': Point.objects.filter(team_match=match.teams.last()).count(),
+            }
+            for match in matchs_queimado_fem
+        ]
+
+        matchs_queimado_masc = Match.objects.filter(sport__sets=False,sport__logs=False, sexo=1).prefetch_related('teams__team').order_by('time_match')
+        context_queimado_masc = [
+            {
+                'match': match,
+                'times': list(match.teams.all()),
+                'points_a': Point.objects.filter(team_match=match.teams.first()).count(),
+                'points_b': Point.objects.filter(team_match=match.teams.last()).count(),
+            }
+            for match in matchs_queimado_masc
+        ]
+
         if request.method == "GET":
-            if not context:
-                print("Não há nenhuma partida cadastrada!")
-            return render(request, 'matches_manage.html',{'context': context,})
+            context = {
+                'context_queimado_masc':context_queimado_masc,
+                'context_queimado_fem':context_queimado_fem,
+                'context_volei_masc':context_volei_masc,
+                'context_volei_fem':context_volei_fem,
+                'context_futsal_masc':context_futsal_masc,
+                'context_futsal_fem':context_futsal_fem,
+                'context_games_day':context_games_day,
+            }
+            print(context)
+            return render(request, 'home_public.html', context)
+    except Exception as e:
+        messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
+        return render(request, 'home_public.html')
+
+def player_manage(request):
+    try:
+        if request.user.is_authenticated == False:
+            return redirect('login')
         else:
-            match_id = request.POST.get('match_delete')
-            match_delete = Match.objects.get(id=match_id)
-            match_delete.delete()
-            return redirect('matches_manage')
+            player = Player.objects.all()
+            if request.method == "GET":
+                if not player:
+                    print("Não há nenhum jogador cadastrado!")
+                return render(request, 'player_manage.html', {'player': player})
+            else:
+                player_id = request.POST.get('player_delete')
+                player_delete = Player.objects.get(id=player_id)
+                player_delete.delete()
+                return redirect('player_manage')
+    except Exception as e:
+        messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
+        return render(request, 'player_manage.html')
+
+def team_manage(request):
+    try:
+        if request.user.is_authenticated == False:
+            return redirect('login')
+        else:
+            teste = Team.objects.all()
+            team_sports = Team_sport.objects.select_related('team', 'sport').all()
+            if request.method == "GET":
+                return render(request, 'team_manage.html', {'team_sports': team_sports, 'teste': teste,})
+            else:
+                team_sport_id = request.POST.get('team_sport_delete')
+                team_sport_delete = Team_sport.objects.get(id=team_sport_id)
+                team_sport_delete.delete()
+                return redirect('team_manage')
+    except Exception as e:
+        messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
+        return render(request, 'team_manage.html')
+
+def team_players_manage(request, id):
+    try:
+        if request.user.is_authenticated == False:
+            return redirect('login')
+        else:
+            team = get_object_or_404(Team_sport, id=id)
+            if request.method == "GET":
+                player_team_sport = Player_team_sport.objects.select_related('player', 'team_sport').filter(team_sport=id)
+                if not player_team_sport: messages.info(request, "Não há nenhum jogador cadastrado!")        
+                return render(request, 'team_players_manage.html', {'player_team_sport': player_team_sport,'team': team})
+            else:
+                player = request.POST.getlist('input-checkbox')
+                player_sport = Player_team_sport.objects.filter(team_sport=id)
+                for i in player:
+                    player_filter = player_sport.filter(player=i)
+                    player_filter.delete()
+                return redirect('team_players_manage', team.id)
+    except Exception as e:
+        messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
+        return render(request, 'team_players_manage.html')
+
+def matches_manage(request):
+    try:
+        if request.user.is_authenticated == False:
+            return redirect('login')
+        else:
+            matchs = Match.objects.all().prefetch_related('teams__team')
+            sport = Sport.objects.all()
+            context = [
+                {
+                    'match': match,
+                    'sport':sport,
+                    'times': list(match.teams.all()),
+                }
+                for match in matchs
+            ]
+            if request.method == "GET":
+                if not context:
+                    print("Não há nenhuma partida cadastrada!")
+                return render(request, 'matches_manage.html',{'context': context,})
+            else:
+                match_id = request.POST.get('match_delete')
+                match_delete = Match.objects.get(id=match_id)
+                match_delete.delete()
+                return redirect('matches_manage')
+    except Exception as e:
+        messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
+        return render(request, 'matches_manage.html')
 
 def matches_edit(request, id):
-    if request.user.is_authenticated == False:
-        return redirect('login')
-    else:
-        match = get_object_or_404(Match, id=id)
-        team_matchs = Team_match.objects.filter(match=match)
-        team = Team.objects.all()
-        team_match_a = team_matchs[0]
-        team_match_b = team_matchs[1]
-        match = get_object_or_404(Match, id=id)
-        sport = Sport.objects.all()
-        if match.sexo != 1 or 0:
-            match_disable = True
+    try:
+        if request.user.is_authenticated == False:
+            return redirect('login')
         else:
-            match_disable = False
-        context = {
-            'match': match, 
-            'sport': sport,
-            'team': team,
-            'team_match_a': team_match_a,
-            'team_match_b': team_match_b,
-            'match_disable': match_disable,
+            match = get_object_or_404(Match, id=id)
+            team_matchs = Team_match.objects.filter(match=match)
+            team = Team.objects.all()
+            team_match_a = team_matchs[0]
+            team_match_b = team_matchs[1]
+            match = get_object_or_404(Match, id=id)
+            sport = Sport.objects.all()
+            if match.sexo != 1 or 0:
+                match_disable = True
+            else:
+                match_disable = False
+            context = {
+                'match': match, 
+                'sport': sport,
+                'team': team,
+                'team_match_a': team_match_a,
+                'team_match_b': team_match_b,
+                'match_disable': match_disable,
 
-        }
-        if request.method == "GET":
-            return render(request, 'matches_edit.html', context)
-        else:
-            try:
+            }
+            if request.method == "GET":
+                return render(request, 'matches_edit.html', context)
+            else:
                 if 'excluir' in request.POST:
                     print("certin")
                     match.delete()
@@ -281,15 +336,15 @@ def matches_edit(request, id):
                     team_match_b.save()
                     match.time_match = request.POST.get('datetime')
                     match.save()
-            except (TypeError, ValueError):
-                messages.error(request, 'Um valor foi informado incorretamente!')
-            except IntegrityError as e:
-                messages.error(request, 'Algumas informações não foram preenchidas :(')
-            except Team.DoesNotExist:
-                messages.error(request, 'Um dos times não foi informado ou é inexistente!')
-            except Exception as e:
-                messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
-            return redirect('matches_manage')
+    except (TypeError, ValueError):
+        messages.error(request, 'Um valor foi informado incorretamente!')
+    except IntegrityError as e:
+        messages.error(request, 'Algumas informações não foram preenchidas :(')
+    except Team.DoesNotExist:
+        messages.error(request, 'Um dos times não foi informado ou é inexistente!')
+    except Exception as e:
+        messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
+    return redirect('matches_manage')
 
 def matches_register(request):
     if request.user.is_authenticated == False:
@@ -1217,125 +1272,128 @@ def scoreboard(request):
         return redirect('games')
 
 def scoreboard_public(request):
-    if Volley_match.objects.filter(status=1):
-        print("PARTIDA DE VOLEI")
-        volley_match = Volley_match.objects.get(status=1)
-        print(volley_match)
-        match = Match.objects.filter(volley_match=volley_match.id).last()
-        print(match)
-        team_matchs = Team_match.objects.filter(match=match)
-        print(team_matchs)
-        team_match_a = team_matchs[0]
-        team_match_b = team_matchs[1]
-        if (match.volley_match.sets_team_a + match.volley_match.sets_team_b) % 2 == 0:
-            print("par")
-            teammatch1 = team_match_a
-            teammatch2 = team_match_b
-            sets_1 = match.volley_match.sets_team_a
-            sets_2 = match.volley_match.sets_team_b
+    try:
+        if Volley_match.objects.filter(status=1):
+            print("PARTIDA DE VOLEI")
+            volley_match = Volley_match.objects.get(status=1)
+            print(volley_match)
+            match = Match.objects.filter(volley_match=volley_match.id).last()
+            print(match)
+            team_matchs = Team_match.objects.filter(match=match)
+            print(team_matchs)
+            team_match_a = team_matchs[0]
+            team_match_b = team_matchs[1]
+            if (match.volley_match.sets_team_a + match.volley_match.sets_team_b) % 2 == 0:
+                print("par")
+                teammatch1 = team_match_a
+                teammatch2 = team_match_b
+                sets_1 = match.volley_match.sets_team_a
+                sets_2 = match.volley_match.sets_team_b
+            else:
+                print("impar")
+                teammatch1 = team_match_b
+                teammatch2 = team_match_a
+                sets_1 = match.volley_match.sets_team_b
+                sets_2 = match.volley_match.sets_team_a
+            players_match_a = Player_match.objects.filter(team_match=teammatch1)
+            players_match_b = Player_match.objects.filter(team_match=teammatch2)
+            point_a = Point.objects.filter(team_match=teammatch1).count()
+            point_b = Point.objects.filter(team_match=teammatch2).count()
+            aces_a = Point.objects.filter(point_types=2,team_match=teammatch1).count()
+            aces_b = Point.objects.filter(point_types=2,team_match=teammatch2).count()
+            lack_a = Penalties.objects.filter(type_penalties=2,team_match=teammatch1).count()
+            lack_b = Penalties.objects.filter(type_penalties=2,team_match=teammatch2).count()
+            events = Events.objects.filter(match=match)
+            name_scoreboard = 'Sets'
+            ball_sport = static('images/ball-of-volley.png')
+            if match.sexo == 1: 
+                img_sexo = static('images/icon-female.svg')
+                sexo_color = '#ff32aa' 
+            else: 
+                img_sexo = static('images/icon-male.svg')
+                sexo_color = '#3a7bd5'
+            context = {
+                'match': match,
+                'team_match_a':teammatch1,
+                'team_match_b':teammatch2,
+                'time_sets_a': sets_1,
+                'sets_b': sets_2,
+                'players_match_a':players_match_a,
+                'players_match_b':players_match_b,
+                'point_a':point_a,
+                'point_b':point_b,
+                'lack_a':lack_a,
+                'lack_b':lack_b,
+                'img_sexo':img_sexo,
+                'sexo_color': sexo_color,
+                'ball_sport': ball_sport,
+                'aces_or_card': "Aces",
+                'aces_or_card_a': aces_a,
+                'aces_or_card_b': aces_b,
+                'events': events,
+                'sexo_text':match.get_sexo_display(),
+                'name_scoreboard': name_scoreboard,
+                
+            }
+            print(context)
+            return render(request, 'scoreboard_public.html', context)
+            
+        elif Match.objects.filter(status=1):
+            print("sport aleatorio")
+            match = Match.objects.get(status=1)
+            events = Events.objects.filter()
+            team_matchs = Team_match.objects.filter(match=match)
+            team_match_a = team_matchs[0]
+            team_match_b = team_matchs[1]
+            players_match_a = Player_match.objects.filter(team_match=team_match_a)
+            players_match_b = Player_match.objects.filter(team_match=team_match_b)
+            point_a = Point.objects.filter(team_match=team_match_a).count()
+            point_b = Point.objects.filter(team_match=team_match_b).count()
+            lack_a = Penalties.objects.filter(type_penalties=2,team_match=team_match_a).count()
+            lack_b = Penalties.objects.filter(type_penalties=2,team_match=team_match_b).count()
+            card_a = Penalties.objects.filter(type_penalties=0,team_match=team_match_a).count() + Penalties.objects.filter(type_penalties=1,team_match=team_match_a).count()
+            card_b = Penalties.objects.filter(type_penalties=0,team_match=team_match_b).count() + Penalties.objects.filter(type_penalties=1,team_match=team_match_b).count()
+            seconds, status = timer(match)
+            if match.sexo == 1: 
+                img_sexo = static('images/icon-female.svg')
+                sexo_color = '#ff32aa' 
+            else: 
+                img_sexo = static('images/icon-male.svg')
+                sexo_color = '#3a7bd5'
+            name_scoreboard = 'Tempo'
+            ball_sport = static('images/ball-of-futsal.png')
+            context = {
+                'match': match,
+                'events':events,
+                'status': status,
+                'seconds': seconds,
+                'team_match_a':team_match_a,
+                'team_match_b':team_match_b,
+                'players_match_a':players_match_a,
+                'players_match_b':players_match_b,
+                'point_a':point_a,
+                'point_b':point_b,
+                'time_sets_a': "00:00",
+                'lack_a':lack_a,
+                'lack_b':lack_b,
+                'img_sexo':img_sexo,
+                'sexo_color': sexo_color,
+                'ball_sport': ball_sport,
+                'aces_or_card': "Cartões",
+                'aces_or_card_a': card_a,
+                'aces_or_card_b': card_b,
+                'sexo_text':match.get_sexo_display(),
+                'name_scoreboard': name_scoreboard,
+                
+            }
+            print(events)
+            print(context)
+            return render(request, 'scoreboard_public.html', context)
         else:
-            print("impar")
-            teammatch1 = team_match_b
-            teammatch2 = team_match_a
-            sets_1 = match.volley_match.sets_team_b
-            sets_2 = match.volley_match.sets_team_a
-        players_match_a = Player_match.objects.filter(team_match=teammatch1)
-        players_match_b = Player_match.objects.filter(team_match=teammatch2)
-        point_a = Point.objects.filter(team_match=teammatch1).count()
-        point_b = Point.objects.filter(team_match=teammatch2).count()
-        aces_a = Point.objects.filter(point_types=2,team_match=teammatch1).count()
-        aces_b = Point.objects.filter(point_types=2,team_match=teammatch2).count()
-        lack_a = Penalties.objects.filter(type_penalties=2,team_match=teammatch1).count()
-        lack_b = Penalties.objects.filter(type_penalties=2,team_match=teammatch2).count()
-        events = Events.objects.filter(match=match)
-        name_scoreboard = 'Sets'
-        ball_sport = static('images/ball-of-volley.png')
-        if match.sexo == 1: 
-            img_sexo = static('images/icon-female.svg')
-            sexo_color = '#ff32aa' 
-        else: 
-            img_sexo = static('images/icon-male.svg')
-            sexo_color = '#3a7bd5'
-        context = {
-            'match': match,
-            'team_match_a':teammatch1,
-            'team_match_b':teammatch2,
-            'time_sets_a': sets_1,
-            'sets_b': sets_2,
-            'players_match_a':players_match_a,
-            'players_match_b':players_match_b,
-            'point_a':point_a,
-            'point_b':point_b,
-            'lack_a':lack_a,
-            'lack_b':lack_b,
-            'img_sexo':img_sexo,
-            'sexo_color': sexo_color,
-            'ball_sport': ball_sport,
-            'aces_or_card': "Aces",
-            'aces_or_card_a': aces_a,
-            'aces_or_card_b': aces_b,
-            'events': events,
-            'sexo_text':match.get_sexo_display(),
-            'name_scoreboard': name_scoreboard,
-            
-        }
-        print(context)
-        return render(request, 'scoreboard_public.html', context)
-        
-    elif Match.objects.filter(status=1):
-        print("sport aleatorio")
-        match = Match.objects.get(status=1)
-        events = Events.objects.filter()
-        team_matchs = Team_match.objects.filter(match=match)
-        team_match_a = team_matchs[0]
-        team_match_b = team_matchs[1]
-        players_match_a = Player_match.objects.filter(team_match=team_match_a)
-        players_match_b = Player_match.objects.filter(team_match=team_match_b)
-        point_a = Point.objects.filter(team_match=team_match_a).count()
-        point_b = Point.objects.filter(team_match=team_match_b).count()
-        lack_a = Penalties.objects.filter(type_penalties=2,team_match=team_match_a).count()
-        lack_b = Penalties.objects.filter(type_penalties=2,team_match=team_match_b).count()
-        card_a = Penalties.objects.filter(type_penalties=0,team_match=team_match_a).count() + Penalties.objects.filter(type_penalties=1,team_match=team_match_a).count()
-        card_b = Penalties.objects.filter(type_penalties=0,team_match=team_match_b).count() + Penalties.objects.filter(type_penalties=1,team_match=team_match_b).count()
-        seconds, status = timer(match)
-        if match.sexo == 1: 
-            img_sexo = static('images/icon-female.svg')
-            sexo_color = '#ff32aa' 
-        else: 
-            img_sexo = static('images/icon-male.svg')
-            sexo_color = '#3a7bd5'
-        name_scoreboard = 'Tempo'
-        ball_sport = static('images/ball-of-futsal.png')
-        context = {
-            'match': match,
-            'events':events,
-            'status': status,
-            'seconds': seconds,
-            'team_match_a':team_match_a,
-            'team_match_b':team_match_b,
-            'players_match_a':players_match_a,
-            'players_match_b':players_match_b,
-            'point_a':point_a,
-            'point_b':point_b,
-            'time_sets_a': "00:00",
-            'lack_a':lack_a,
-            'lack_b':lack_b,
-            'img_sexo':img_sexo,
-            'sexo_color': sexo_color,
-            'ball_sport': ball_sport,
-            'aces_or_card': "Cartões",
-            'aces_or_card_a': card_a,
-            'aces_or_card_b': card_b,
-            'sexo_text':match.get_sexo_display(),
-            'name_scoreboard': name_scoreboard,
-            
-        }
-        print(events)
-        print(context)
-        return render(request, 'scoreboard_public.html', context)
-    else:
+            return render(request, 'scoreboard_public.html')
+    except Exception as e:
+        messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
         return render(request, 'scoreboard_public.html')
-    
 def scoreboard_projector(request):
     try:
         if Volley_match.objects.filter(status=1):
@@ -1474,6 +1532,10 @@ def scoreboard_projector(request):
             return render(request, 'scoreboard_projector.html', context)
     except Config.DoesNotExist:
         messages.info(request, "Por favor, adicione as informações do config, ela são importantes para o placar!")
+        return render(request, 'scoreboard_projector.html')
+    except Exception as e:
+        messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
+        return render(request, 'scoreboard_projector.html')
         
 
     

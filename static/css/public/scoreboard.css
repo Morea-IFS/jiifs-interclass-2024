@@ -11,7 +11,7 @@
     --gray-background-cards: #6060604f;
     --gray-background: #1E1E1E;
     --gray-information-area-background: #343434;
-    --green-links-line: #2DFF46;
+    --green-links-line: #00A3FF;
     --green-title-time-or-set: #11BE18;
     --red-live: #FF3232;
     --pink-feminine: #FF32AA;
@@ -51,7 +51,7 @@ nav {
 }
 
 img.logo-jiifs {
-    height: 40px;
+    height: 70px;
 }
 
 header nav ul {
@@ -530,7 +530,7 @@ footer img {
     }
 
     img.logo-jiifs {
-        height: 30px;
+        height: 50px;
     }
 
     main {

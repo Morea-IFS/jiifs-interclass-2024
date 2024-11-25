@@ -15,7 +15,7 @@
         <nav>
             <img
                 class="logo-jiifs"
-                src="{% static 'images/logo-jiifs-2024.svg' %}"
+                src="{% static 'images/morea-sports.png' %}"
                 alt="JIIFS"
             />
             <ul>
@@ -88,7 +88,6 @@
                 <div class="game-block">
                     <div class="block-informations">
                         <p class="modality"><img class="genre-icon" src="{% static 'images/icon-male.svg'%}" alt="" aria-hidden="true">Futsal Masculino</p>
-                        <p class="status live" style="color:#FF3232 ;"><img src="{% static 'images/icon-live.png' %}" alt="" aria-hidden="true">Live</p>
                     </div>
                     <div class="games-of-block">
                         {% for i in context_futsal_masc %}
@@ -97,6 +96,7 @@
                             <p class="score">{{ i.points_a }} x {{ i.points_b }}</p>
                             <p class="team-b"><img class="logo-time" src="{{ i.times.1.team.photo.url }}" alt="Logo time">{{ i.times.1.team.name }}</p>
                         </div>
+                        <br>
                         {% endfor %}
                     </div>
                 </div>
@@ -105,7 +105,6 @@
                 <div class="game-block">
                     <div class="block-informations">
                         <p class="modality"><img class="genre-icon" src="{% static 'images/icon-female.svg'%}" alt="" aria-hidden="true">Futsal Feminino</p>
-                        <p class="status live" style="color:#FF3232 ;"><img src="{% static 'images/icon-live.png' %}" alt="" aria-hidden="true">Live</p>
                     </div>
                     <div class="games-of-block">
                         {% for i in context_futsal_fem %}
@@ -114,7 +113,9 @@
                             <p class="score">{{ i.points_a }} x {{ i.points_b }}</p>
                             <p class="team-b"><img class="logo-time" src="{{ i.times.1.team.photo.url }}" alt="Logo time">{{ i.times.1.team.name }}</p>
                         </div>
+                        <br>
                         {% endfor %}
+                        
                     </div>
                 </div>
                 {% endif %}
@@ -122,7 +123,6 @@
                 <div class="game-block">
                     <div class="block-informations">
                         <p class="modality"><img class="genre-icon" src="{% static 'images/icon-male.svg'%}" alt="" aria-hidden="true">Voleibol Masculino</p>
-                        <p class="status live" style="color:#FF3232;"><img src="{% static 'images/icon-live.png' %}" alt="" aria-hidden="true">Live</p>
                     </div>
                     <div class="games-of-block">
                         {% for i in context_volei_masc %}
@@ -133,6 +133,7 @@
                                     <p class="team-b"><img class="logo-time" src="{{ match.times.1.photo_url }}" alt="Logo time">{{ match.times.1.name }}</p>
                                 </div>
                             {% endfor %}
+                            <br>
                         {% endfor %}
                     </div>
                 </div>
@@ -141,15 +142,17 @@
                 <div class="game-block">
                     <div class="block-informations">
                         <p class="modality"><img class="genre-icon" src="{% static 'images/icon-female.svg'%}" alt="" aria-hidden="true">Voleibol Feminino</p>
-                        <p class="status live" style="color:#FF3232 ;"><img src="{% static 'images/icon-live.png' %}" alt="" aria-hidden="true">Live</p>
                     </div>
                     <div class="games-of-block">
                         {% for i in context_volei_fem %}
-                        <div class="game">
-                            <p class="team-a">{{ i.matches.times.0.team.name }} <img class="logo-time" src="{{ i.times.0.team.photo.url }}" alt="Logo time"></p>
-                            <p class="score">{{ i.points_a }} x {{ i.points_b }}</p>
-                            <p class="team-b"><img class="logo-time" src="{{ i.times.1.team.photo.url }}" alt="Logo time">{{ i.times.1.team.name }}</p>
-                        </div>
+                            {% for match in i.matches %}
+                                <div class="game">
+                                    <p class="team-a">{{ match.times.0.name }} <img class="logo-time" src="{{ match.times.0.photo_url }}" alt="Logo time"></p>
+                                    <p class="score">{{ match.times.0.points }} x {{ match.times.1.points }}</p>
+                                    <p class="team-b"><img class="logo-time" src="{{ match.times.1.photo_url }}" alt="Logo time">{{ match.times.1.name }}</p>
+                                </div>
+                            {% endfor %}
+                            <br>
                         {% endfor %}
                     </div>
                 </div>
@@ -158,7 +161,6 @@
                 <div class="game-block">
                     <div class="block-informations">
                         <p class="modality"><img class="genre-icon" src="{% static 'images/icon-male.svg'%}" alt="" aria-hidden="true">Queimado Masculino</p>
-                        <p class="status live" style="color:#FF3232 ;"><img src="{% static 'images/icon-live.png' %}" alt="" aria-hidden="true">Live</p>
                     </div>
                     <div class="games-of-block">
                         {% for i in context_queimado_masc %}
@@ -167,6 +169,7 @@
                             <p class="score">{{ i.points_a }} x {{ i.points_b }}</p>
                             <p class="team-b"><img class="logo-time" src="{{ i.times.1.team.photo.url }}" alt="Logo time">{{ i.times.1.team.name }}</p>
                         </div>
+                        <br>
                         {% endfor %}
                     </div>
                 </div>
@@ -175,7 +178,6 @@
                 <div class="game-block">
                     <div class="block-informations">
                         <p class="modality"><img class="genre-icon" src="{% static 'images/icon-female.svg'%}" alt="" aria-hidden="true">Queimado Feminino</p>
-                        <p class="status live" style="color:#FF3232 ;"><img src="{% static 'images/icon-live.png' %}" alt="" aria-hidden="true">Live</p>
                     </div>
                     <div class="games-of-block">
                         {% for i in context_queimado_fem %}
@@ -184,39 +186,29 @@
                             <p class="score">{{ i.points_a }} x {{ i.points_b }}</p>
                             <p class="team-b"><img class="logo-time" src="{{ i.times.1.team.photo.url }}" alt="Logo time">{{ i.times.1.team.name }}</p>
                         </div>
+                        <br>
                         {% endfor %}
                     </div>
                 </div>
                 {% endif %}
-                {% for volley in context_volei_masc %}
-                <div>
-                    <h3>Volley Match: {{ volley.volley_match }}</h3>
-                    <p>Sets Team A: {{ volley.sets_team_a }} | Sets Team B: {{ volley.sets_team_b }}</p>
-                    <ul>
-                        {% for match in volley.matches %}
-                            <li>
-                                Match ID: {{ match.match.id }} <br>
-                                Times: 
-                                {% for team in match.times %}
-                                    {{ team.name }}
-                                {% endfor %}
-                                <br>
-                                Points A: {{ match.points_a }} | Points B: {{ match.points_b }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                {% endfor %}
             </div>
         </section>
         <section class="today-games">
             <h2>Jogos do Dia</h2>
             <div class="today-games-container">
-                <div class="today-game">
-                    <p class="team-a">1° IELTM <img class="logo-time" src="{% static 'images/praia-volley.png'%}" alt="Logo time"></p>
-                    <img class="sport" src="{%static 'images/ball-of-volley.png'%}" alt="" aria-hidden="true" >
-                    <p class="team-b"><img class="logo-time" src="{% static 'images/renata-volley.png'%}" alt="Logo time">2° IELTM</p>
-                </div>
+                <div class="today-games">
+                    {% for game in context_games_day %}
+                        <div class="today-game">
+                            <p class="team-a">
+                                {{ game.teams.0.name }}
+                            </p>
+                            {% if game.match.sport.sets %}<img class="sport" src="{% static 'images/ball-of-volley.png' %}" alt="" aria-hidden="true">{% else %}<img class="sport" src="{% static 'images/ball-of-futsal.png' %}" alt="" aria-hidden="true">{% endif %}
+                            <p class="team-b">
+                                {{ game.teams.1.name }}
+                            </p>
+                        </div>
+                    {% endfor %}
+                </div>                
                 
             </div>
         </section>
@@ -233,6 +225,12 @@
             class="logo-ifs"
         />
     </footer>
+    <nav class="mobile-menu-functions">
+        <ul class="menu-of-functions">
+            <li class="games-mobile activate">Geral</li>
+            <li class="today-mobile">Jogos do dia</li>
+        </ul>
+    </nav>
     <script src="{% static 'js/home.js' %}"></script>
 </body>
 </html>

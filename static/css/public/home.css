@@ -11,7 +11,7 @@
     --gray-background-cards: #2A2A2A;
     --gray-background: #1E1E1E;
     --gray-inputs-background: #343434;
-    --green-links-line: #2DFF46;
+    --green-links-line: #00A3FF;
     --green-title-time-or-set: #11BE18;
     --red-live: #FF3232;
     --pink-feminine: #FF32AA;
@@ -22,6 +22,98 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.modal-mobile{
+    display: none;
+}
+.mobile-menu-functions{
+    display: none;
+}
+header {
+    height: 80px;
+    margin: 0 auto;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    background-color: var(--gray-background);
+    z-index: 1;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    padding: 0 16px;
+    max-width: 1152px;
+}
+
+img.logo-jiifs {
+    height: 70px;
+}
+
+header nav ul {
+    display: flex;
+    list-style: none;
+    gap: 35px;
+}
+
+header li a {
+    text-decoration: none;
+    color: var(--white);
+    font-weight: 600;
+    font-size: 24px;
+}
+
+a {
+    text-decoration: none;
+    color: var(--white);
+    font-weight: 600;
+    font-size: 24px;
+}
+
+.icon-burguer, .icon-close {
+    display: none;
+}
+
+a.home-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    border: none;
+    background: none;
+    z-index: 0;
+}
+
+a.home-link::after {
+    content: "";
+    pointer-events: none;
+    bottom: -12px;
+    position: absolute;
+    width: 80%;
+    height: 4px;
+    background-color: var(--green-links-line);
+    animation: animationLinkNav 1s forwards;
+}
+
+@keyframes animationLinkNav {
+    0% {
+        width: 0;
+    }
+
+    100% {
+        width: 80%;
+
+    }
 }
 
 body {
@@ -216,7 +308,7 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1152px;
+    width: 1152px;
     margin: 0 auto;
     padding: 16px;
 
@@ -279,4 +371,211 @@ footer {
 }
 footer img {
     height: 80px;
+}
+@media screen and (max-width:1000px) {
+    header {
+        max-width: 700px;
+    }
+
+    header nav ul {
+        gap: 20px;
+    }
+
+    header li a {
+        font-size: 20px;
+    }
+
+    img.logo-jiifs {
+        height: 50px;
+    }
+    .future-feature{
+        display: none;
+    }
+    main {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        max-width: 700px;
+        padding-bottom: 180px;
+    }
+    .today-games{
+        display: none;
+        width: 550px;
+        height: auto;
+    }
+    .mobile-menu-functions{
+        display: flex;
+        justify-content: center;
+        position: fixed;
+        bottom: 0px;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        background-color: var(--gray-background);
+    }
+    .menu-of-functions{
+        display: flex;
+        align-items: center;
+        width: 700px;
+        height: 60px;
+        gap: 32px;
+        padding: 0 16px;
+    }
+    .menu-of-functions>li{
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+        color: var(--white);
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+
+    }
+    .menu-of-functions>li.activate{
+        color: var(--green-links-line);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        cursor: pointer;
+        position: relative;
+        border: none;
+        background: none;
+        z-index: 0;
+    }
+    .menu-of-functions>li.activate::after{
+        content: "";
+        pointer-events: none;
+        bottom: -12px;
+        position: absolute;
+        height: 4px;
+        background-color: var(--green-links-line);
+        animation: animationLinkNav 1s forwards;
+    }
+    footer {
+        width: 700px;
+        height: 60px;
+        margin-top: -120px;
+    }
+
+    footer img {
+        height: 60px;
+    }
+    
+}
+@media screen and (max-width:750px) {
+    header {
+        max-width: 350px;
+        height: 60px;
+    }
+    .modal-mobile{
+        display: none;
+        height: 100vh;
+        width: 50vw;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.541);
+        z-index: 2;
+        overflow-y: hidden;
+    }
+    header nav ul {
+        display: none;
+        align-items: center;
+        gap: 40px;
+        flex-direction: column;
+        position: fixed;
+        top: 0px;
+        right: 0;
+        background-color: var(--gray-background);
+        padding: 20px 10px;
+        width: 50%;
+        height: 100vh;
+        z-index: 4;
+    }
+
+    .icon-burguer {
+        display: block;
+        cursor: pointer;
+    }
+    .icon-close{
+        align-self: flex-end;
+        cursor: pointer;
+    }
+    .item-close{
+        align-self: flex-start;
+        width: 80%;
+        display: flex;
+        justify-content: flex-end;
+    }
+    main {
+        max-width: 350px;
+        padding-bottom: 180px;
+    }
+    .games{
+        max-width: 350px;
+        width: 318px;
+        gap: 32px;
+    }
+    .games-filter{
+        width: 120px;
+    }
+    .games-filter img{
+       width: 16px;
+    }
+    select{
+        width: 70px;
+
+    }
+    .games-container{
+        max-width: 350px;
+        width: 318px;
+    }
+    .game-block{
+        max-width: 350px;
+        width: 318px;
+    }
+    .game-block .game{
+        gap: 16px;
+    }
+    .game p{
+        font-size: 12px;
+        gap: 16px;
+    }
+    .today-games{
+        max-width: 350px;
+        width: 318px;
+        padding: 0;
+    }
+    .today-games-container{
+        overflow-y: auto;
+    }
+    .today-game img{
+        width: 28px;
+        border-radius: 16px;
+    }
+    
+    .today-game p{
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--white);
+    }
+    .today-game img.sport{
+        width: 36px;
+    }
+    footer {
+        width: 350px;
+        height: 60px;
+        margin-top: -120px;
+    }
+
+    footer img {
+        height: 40px;
+    }
+    .menu-of-functions{
+        width: 350px;
+    }
 }
