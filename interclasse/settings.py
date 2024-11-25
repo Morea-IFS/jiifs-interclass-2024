@@ -156,8 +156,8 @@ elif (os.getenv("ENVIRONMENT") == 'PROD' or os.getenv("ENVIRONMENT") == 'prod'):
     STATICFILES_DIRS = [
         os.path.join(BASE_DIR, 'static/')
     ]
-    MEDIA_ROOT = '/var/www/html/trancadura/media/'
-    STATIC_ROOT = '/var/www/html/trancadura/static'
+    MEDIA_ROOT = '/var/www/html/jiifs/media/'
+    STATIC_ROOT = '/var/www/html/jiifs/static'
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
