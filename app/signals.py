@@ -8,7 +8,7 @@ from asgiref.sync import async_to_sync
 from .models import Point, Match, Team_match, Team, Penalties, Volley_match, Player_match, Time_pause, Banner
 import time
 
-default_photo_url = f"{settings.MEDIA_URL}defaults/team.svg"
+default_photo_url = f"{settings.MEDIA_URL}defaults/team.png"
 
 def generate_score_data():
     if Volley_match.objects.filter(status=1):
@@ -183,6 +183,37 @@ def generate_score_data():
         }
         print("sets off: ",match_data)
         return match_data
+    else:
+        if Banner.objects.filter(status=0): 
+            banner_score = Banner.objects.get(status=0).image.url
+            banner_status_score = True
+        else: 
+            banner_score = static('images/logo-jifs-intercampi.svg')
+            banner_status_score = False
+        match_data = {
+            'team_a': "TIME A",
+            'team_b': "TIME B",
+            'points_a': 0,
+            'points_b': 0,
+            'aces_or_card': "Cartões",
+            'aces_or_card_a':0,
+            'aces_or_card_b':0,
+            'teamAcolor': '#02007a',
+            'teamBcolor': '#d10000',
+            'lack_a':0,
+            'lack_b':0,
+            'sets_a': "00:00",
+            'sets_b': 0,
+            'card_a':0,
+            'card_b':0,
+            'name_scoreboard': "PLACAR",
+            'photoA': default_photo_url,
+            'photoB': default_photo_url,
+            'banner_score':banner_score,
+            'banner_status_score':banner_status_score,
+        }
+        return match_data
+
 
 def send_score_update():
     channel_layer = get_channel_layer()

@@ -19,27 +19,29 @@ def index(request):
     else:
         return render (request, 'index.html')
         
+def page_in_erro404(request):
+    return render(request, 'error_404.html', status=404)
 
 def login(request):
-    print("kkkkkkkkkkk logado")
-    if request.user.is_authenticated == False:
-        print("Não está logado")
-        if request.method == "GET":
-            return render(request, 'login.html')
-        else:
-            username = request.POST.get('username')
-            password = request.POST.get('password')
-            user = authenticate(username=username, password=password)
-            if user:
-                auth_login(request, user)
-                return redirect('Home')
+    try:
+        if request.user.is_authenticated == False:
+            if request.method == "GET":
+                return render(request, 'login.html')
             else:
-                messages.error(request,"Poxa! alguma informação está incorreta :(")
-                return redirect('login')
-        print("Está logado")
-    else:
-        print("kllllllll logado")
-        return redirect('Home')
+                username = request.POST.get('username')
+                password = request.POST.get('password')
+                user = authenticate(username=username, password=password)
+                if user:
+                    auth_login(request, user)
+                    return redirect('Home')
+                else:
+                    messages.error(request,"Poxa! alguma informação está incorreta :(")
+                    return redirect('login')
+        else:
+            return redirect('Home')
+    except Exception as e:
+        messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
+        return redirect('login')
     
 def sair(request):
     logout(request)
@@ -270,8 +272,11 @@ def matches_manage(request):
                 match_id = request.POST.get('match_delete')
                 match_delete = Match.objects.get(id=match_id)
                 if match_delete.sport.sets:
-                    volley_match = Volley_match.objects.get(id=match_delete.volley_match.id)
-                    volley_match.delete()
+                    if Volley_match.objects.filter(id=match_delete.volley_match.id):
+                        volley_match = Volley_match.objects.get(id=match_delete.volley_match.id)
+                        matches = Match.objects.filter(volley_match=volley_match.id)
+                        if len(matches) < 2:
+                            volley_match.delete()
                 match_delete.delete()
                 return redirect('matches_manage')
     except Exception as e:
@@ -882,10 +887,24 @@ def banner_manage(request):
             return render(request, 'banner_manage.html',{'banner': banner})
         else:
             try:
-                banner_id = request.POST.get('banner_delete')
-                banner_delete = Banner.objects.get(id=banner_id)
-                banner_delete.delete()
-                return redirect('banner_manage')
+                if 'banner_delete' in request.POST:
+                    banner_id = request.POST.get('banner_delete')
+                    banner_delete = Banner.objects.get(id=banner_id)
+                    banner_delete.delete()
+                    return redirect('banner_manage')
+                if 'banner_update' in request.POST:
+                    banner_id = request.POST.get('banner_update')
+                    banner = Banner.objects.get(id=banner_id)
+                    if banner.status == 0: banner.status = 1
+                    elif banner.status == 1: 
+                        banner.status = 0
+                        if Banner.objects.filter(status=1):
+                            banner2 = Banner.objects.filter(status=0)
+                            for i in banner2:
+                                i.status = 1
+                                i.save()
+                    banner.save()
+                    return redirect('banner_manage')
             except Exception as e: messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
             return redirect('banner_manage')
     
@@ -1528,7 +1547,7 @@ def scoreboard_projector(request):
             print(context)
             return render(request, 'scoreboard_projector.html', context)
         else:
-            return render(request, 'scoreboard_projector.html', context)
+            return render(request, 'scoreboard_projector.html')
     except Config.DoesNotExist:
         messages.info(request, "Por favor, adicione as informações do config, ela são importantes para o placar!")
         return render(request, 'scoreboard_projector.html')
