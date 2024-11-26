@@ -37,6 +37,7 @@ urlpatterns = [
     path('players_in_teams/<int:id>', views.players_in_teams, name = "players_in_teams"),
     path('add_players_match/<int:id>', views.add_players_match, name = "add_players_match"),
     path('timer/<int:id>', views.timer_page, name = "timer"),
+    path('erro404', views.page_in_erro404)
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -48,7 +48,7 @@ class Player(models.Model):
 
 class Team(models.Model):
     name = models.CharField(max_length=100, blank=True)
-    photo = models.ImageField(upload_to='logo_team/', default='defaults/team.svg', blank=True)
+    photo = models.ImageField(upload_to='logo_team/', default='defaults/team.png', blank=True)
     hexcolor = models.CharField(max_length=7, null=True)
 
     def __str__(self):    

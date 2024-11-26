@@ -49,23 +49,23 @@
         <main>
             <section class="scoreboard">
                 <div class="teams">
-                    <div id="team_a_color" style="background-color: {{team_match_a.team.hexcolor}}" class="team-a">
+                    <div id="team_a_color" style=" background-color: {% if team_match_a.team.hexcolor %} {{team_match_a.team.hexcolor}} {% else %} #02007a {% endif %}" class="team-a">
                         <div class="title-team">
-                            <img id="photo-team-a" src="{{team_match_a.team.photo.url}}" style="border-radius: 50%;"alt="foto time a"/>
-                            <h2 id="team-a">{{team_match_a.team.name}}</h2>
+                            <img id="photo-team-a" {% if team_match_a.team.photo %} src="{{team_match_a.team.photo.url}}" {% else %} src="{% static 'images/team.svg' %}" {% endif %} style="border-radius: 50%;"alt="foto time a"/>
+                            <h2 id="team-a">{% if team_match_a.team.name %} {{team_match_a.team.name}} {% else %} TEAM A {% endif %}</h2>
                         </div>
                         <div class="score-team">
-                            <p class="score"><span id="points-a">{{ point_a }}</span></p>
+                            <p class="score"><span id="points-a">{% if point_a %} {{point_a}} {% else %} 0 {% endif %}</span></p>
                         </div>
                     </div>
-                    <div id="team_b_color" style="background-color: {{team_match_b.team.hexcolor}}" class="team-b">
+                    <div id="team_b_color" style=" background-color: {% if team_match_b.team.hexcolor %} {{team_match_b.team.hexcolor}} {% else %} #d10000 {% endif %}" class="team-b">
                         <div class="title-team">
-                            <h2 id="team-b">{{team_match_b.team.name}}</h2>
-                            <img id="photo-team-b" src="{{team_match_b.team.photo.url}}" style="border-radius: 50%;" alt="foto time b"/>
+                            <h2 id="team-b">{% if team_match_b.team.name %} {{team_match_b.team.name}} {% else %} TEAM B {% endif %} </h2>
+                            <img id="photo-team-b" {% if team_match_b.team.photo %} src="{{team_match_b.team.photo.url}}" {% else %} src="{% static 'images/team.svg' %}" {% endif %} style="border-radius: 50%;" alt="foto time b"/>
                             
                         </div>
                         <div class="score-team">
-                            <p class="score"><span id="points-b">{{ point_b }}</span></p>
+                            <p class="score"><span id="points-b">{% if point_b %} {{point_b}} {% else %} 0 {% endif %}</span></p>
                         </div>
                     </div>
                 </div>
@@ -79,18 +79,18 @@
                 </div>
                 <div class="sets-or-time">
                     <div class="title-set">
-                        <p id="name-scoreboard">{{name_scoreboard}}</p>
+                        <p id="name-scoreboard">{% if name_scoreboard %} {{name_scoreboard}} {% else %} Placar {% endif %}</p>
                     </div>
                     <p class="time-and-sets-counter">
-                        <span id="timer">{{time_sets_a}}</span>
-                        <span id="sets-team-b" style="{% if match.sport.sets %}display: flex;{% else %}display: none;{% endif %}">{{sets_b}}</span>
+                        <span id="timer">{% if match %} {{time_sets_a}} {% else %} 00:00 {% endif %}</span>
+                        <span id="sets-team-b" style="{% if match.sport.sets %}display: flex;{% else %}display: none;{% endif %}">{% if match %} {{sets_b}} {% else %} 0 {% endif %}</span>
                     </p>
-                </div>
+                </div>
                 <div class="ball-sport">
                     <img id="ball-sport" src="{{ball_sport}}" alt="" />
                 </div>
                 <div class="gender-of-game feminine">
-                    <img id="img-sexo" src="{{img_sexo}}" alt="" /><p id="sexo-color" style="color: {{sexo_color}};">{{match.get_sexo_display}}</p>
+                    <img id="img-sexo" src="{{img_sexo}}" alt="" /><p id="sexo-color" style="color: {{sexo_color}};">{% if match %} {{match.get_sexo_display}} {% else %} MOREA SPORTS {% endif %}</p>
                 </div>
             </section>
             <section class="information">
@@ -105,35 +105,35 @@
                     <div class="stats-content">
                         <div class="foul">
                             <span id="team_a2_color"
-                                style="background-color: {{team_match_a.team.hexcolor}}"
+                            style=" background-color: {% if team_match_a.team.hexcolor %} {{team_match_a.team.hexcolor}} {% else %} #02007a {% endif %}"
                                 class="foul-team-a"
-                                >{{lack_a}}</span
+                                >{% if lack_a %} {{lack_a}} {% else %} 0 {% endif %}</span
                             >
                             <p>Faltas</p>
                             <span id="team_b2_color"
-                                style="background-color: {{team_match_b.team.hexcolor}}"
+                                style=" background-color: {% if team_match_b.team.hexcolor %} {{team_match_b.team.hexcolor}} {% else %} #d10000 {% endif %}"
                                 class="foul-team-b"
-                                >{{lack_b}}</span
+                                >{% if lack_b %} {{lack_b}} {% else %} 0 {% endif %}</span
                             >
                         </div>
                         <div class="aces">
                             <span id="team_a3_color"
-                                style="background-color: {{team_match_a.team.hexcolor}}"
+                                style="background-color: {% if team_match_a.team.hexcolor %} {{team_match_a.team.hexcolor}} {% else %} #02007a {% endif %}""
                                 class="aces-team-a"
-                                >{{aces_or_card_a}}</span
+                                >{% if aces_or_card_a %} {{aces_or_card_a}} {% else %} 0 {% endif %}</span
                             >
-                            <p id="aces-or-card">{{aces_or_card}}</p>
+                            <p id="aces-or-card">{% if aces_or_card %} {{aces_or_card}} {% else %} Cartões {% endif %}</p>
                             <span id="team_b3_color"
-                                style="background-color: {{team_match_b.team.hexcolor}}"
+                                style="background-color: {% if team_match_b.team.hexcolor %} {{team_match_b.team.hexcolor}} {% else %} #d10000 {% endif %}"
                                 class="aces-team-b"
-                                >{{aces_or_card_b}}</span>
+                                >{% if aces_or_card_b %} {{aces_or_card_b}} {% else %} 0 {% endif %}</span>
                         </div>
                     </div>
                     <div class="players-content">
                         <div class="team-display">
-                            <img id="photo-team-a-b" src="{{team_match_a.team.photo.url}}" style="border-radius: 50%;" alt=""/>
+                            <img id="photo-team-a-b" {% if team_match_a.team.photo %} src="{{team_match_a.team.photo.url}}" {% else %} src="{% static 'images/team.svg' %}" {% endif %} style="border-radius: 50%;" alt=""/>
                             <span> - </span>
-                            <img id="photo-team-b-b" src="{{team_match_b.team.photo.url}}" style="border-radius: 50%;" alt=""/>
+                            <img id="photo-team-b-b" {% if team_match_b.team.photo %} src="{{team_match_b.team.photo.url}}" {% else %} src="{% static 'images/team.svg' %}" {% endif %} style="border-radius: 50%;" alt=""/>
                         </div>
                         
                         <div class="players-lists">
@@ -144,7 +144,7 @@
                                 <li id="team_a4_color" style="border: 2px solid {{team_match_a.team.hexcolor}}">
                                     <div class="player-photo">
                                         <img
-                                            src="{{ i.player.photo.url }}"
+                                            {% if i.player.photo %} src="{{ i.player.photo.url }}" {% else %} src="{% static 'images/person.png' %}" {% endif %}
                                             alt="foto de {{i.player.name}}"
                                             aria-hidden="true"
                                             class="photo"
@@ -173,7 +173,7 @@
                                 {% for i in players_match_b %}
                                 <li id="team_b4_color" style="border: 2px solid {{team_match_b.team.hexcolor}}">
                                     <div class="player-photo">
-                                        {% if i.player.photo %}<img src="{{i.player.photo.url}}"alt="" aria-hidden="true" class="photo"/>{% endif %}
+                                        <img {% if i.player.photo %} src="{{i.player.photo.url}}" {% else %} src="{% static 'images/person.png' %}" {% endif %} alt="" aria-hidden="true" class="photo"/>
                                     </div>
                                    
                                     <div class="player-text-informations">

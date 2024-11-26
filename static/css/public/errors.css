@@ -1,0 +1,51 @@
+main {
+    display: flex;
+    justify-content: center;
+    height: calc(100vh - 192px);
+    padding-block: 0;
+}
+
+.main-err {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+}
+
+.title-err {
+    text-align: center;
+    color: white;
+    font-size: 4em;
+    line-height: 1;
+    margin-bottom: 16px;
+}
+
+.para-err {
+    text-align: center;
+    color: white;
+    font-size: 1.2em;
+}
+
+.url-to-home-err {
+    color: aqua;
+    font-size: 1em;
+}
+
+@media screen and (max-width:1000px) {
+    .main-err {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .image-err {
+        height: 200px;
+    }
+
+    .content {
+        font-size: 0.6em;
+    }
+
+    footer {
+        margin: 0;
+    }
+}
