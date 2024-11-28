@@ -31,7 +31,11 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv("DEBUG", "False").lower() in ("true", "1", "t")
 
 
-ALLOWED_HOSTS = [os.getenv('HOST')]
+# Carregar a lista do .env
+domains = os.getenv("HOST", "").split(",")
+
+ALLOWED_HOSTS = [f"{domain.strip()}" for domain in domains]
+print(ALLOWED_HOSTS)
 
 
 # Application definition
@@ -163,9 +167,6 @@ elif (os.getenv("ENVIRONMENT") == 'PROD' or os.getenv("ENVIRONMENT") == 'prod'):
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 CSRF_COOKIE_SECURE = False
-
-# Carregar a lista do .env
-domains = os.getenv("HOST", "").split(",")
 
 # Adicionar os prefixos http:// e https://
 CSRF_TRUSTED_ORIGINS = [f"http://{domain.strip()}" for domain in domains] + \
