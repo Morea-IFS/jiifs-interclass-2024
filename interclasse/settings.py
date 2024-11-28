@@ -162,7 +162,13 @@ elif (os.getenv("ENVIRONMENT") == 'PROD' or os.getenv("ENVIRONMENT") == 'prod'):
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 CSRF_COOKIE_SECURE = False
-CSRF_TRUSTED_ORIGINS = ['http://'+os.getenv('HOST'), 'https://'+os.getenv('HOST')]
+
+# Carregar a lista do .env
+domains = os.getenv("HOST", "").split(",")
+
+# Adicionar os prefixos http:// e https://
+CSRF_TRUSTED_ORIGINS = [f"http://{domain.strip()}" for domain in domains] + \
+                       [f"https://{domain.strip()}" for domain in domains]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
