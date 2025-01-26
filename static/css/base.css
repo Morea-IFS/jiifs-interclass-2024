@@ -8,7 +8,11 @@
     font-family: 'Poppins', Arial, Helvetica, sans-serif;
 }
 
-:root {
+.light-mode {
+
+    /* VARIAVEIS / CORES */
+    
+    --global-color-white: #f1f1f1;
     --global-primary-color: #8b8b8b;
     --global-secondary-color: #3C3D3C;
     --global-third-color: #CBCBCB;
@@ -24,6 +28,44 @@
     --global-thirteenth-color: #03009F;
 }
 
+.dark-mode {
+
+    /* VARIAVEIS / CORES */
+    --global-color-white: #f1f1f1;
+    --global-primary-color: #e2e2e2;
+    --global-secondary-color: #232323;
+    --global-third-color: #282828;
+    --global-fourth-color: #3f3f3f;
+    --global-fifth-color: #3a3a3a;
+    --global-sixth-color: #B4B4B4;
+    --global-seventh-color: #AB0000;
+    --global-eighth-color: #00A3FF;
+    --global-ninth-color: #333333;
+    --global-tenth-color: #0051ff;
+    --global-eleventh-color: #004903;
+    --global-twelfth-color: #2B2C2F;
+    --global-thirteenth-color: #03009F;
+
+    /* CSS */
+
+    .title h1 {
+        color: var(--global-color-white);
+    }
+
+    .title2 h2 {
+        color: var(--global-color-white);
+    }
+
+    td {
+        color: var(--global-color-white);
+    }
+
+    input[type=number] {
+        background-color: var(--global-sixth-color);
+    }
+
+}
+
 a {
     color: var(--global-tenth-color);
     text-decoration: none;
@@ -31,7 +73,8 @@ a {
 }
 
 button {
-    color: white;
+    color: var(--global-color-white);
+    cursor: pointer;
 }
 
 .all {
@@ -94,7 +137,7 @@ button {
     align-items: center;
 }
 
-.image-no-players{
+.image-no-players {
     max-height: 25em;
 }
 
@@ -138,7 +181,6 @@ input[type=number] {
     text-align: center;
     padding: 0.8em 0.5em;
     font-size: 14px;
-    color: black;
 }
 
 input[type=text],
@@ -183,7 +225,7 @@ input[type=file] {
     background-color: var(--global-eighth-color);
     border-radius: 1em;
     border: none;
-    color: white;
+    color: var(--global-color-white);
     padding: 1em;
     width: 7em;
 }
@@ -192,7 +234,7 @@ input[type=file] {
     background-color: var(--global-seventh-color);
     border-radius: 1em;
     border: none;
-    color: white;
+    color: var(--global-color-white);
     padding: 1em;
     width: 7em;
     margin-top: 2em;
@@ -254,7 +296,7 @@ td {
 }
 
 th {
-    color: white;
+    color: var(--global-color-white);
     background-color: var(--global-ninth-color);
 }
 
@@ -286,7 +328,7 @@ tr:nth-child(even) {
 .game-section {
     display: flex;
     justify-content: space-between;
-    background-color: white;
+    background-color: var(--global-color-white);
     height: 15em;
     width: 70%;
     margin-bottom: 4em;
@@ -325,7 +367,7 @@ tr:nth-child(even) {
 
 .game-score {
     background-color: var(--global-thirteenth-color);
-    color: white;
+    color: var(--global-color-white);
     font-size: 2em;
     padding: 0.2em 0.5em;
 }
@@ -434,7 +476,7 @@ tr:nth-child(even) {
     justify-content: center;
     align-items: center;
     font-size: 1.8em;
-    color: white;
+    color: var(--global-color-white);
     height: 65%;
     width: 90%;
     background-color: var(--global-secondary-color);
@@ -449,7 +491,7 @@ tr:nth-child(even) {
     display: flex;
     justify-content: center;
     background-color: var(--global-ninth-color);
-    color: white;
+    color: var(--global-color-white);
     width: 50%;
     min-width: 10em;
     padding: 0.5em 1.5em;
@@ -556,7 +598,7 @@ tr:nth-child(even) {
     width: 0;
 }
 
-.buttons-scoreboard-img{
+.buttons-scoreboard-img {
     height: 6em;
 }
 
@@ -666,7 +708,7 @@ tr:nth-child(even) {
         font-size: 1.1em;
     }
 
-    .buttons-scoreboard-img{
+    .buttons-scoreboard-img {
         height: 4em
     }
 
