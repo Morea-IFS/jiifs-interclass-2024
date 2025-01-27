@@ -5,9 +5,22 @@ a {
     font-size: 14px;
 }
 
-.invisible-navbar {
+.invisible-side-bar {
     width: 10em;
     height: 100%;
+}
+
+.theme-mode-button {
+    position: fixed;
+    color: black;
+    text-align: center;
+    color: yellow;
+    cursor: pointer;
+    width: 50px;
+    font-size: 33px;
+    right: 10px;
+    top: 14px;
+    z-index: 1;
 }
 
 .side-bar {
@@ -101,20 +114,20 @@ a {
 
 @media screen and (max-width: 925px) {
     .side-bar,
-    .invisible-navbar {
+    .invisible-side-bar {
         display: none;
     }
 
     .hamburguer-menu {
-        width: 50px;
-        height: 50px;
         display: flex;
+        position: fixed;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 8px 16px;
-        margin: 10px 0 0 10px;
-        position: fixed;
+        height: 50px;
+        top: 14px;
+        left: 10px;
+        width: 50px;
         z-index: 2;
     }
 
