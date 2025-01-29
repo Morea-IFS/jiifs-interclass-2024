@@ -64,8 +64,7 @@
                             {% for i in player_team_sport %}
                             <tr>
                                 <td>
-                                    <input type="checkbox" name="input-checkbox"
-                                        value="{{ i.player.id }}">
+                                    <input type="checkbox" name="input-checkbox" value="{{ i.player.id }}">
                                 </td>
                                 <td>{{ i.player.name }}</td>
                                 <td>----</td>
@@ -73,9 +72,9 @@
                             </tr>
                             {% endfor %}
                             {% if messages %}
-                                {% for m in messages %}
-                                    <p style="color: red;">{{m}}</p>
-                                {% endfor %}
+                            {% for m in messages %}
+                            <p style="color: red;">{{m}}</p>
+                            {% endfor %}
                             {% endif %}
                         </table>
                     </section>
