@@ -845,23 +845,23 @@ def add_players_match(request, id):
 
             return redirect('players_match', id)
 
-def settings_manage(request):
+def projector_manage(request):
     if request.user.is_authenticated == False:
         return redirect('login')
     else:
         config = Config.objects.filter()
         if request.method == "GET":
-            return render(request,'settings_manage.html', {'config': config,})
+            return render(request,'projector_manage.html', {'config': config,})
         else:
             try:
                 config_id = request.POST.get('config_delete')
                 config_delete = Config.objects.get(id=config_id)
                 config_delete.delete()
-                return redirect('settings_manage')
+                return redirect('projector_manage')
             except (TypeError, ValueError): messages.error(request, 'Um valor foi informado incorretamente!')
             except IntegrityError as e: messages.error(request, 'Algumas informações não foram preenchidas :(')
             except Exception as e: messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
-            return redirect('settings_manage')
+            return redirect('projector_manage')
 
 def banner_register(request):
     if request.user.is_authenticated == False:
@@ -908,12 +908,12 @@ def banner_manage(request):
             except Exception as e: messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
             return redirect('banner_manage')
     
-def settings_register(request):
+def projector_register(request):
     if request.user.is_authenticated == False:
         return redirect('login')
     else:
         if request.method == "GET":
-            return render(request,'settings_register.html')
+            return render(request,'projector_register.html')
         else:
             try:
                 if not Config.objects.filter():
@@ -922,16 +922,16 @@ def settings_register(request):
                     qrcode = request.FILES.get('qrcode')
                     if not site or not areasup or not qrcode:
                         messages.error(request, 'Algumas informações não foram preenchidas :(')
-                        return redirect('settings_register')
+                        return redirect('projector_register')
                     Config.objects.create(site=site, areasup=areasup, qrcode=qrcode)
-                    return redirect('settings_register')
+                    return redirect('projector_register')
                 else:
                     messages.error(request, "Já existe uma configuração vigente, considere apaga-la antes de criar uma nova!")
-                    return redirect('settings_manage')
+                    return redirect('settings')
             except (TypeError, ValueError): messages.error(request, 'Um valor foi informado incorretamente!')
             except IntegrityError as e: messages.error(request, 'Algumas informações não foram preenchidas :(')
             except Exception as e: messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
-            return redirect('settings_register')
+            return redirect('projector_register')
 
 def scoreboard(request):
     if request.user.is_authenticated == False:
@@ -1288,6 +1288,12 @@ def scoreboard(request):
             messages.error(request, "Por favor, adicione as informações do config, elas são importantes para o placar do projetor!")
             return redirect('games')
         return redirect('games')
+
+def settings(request):
+    if request.user.is_authenticated == False:
+        return redirect('login')
+    else:
+        return render(request, 'settings.html')
 
 def scoreboard_public(request):
     try:

@@ -29,15 +29,16 @@ urlpatterns = [
     path('edit/sport/<int:id>', views.sport_edit, name = "sport_edit"),
     path('general/data/<int:id>', views.general_data, name = "general_data"),
     path('scoreboard', views.scoreboard, name = "scoreboard"),
-    path('manage/settings', views.settings_manage, name="settings_manage"),
-    path('register/settings', views.settings_register, name="settings_register"),
+    path('manage/projector', views.projector_manage, name="projector_manage"),
+    path('register/projector', views.projector_register, name="projector_register"),
     path('manage/banner', views.banner_manage, name="banner_manage"),
     path('register/banner', views.banner_register, name="banner_register"),
     path('players_match/<int:id>', views.players_match, name = "players_match"),
     path('players_in_teams/<int:id>', views.players_in_teams, name = "players_in_teams"),
     path('add_players_match/<int:id>', views.add_players_match, name = "add_players_match"),
+    path('settings', views.settings, name="settings"),
     path('timer/<int:id>', views.timer_page, name = "timer"),
-    path('erro404', views.page_in_erro404)
+    path('erro404', views.page_in_erro404),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
