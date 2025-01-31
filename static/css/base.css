@@ -11,7 +11,7 @@
 .light-mode {
 
     /* VARIAVEIS / CORES */
-    
+
     --global-color-white: #f1f1f1;
     --global-primary-color: #8b8b8b;
     --global-secondary-color: #3C3D3C;
@@ -62,6 +62,10 @@
 
     input[type=number] {
         background-color: var(--global-sixth-color);
+    }
+
+    .title-scoreboard h2 {
+        color: var(--global-color-white);
     }
 
 }
@@ -183,7 +187,7 @@ input[type=number] {
     font-size: 14px;
 }
 
-input[type=text],
+input[type=text], input[type=password],
 select {
     padding-block: 1em;
     border: none;
@@ -375,7 +379,7 @@ tr:nth-child(even) {
 .games-config-item {
     display: flex;
     background-color: #2B2C2F;
-    height: 33.3%;
+    height: 5em;
     width: 5em;
     justify-content: center;
     align-items: center;
@@ -423,6 +427,58 @@ tr:nth-child(even) {
 
 .match-status select {
     margin: 0;
+}
+
+
+
+/*CSS DAS CONFIGURAÇÕES*/
+
+
+
+.all-block-service-config {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2em;
+}
+
+.all-block-service-config li {
+    list-style-type: none;
+}
+
+.block-service-config {
+    display: flex;
+    background-color: var(--global-ninth-color);
+    max-width: 55em;
+    width: 75vw;
+    height: 4.5em;
+    border-radius: 15px;
+    align-items: center;
+    padding: 20px;
+}
+
+.service-icon {
+    display: flex;
+    border-radius: 8px;
+    width: 3em;
+    height: 3em;
+    padding: 15px;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--global-third-color);
+
+}
+
+.icon {
+    color: var(--global-primary-color);
+    font-size: 22px;
+}
+
+.block-service-config p {
+    color: white;
+    padding-left: 20px;
+    font-size: 23px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 
@@ -701,6 +757,7 @@ tr:nth-child(even) {
     }
 
 }
+
 
 @media screen and (max-width: 530px) {
 
