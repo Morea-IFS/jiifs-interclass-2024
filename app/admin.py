@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . models import Config, Volley_match, Events, Player, Assistance, Penalties, Time_pause, Team, Sport, Point, Team_sport, Player_team_sport, Match, Team_match, Player_match, Banner
+from . models import Config, Volley_match, Events, Player, Technician, Assistance, Penalties, Time_pause, Team, Sport, Point, Team_sport, Player_team_sport, Match, Team_match, Player_match, Banner
 
 # Register your models here.
 
@@ -7,6 +7,11 @@ from . models import Config, Volley_match, Events, Player, Assistance, Penalties
 class PlayerAdmin(admin.ModelAdmin):
     list_display = ('id','name','sexo')
     search_fields = ('id','name','sexo')
+
+@admin.register(Technician)
+class TechnicianAdmin(admin.ModelAdmin):
+    list_display = ('id','name','sexo', 'siape')
+    search_fields = ('id','name','sexo', 'siape')
 
 @admin.register(Volley_match)
 class Volley_matchAdmin(admin.ModelAdmin):

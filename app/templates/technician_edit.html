@@ -27,7 +27,7 @@
 <section class="side-bar-register">
     <h3 class="side-bar-register-title">CADASTRO</h3>
     <button class="side-bar-buttons-items2">
-        <a href="{% url 'team_register' %}">Adicionar</a>
+        <a href="{% url 'technician_register' %}">Adicionar</a>
     </button>
 </section>
 {% endblock register %}
@@ -36,36 +36,24 @@
 <div class="all-block">
     <section class="block1">
         <div class="title">
-            <h1>EDITAR TIME</h1>
+            <h1>EDITAR TÉCNICO</h1>
         </div>
         <div>
             <form id="function_validate_form" class="block-inputs" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="block-inputs-form">
                     <div>
-                        <input type="text" autocomplete="on" autocorrect="on" name="name" placeholder="{{ team.name }}"
-                            value="{{ team.name }}"></input>
-                        <input type="text" autocomplete="on" autocorrect="on" name="hexcolor"
-                            placeholder="{{ team.hexcolor }}" value="{{ team.hexcolor }}">
-                        <table class="sports-table">
-                            <tr>
-                                <th><input type="checkbox" name="sports" onclick="toggle_checkbox(this)"></input></th>
-                                <th>SELECIONE O TIME</th>
-                            </tr>
-                            {% for sport in sport %}
-                            <tr>
-                                <td>
-                                    <input type="checkbox" name="input-checkbox" value="{{ sport.id }}" {% if sport.id in sport_ids %} checked {% endif %}></input>
-                                </td>
-                                <td>
-                                    {% if sport.name %} {{ sport.name }} {% else %} ---- {% endif %}
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </table>
-                        <label for="fotos" id="label-foto" class="custom-file-button">{% if team.photo %} Trocar logo {% else %} Adicione a imagem do time {% endif %}</label>
-                        <input type="file" name="photo" id="fotos" accept=".jpg, .jpeg, .png"
-                            onchange="trocarTextoLabel()">
+                        <input type="text" autocomplete="on" autocorrect="on" name="name"
+                            placeholder="{{ technician.name }}" value="{{ technician.name }}" required />
+                        <input type="text" autocomplete="on" autocorrect="on" name="siape"
+                            placeholder="{{ technician.siape }}" value="{{ technician.siape }}" />
+                        <select id="sexos" name="sexo" required>
+                            <option selected disabled>Selecione o sexo</option required>
+                            <option {% if technician.sexo == 0 %} selected {% endif %} value="0">Masculino</option>
+                            <option {% if technician.sexo == 1 %} selected {% endif %} value="1">Feminino</option>
+                        </select>
+                        <label for="fotos" id="label-foto" class="custom-file-button">{% if technician.photo %} Trocar imagem {% else %} Adicione uma imagem {% endif %}</label>
+                        <input type="file" name="photo" id="fotos" accept=".jpg, .jpeg, .png" onchange="trocarTextoLabel()" />
                         {% if messages %}
                         {% for m in messages %}
                         <p style="color: red;">{{m}}</p>
@@ -73,7 +61,7 @@
                         {% endif %}
                     </div>
                     <div>
-                        <input class="input-confirm" type="submit" value="Confirmar">
+                        <input class="input-confirm" type="submit" value="Confirmar" />
                     </div>
                 </div>
             </form>

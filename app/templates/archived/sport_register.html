@@ -18,8 +18,8 @@
 <a href="{% url 'matches_manage' %}">
     <button class="side-bar-buttons-items">PARTIDAS</button>
 </a>
-<a href="{% url 'sport_manage' %}">
-    <button class="side-bar-buttons-items">ESPORTES</button>
+<a href="{% url 'technician_manage' %}">
+    <button class="side-bar-buttons-items">TÉCNICOS</button>
 </a>
 {% endblock navbar %}
 
@@ -32,8 +32,10 @@
         <form id="function_validate_form" class="block-inputs" method="post">{% csrf_token %}
             <div class="block-inputs-form">
                 <div>
-                    <input type="text" autocomplete="on" autocorrect="on" name="name" placeholder="Nome do esporte" required>
-                    <input type="text" autocomplete="on" autocorrect="on" name="max_titulares" placeholder="Número de titulares" required>
+                    <input type="text" autocomplete="on" autocorrect="on" name="name" placeholder="Nome do esporte"
+                        required>
+                    <input type="text" autocomplete="on" autocorrect="on" name="max_titulares"
+                        placeholder="Número de titulares" required>
                     <select name="sets" id="">
                         <option value="True">Precisa de sets</option>
                         <option value="False" selected>Não precisa de sets</option>
@@ -43,9 +45,9 @@
                         <option value="False" selected>Não precisa de logs</option>
                     </select>
                     {% if messages %}
-                        {% for m in messages %}
-                            <p style="color: red;">{{m}}</p>
-                        {% endfor %}
+                    {% for m in messages %}
+                    <p style="color: red;">{{m}}</p>
+                    {% endfor %}
                     {% endif %}
                 </div>
                 <div>

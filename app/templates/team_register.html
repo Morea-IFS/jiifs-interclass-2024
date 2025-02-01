@@ -18,8 +18,8 @@
 <a href="{% url 'matches_manage' %}">
     <button class="side-bar-buttons-items">PARTIDAS</button>
 </a>
-<a href="{% url 'sport_manage' %}">
-    <button class="side-bar-buttons-items">ESPORTES</button>
+<a href="{% url 'technician_manage' %}">
+    <button class="side-bar-buttons-items">TÉCNICOS</button>
 </a>
 {% endblock navbar %}
 
@@ -39,12 +39,16 @@
                         placeholder="Informe a cor em hexadecimal">
                     <table class="sports-table">
                         <tr>
-                            <th><input type="checkbox" name="sports" onclick="toggle_checkbox(this)"></input></th>
+                            <th>
+                                <input type="checkbox" name="sports" onclick="toggle_checkbox(this)">
+                            </th>
                             <th>SELECIONE O ESPORTE</th>
                         </tr>
                         {% for sport in sport %}
                         <tr>
-                            <td><input type="checkbox" name="input-checkbox" value="{{ sport.id }}" {% if sport.id in sport_ids %} checked {% endif %}></input></td>
+                            <td>
+                                <input type="checkbox" name="input-checkbox" value="{{ sport.id }}" {% if sport.id in sport_ids %} checked {% endif %}>
+                            </td>
                             <td>
                                 {% if sport.name %} {{ sport.name }} {% else %} ---- {% endif %}
                             </td>
@@ -56,7 +60,10 @@
                     <br>
                     {% if messages %}
                     <style>
-                        .ll{background-color: #c5c5c5; padding: 20px;} 
+                        .ll {
+                            background-color: #c5c5c5;
+                            padding: 20px;
+                        }
                     </style>
                     {% for m in messages %}
                     <div class="ll">

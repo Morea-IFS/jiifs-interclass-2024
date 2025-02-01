@@ -24,20 +24,21 @@ urlpatterns = [
     path('add/player/team/<int:id>', views.add_player_team, name = "add_player_team"),
     path('register/match', views.matches_register, name = "matches_register"),
     path('games', views.games, name = "games"),
-    path('manage/sport', views.sport_manage, name = "sport_manage"),
-    path('register/sport', views.sport_register, name = "sport_register"),
-    path('edit/sport/<int:id>', views.sport_edit, name = "sport_edit"),
+    path('manage/technician', views.technician_manage, name = "technician_manage"),
+    path('register/technician', views.technician_register, name = "technician_register"),
+    path('edit/technician/<int:id>', views.technician_edit, name = "technician_edit"),
     path('general/data/<int:id>', views.general_data, name = "general_data"),
     path('scoreboard', views.scoreboard, name = "scoreboard"),
-    path('manage/settings', views.settings_manage, name="settings_manage"),
-    path('register/settings', views.settings_register, name="settings_register"),
+    path('manage/projector', views.projector_manage, name="projector_manage"),
+    path('register/projector', views.projector_register, name="projector_register"),
     path('manage/banner', views.banner_manage, name="banner_manage"),
     path('register/banner', views.banner_register, name="banner_register"),
     path('players_match/<int:id>', views.players_match, name = "players_match"),
     path('players_in_teams/<int:id>', views.players_in_teams, name = "players_in_teams"),
     path('add_players_match/<int:id>', views.add_players_match, name = "add_players_match"),
+    path('settings', views.settings, name="settings"),
     path('timer/<int:id>', views.timer_page, name = "timer"),
-    path('erro404', views.page_in_erro404)
+    path('erro404', views.page_in_erro404),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

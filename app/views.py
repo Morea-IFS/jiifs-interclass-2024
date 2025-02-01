@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponse
-from .models import Config, Volley_match, Player, Penalties, Events, Time_pause, Team, Sport, Point, Team_sport, Player_team_sport, Match, Team_match, Player_match, Assistance,  Banner
-from django.db.models import Count, Prefetch
+from .models import Config, Volley_match, Player, Technician, Penalties, Events, Time_pause, Team, Sport, Point, Team_sport, Player_team_sport, Match, Team_match, Player_match, Assistance,  Banner
+from django.db.models import Count
 from django.contrib import messages
 from django.db import IntegrityError
 from django.templatetags.static import static
@@ -542,6 +542,80 @@ def games(request):
         ]
         return render(request, 'games.html',{'context': context})
 
+def technician_manage(request):
+    try:
+        if request.user.is_authenticated == False:
+            return redirect('login')
+        else:
+            technician = Technician.objects.all()
+            if request.method == "GET":
+                if not technician:
+                    print("Não há nenhum jogador cadastrado!")
+                return render(request, 'technician_manage.html', {'technician': technician})
+            else:
+                technician_id = request.POST.get('technician_delete')
+                technician_delete = technician.objects.get(id=technician_id)
+                technician_delete.delete()
+                return redirect('technician_manage')
+    except Exception as e:
+        messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
+        return render(request, 'technician_manage.html')
+
+def technician_register(request):
+    if request.user.is_authenticated == False:
+        return redirect('login')
+    else:
+        if request.method == 'GET':
+            return render(request, 'technician_register.html')
+        else:
+            try:
+                print(request.POST)
+                name = request.POST.get('name')
+                siape = request.POST.get('siape')
+                sexo = int(request.POST.get('sexo'))
+                photo = request.FILES.get('photo')
+                password = request.POST.get('password')
+                user = User.objects.create_user(username=name, password=password)
+                if photo:
+                    technician = Technician.objects.create(name=name, user=user, siape=siape, sexo=sexo, photo=photo)
+                else:
+                    print("saiu co  rabo entre as pernas")
+                    technician = Technician.objects.create(name=name, user=user, siape=siape, sexo=sexo)
+                    print("k: ",technician)
+                technician.save()
+            except (TypeError, ValueError):
+                messages.error(request, 'Um valor foi informado incorretamente!')
+            except IntegrityError as e:
+                messages.error(request, 'Algumas informações não foram preenchidas :(')
+            except Exception as e:
+                messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
+            return redirect('technician_register')
+
+def technician_edit(request, id):
+    if request.user.is_authenticated == False:
+        return redirect('login')
+    else:
+        technician = get_object_or_404(Technician, id=id)
+        if request.method == 'GET':
+                return render(request, 'technician_edit.html', {'technician': technician})            
+        elif 'excluir' in request.POST:
+            if technician.photo:
+                technician.photo.delete()
+            technician.delete()
+            return redirect('technician_manage')
+        else:
+            print(request.POST)
+            user = get_object_or_404(User, id=technician.user.id)
+            technician.name = request.POST.get('name')
+            technician.siape = request.POST.get('siape')
+            technician.sexo = int(request.POST.get('sexo'))
+            user.save()
+            if request.FILES.get('photo'):
+                if technician.photo: technician.photo.delete()
+                technician.photo = request.FILES.get('photo')
+            technician.save()
+            return redirect('technician_manage')
+          
 @login_required(login_url="login")
 def sport_manage(request):
     sport = Sport.objects.all()
@@ -807,6 +881,24 @@ def add_players_match(request, id):
 
         return redirect('players_match', id)
 
+def projector_manage(request):
+    if request.user.is_authenticated == False:
+        return redirect('login')
+    else:
+        config = Config.objects.filter()
+        if request.method == "GET":
+            return render(request,'projector_manage.html', {'config': config,})
+        else:
+            try:
+                config_id = request.POST.get('config_delete')
+                config_delete = Config.objects.get(id=config_id)
+                config_delete.delete()
+                return redirect('projector_manage')
+            except (TypeError, ValueError): messages.error(request, 'Um valor foi informado incorretamente!')
+            except IntegrityError as e: messages.error(request, 'Algumas informações não foram preenchidas :(')
+            except Exception as e: messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
+            return redirect('projector_manage')
+          
 @login_required(login_url="login")
 def settings_manage(request):
     config = Config.objects.filter()
@@ -864,6 +956,31 @@ def banner_manage(request):
         except Exception as e: messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
         return redirect('banner_manage')
     
+def projector_register(request):
+    if request.user.is_authenticated == False:
+        return redirect('login')
+    else:
+        if request.method == "GET":
+            return render(request,'projector_register.html')
+        else:
+            try:
+                if not Config.objects.filter():
+                    site = request.POST.get('site')
+                    areasup = request.POST.get('areasup')
+                    qrcode = request.FILES.get('qrcode')
+                    if not site or not areasup or not qrcode:
+                        messages.error(request, 'Algumas informações não foram preenchidas :(')
+                        return redirect('projector_register')
+                    Config.objects.create(site=site, areasup=areasup, qrcode=qrcode)
+                    return redirect('projector_register')
+                else:
+                    messages.error(request, "Já existe uma configuração vigente, considere apaga-la antes de criar uma nova!")
+                    return redirect('settings')
+            except (TypeError, ValueError): messages.error(request, 'Um valor foi informado incorretamente!')
+            except IntegrityError as e: messages.error(request, 'Algumas informações não foram preenchidas :(')
+            except Exception as e: messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
+            return redirect('projector_register')
+
 @login_required(login_url="login")
 def settings_register(request):
     if request.method == "GET":
@@ -1240,6 +1357,12 @@ def scoreboard(request):
         messages.error(request, "Por favor, adicione as informações do config, elas são importantes para o placar do projetor!")
         return redirect('games')
     return redirect('games')
+
+def settings(request):
+    if request.user.is_authenticated == False:
+        return redirect('login')
+    else:
+        return render(request, 'settings.html')
 
 def scoreboard_public(request):
     try:

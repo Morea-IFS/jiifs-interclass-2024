@@ -2,21 +2,23 @@
 {% load static %}
 
 {% block head %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <title>JIIFS ADMIN</title>
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<title>JIIFS ADMIN</title>
 {% endblock head %}
 
 {% block navbar %}
-    <a href="{% url 'Home' %}">
-        <button class="side-bar-buttons-items">HOME</button>
-    </a>
-    <a href="{% url 'player_manage' %}">
-        <button class="side-bar-buttons-items">GERENCIAMENTO</button>
-    </a>
-    <a href="{% url 'games' %}">
-        <button class="side-bar-buttons-items">JOGOS</button>
-    </a>
-    
+<a href="{% url 'Home' %}">
+    <button class="side-bar-buttons-items">HOME</button>
+</a>
+<a href="{% url 'player_manage' %}">
+    <button class="side-bar-buttons-items">GERENCIAMENTO</button>
+</a>
+<a href="{% url 'games' %}">
+    <button class="side-bar-buttons-items">JOGOS</button>
+</a>
+<a href="{% url 'settings' %}">
+    <button class="side-bar-buttons-items">CONFIGURAÇÕES</button>
+</a>
 {% endblock navbar %}
 
 {% block content %}

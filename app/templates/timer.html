@@ -16,7 +16,7 @@
 <a href="{% url 'games' %}">
     <button class="side-bar-buttons-items">JOGOS</button>
 </a>
-<a href="{% url 'settings_manage' %}">
+<a href="{% url 'settings' %}">
     <button class="side-bar-buttons-items">CONFIGURAÇÕES</button>
 </a>
 {% endblock navbar %}
@@ -51,7 +51,14 @@
                     <td>{{i.id}}</td>
                     <td>{% if i.start_pause %}{{i.start_pause}}{% else %}---{% endif %}</td>
                     <td>{% if i.end_pause %}{{i.end_pause}}{% else %}---{% endif %}</td>
-                    <td><form method="POST" action="">{% csrf_token %}<button name="pause_delete" value="{{i.id}}" style="background-color: transparent; border: none;"><img src="{% static 'images/icon-trash.svg' %}" style="color: blue;" alt=""></button></form></td>
+                    <td>
+                        <form method="POST" action="">
+                            {% csrf_token %}
+                            <button name="pause_delete" value="{{i.id}}" style="background-color: transparent; border: none;">
+                                <img src="{% static 'images/icon-trash.svg' %}" style="color: blue;" alt="">
+                            </button>
+                        </form>
+                    </td>
                 </tr>
                 {% endfor %}
             </table>

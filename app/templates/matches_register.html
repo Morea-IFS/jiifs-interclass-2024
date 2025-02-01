@@ -18,8 +18,8 @@
 <a href="{% url 'matches_manage' %}">
     <button class="side-bar-buttons-items">PARTIDAS</button>
 </a>
-<a href="{% url 'sport_manage' %}">
-    <button class="side-bar-buttons-items">ESPORTES</button>
+<a href="{% url 'technician_manage' %}">
+    <button class="side-bar-buttons-items">TÉCNICOS</button>
 </a>
 {% endblock navbar %}
 
@@ -58,9 +58,11 @@
                         </select>
                         <input class="input-data" type="datetime-local" name="datetime" id="date-game" />
                     </div>
-                    {% if messages %} 
+                    {% if messages %}
                     {% for m in messages %}
-                    <div style="background-color: #c5c5c5; padding: 20px;"><p style="color: #AB0000;">{{m}}</p></div>
+                    <div style="background-color: #c5c5c5; padding: 20px;">
+                        <p style="color: #AB0000;">{{m}}</p>
+                    </div>
                     {% endfor %}
                     {% endif %}
                     <div>

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<title>JIIFS ADMIN</title>
+{% endblock head %}
+
+{% block navbar %}
+
+<a href="{% url 'Home' %}">
+    <button class="side-bar-buttons-items">HOME</button>
+</a>
+<a href="{% url 'settings' %}">
+    <button class="side-bar-buttons-items">CONFIGURAÇÕES</button>
+</a>
+{% endblock navbar %}
+
+{% block register %}
+{% endblock register %}
+
+{% block content %}
+<div class="all-block">
+    <div class="block1">
+        <div class="title">
+            <h1>Configurações</h1>
+        </div>
+        <ul class="all-block-service-config">
+            <li>
+                <a href="{% url 'banner_manage' %}">
+                    <div class="block-service-config">
+                        <div class="service-icon">
+                            <i class="icon fas fa-video"></i>
+                        </div>
+                        <p>Banners</p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <div class="block-service-config">
+                        <div class="service-icon">
+                            <i class="icon fas fa-envelope"></i>
+                        </div>
+                        <p>Suportes</p>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

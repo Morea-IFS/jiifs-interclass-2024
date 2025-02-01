@@ -18,16 +18,17 @@
 <a href="{% url 'matches_manage' %}">
     <button class="side-bar-buttons-items">PARTIDAS</button>
 </a>
-<a href="{% url 'sport_manage' %}">
-    <button class="side-bar-buttons-items">ESPORTES</button>
+<a href="{% url 'technician_manage' %}">
+    <button class="side-bar-buttons-items">TÉCNICOS</button>
 </a>
+
 {% endblock navbar %}
 
 {% block register %}
 <section class="side-bar-register">
     <h3 class="side-bar-register-title">CADASTRO</h3>
     <button class="side-bar-buttons-items2">
-        <a href="{% url 'sport_register' %}">Adicionar</a>
+        <a href="{% url 'technician_register' %}">Adicionar</a>
     </button>
 </section>
 {% endblock register %}
@@ -36,24 +37,35 @@
 <div class="all-block">
     <div class="block1">
         <div class="title">
-            <h1>GERENCIAMENTO DE ESPORTES</h1>
+            <h1>GERENCIAMENTO DOS TÉCNICOS</h1>
         </div>
         <div class="all-manage">
-            <input type="search" id="search-input" onkeyup="search_table()" placeholder="Pesquisar as partidas" />
+            <input type="search" id="search-input" onkeyup="search_table()" placeholder="Pesquisar os técnicos" />
             <section class="all-table">
                 <table id="search-table">
                     <tr class="hidden">
-                        <th>NOME DO ESPORTE</th>
-                        <th>MAXIMO DE TITULARES</th>
+                        <th>NOME</th>
+                        <th>SIAPE</th>
+                        <th>SEXO</th>
+                        <th>FOTO</th>
                         <th>DELETAR</th>
                     </tr>
-                    {% for sport in sport %}
+                    {% for technician in technician %}
                     <tr>
                         <td>
-                            <a href="{% url 'sport_edit' sport.id %}">{{sport.name}}</a>
+                            <a href="{% url 'technician_edit' technician.id %}">{{ technician.name }}</a>
                         </td>
-                        <td>{{sport.max_titulares}}</td>
-                        <td><form method="POST" action="">{% csrf_token %}<button name="sport_delete" value="{{sport.id}}" style="background-color: transparent; border: none;"><img src="{% static 'images/icon-trash.svg' %}" style="color: blue;" alt=""></button></form></td>
+                        <td>{{technician.siape}}</td>
+                        <td>{% if technician.sexo == 0 %} Masculino {% elif technician.sexo == 1 %} Feminino {% else %} ---- {% endif %}</td>
+                        <td>{% if technician.photo %} <img src="{% static 'images/icon-true.svg' %}"> {% else %} <img src="{% static 'images/icon-false.svg' %}"> {% endif %}</td>
+                        <td>
+                            <form method="POST" action="">
+                                {% csrf_token %}
+                                <button name="technician_delete" value="{{technician.id}}" style="background-color: transparent; border: none;">
+                                    <img src="{% static 'images/icon-trash.svg' %}" style="color: blue;" alt="">
+                                </button>
+                            </form>
+                        </td>
                     </tr>
                     {% empty %}
                     <style>
@@ -63,7 +75,7 @@
                     </style>
                     <img class="image-no-players" src="{% static 'images/setup-animate.svg' %}">
                     <div class="title2">
-                        <h2>NÃO HÁ NENHUM ESPORTE CADASTRADO!</h2>
+                        <h2>NÃO HÁ NENHUM TÉCNICO CADASTRADO!</h2>
                     </div>
                     {% endfor %}
                 </table>
