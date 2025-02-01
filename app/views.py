@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponse
-from .models import Config, Volley_match, Player, Technician, Penalties, Events, Time_pause, Team, Sport, Point, Team_sport, Player_team_sport, Match, Team_match, Player_match, Assistance,  Banner
+from .models import Config, Volley_match, Player, Sport_types, Technician, Penalties, Events, Time_pause, Team, Point, Team_sport, Player_team_sport, Match, Team_match, Player_match, Assistance,  Banner
 from django.db.models import Count
 from django.contrib import messages
 from django.db import IntegrityError
@@ -18,7 +18,6 @@ def index(request):
         
 def page_in_erro404(request):
     return render(request, 'error_404.html', status=404)
-
 
 def login(request):
     try:
@@ -125,7 +124,7 @@ def home_public(request):
             for volley_match in volei_fem
         ]
         
-        matchs_futsal_masc = Match.objects.filter(sport__logs=True, sexo=0).prefetch_related('teams__team').order_by('time_match')
+        matchs_futsal_masc = Match.objects.filter(sport=0, sexo=0).prefetch_related('teams__team').order_by('time_match')
         context_futsal_masc = [
             {
                 'match': match,
@@ -136,7 +135,7 @@ def home_public(request):
             for match in matchs_futsal_masc
         ]
 
-        matchs_futsal_fem = Match.objects.filter(sport__logs=True, sexo=1).prefetch_related('teams__team').order_by('time_match')
+        matchs_futsal_fem = Match.objects.filter(sport=0, sexo=1).prefetch_related('teams__team').order_by('time_match')
         context_futsal_fem = [
             {
                 'match': match,
@@ -148,7 +147,7 @@ def home_public(request):
 
         ]
 
-        matchs_queimado_fem = Match.objects.filter(sport__sets=False,sport__logs=False, sexo=0).prefetch_related('teams__team').order_by('time_match')
+        matchs_queimado_fem = Match.objects.filter(sport=8, sexo=0).prefetch_related('teams__team').order_by('time_match')
         context_queimado_fem = [
             {
                 'match': match,
@@ -159,7 +158,7 @@ def home_public(request):
             for match in matchs_queimado_fem
         ]
 
-        matchs_queimado_masc = Match.objects.filter(sport__sets=False,sport__logs=False, sexo=1).prefetch_related('teams__team').order_by('time_match')
+        matchs_queimado_masc = Match.objects.filter(sport=8, sexo=1).prefetch_related('teams__team').order_by('time_match')
         context_queimado_masc = [
             {
                 'match': match,
@@ -191,36 +190,163 @@ def about_us(request):
 
 @login_required(login_url="login")
 def player_manage(request):
-    try:
-        player = Player.objects.all()
-        if request.method == "GET":
-            if not player:
-                print("Não há nenhum jogador cadastrado!")
-            return render(request, 'player_manage.html', {'player': player})
-        else:
+    player = Player.objects.all()
+    if request.method == "GET":
+        if not player:
+            print("Não há nenhum jogador cadastrado!")
+        return render(request, 'player_manage.html', {'player': player})
+    else:
+        try:
             player_id = request.POST.get('player_delete')
             player_delete = Player.objects.get(id=player_id)
             player_delete.delete()
             return redirect('player_manage')
-    except Exception as e:
-        messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
-        return render(request, 'player_manage.html')
+        except Exception as e:
+            messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
+            return render(request, 'player_manage.html')
+@login_required(login_url="login")
+def player_register(request):
+    if request.method == 'GET':
+        return render(request, 'player_register.html')
+    else:
+        try:
+            name = request.POST.get('name')
+            instagram = request.POST.get('instagram')
+            sexo = request.POST.get('sexo')
+            photo = request.FILES.get('photo')
+            print("photo: ",photo)
+            if photo: player = Player.objects.create(name=name, instagram=instagram, sexo=sexo, photo=photo)
+            else: player = Player.objects.create(name=name, instagram=instagram, sexo=sexo)
+            player.save()
+        except IntegrityError as e:
+            messages.error(request, 'Algumas informações não foram preenchidas :(')
+        except Exception as e:
+            messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
+        return redirect('player_register')
+    
+@login_required(login_url="login")
+def player_edit(request, id):
+    player = get_object_or_404(Player, id=id)
+    if request.method == 'GET':
+        return render(request, 'player_edit.html', {'player': player})            
+    elif 'excluir' in request.POST:
+        if player.photo: player.photo.delete()
+        player.delete()
+        return redirect('player_manage')
+    else:
+        try:
+            player.name = request.POST.get('name')
+            player.instagram = request.POST.get('instagram')
+            player.sexo = request.POST.get('sexo')
+            if request.FILES.get('photo'):
+                if player.photo: player.photo.delete()
+                player.photo = request.FILES.get('photo')
+            player.save()
+            player.save()
+        except (TypeError, ValueError):
+            messages.error(request, 'Um valor foi informado incorretamente!')
+        except IntegrityError as e:
+            messages.error(request, 'Algumas informações não foram preenchidas :(')
+        except Exception as e:
+            messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
+        return redirect('player_manage')
 
 @login_required(login_url="login")
 def team_manage(request):
     try:
-        teste = Team.objects.all()
-        team_sports = Team_sport.objects.select_related('team', 'sport').all()
+        team_sports = Team_sport.objects.all()
         if request.method == "GET":
-            return render(request, 'team_manage.html', {'team_sports': team_sports, 'teste': teste,})
+            return render(request, 'team_manage.html', {'team_sports': team_sports})
         else:
             team_sport_id = request.POST.get('team_sport_delete')
             team_sport_delete = Team_sport.objects.get(id=team_sport_id)
             team_sport_delete.delete()
+            if not Team_sport.objects.filter(team=team_sport_delete.team.id):
+                Team.objects.get(id=team_sport_delete.team.id).delete()
             return redirect('team_manage')
     except Exception as e:
         messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
         return render(request, 'team_manage.html')
+
+@login_required(login_url="login")
+def team_register(request):
+    sport = Sport_types.choices
+    if request.method == 'GET':
+        return render(request, 'team_register.html', {'sport': sport})
+    else:
+        try:
+            print(request.POST)
+            if not request.POST.getlist('input-checkbox'):
+                messages.error(request, "Você precisa escolher pelo menos um esporte!")
+                return redirect('team_register')
+            name = request.POST.get('name')
+            hexcolor = request.POST.get('hexcolor')
+            list_sport = request.POST.getlist('input-checkbox')
+            print("oi: ", list_sport)
+            photo = request.FILES.get('photo')
+            if photo:
+                team = Team.objects.create(name=name, hexcolor=hexcolor, photo=photo)
+            else:
+                messages.info(request,f"Você não informou uma logo para o time: {name}, então a logo será a padrão do sistema.")
+                team = Team.objects.create(name=name, hexcolor=hexcolor)
+                print("teeaamm")
+            team.save()
+            print("rodaa")
+            for i in list_sport:
+                print("criand espotre")
+                Team_sport.objects.create(team=team, sport=int(i))
+                print("i: ",i)
+        except (TypeError, ValueError):
+            messages.error(request, 'Um valor foi informado incorretamente!')
+        except IntegrityError as e:
+            messages.error(request, 'Algumas informações não foram preenchidas :(')
+        except Exception as e:
+            messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
+        return redirect('team_register')
+    
+@login_required(login_url="login")
+def team_edit(request, id):
+    team = get_object_or_404(Team, id=id)
+    sport = Sport_types.choices
+    sport_ids = Team_sport.objects.filter(team=team).values_list('sport', flat=True)
+    if request.method == 'GET': 
+        return render(request, 'team_edit.html', { 'team': team, 'sport': sport, 'sport_ids': sport_ids })
+    elif 'excluir' in request.POST:
+        try:
+            if team.photo:
+                team.photo.delete()
+            Team_sport.objects.filter(team=team).delete()
+
+            team.delete()
+            return redirect('team_manage')
+        except Exception as e:
+            messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
+    else:
+        try:
+            team.name = request.POST.get('name')
+            if request.FILES.get('photo'):
+                if team.photo: team.photo.delete()
+                team.photo = request.FILES.get('photo')
+            list_sport = request.POST.getlist('input-checkbox')
+            team.hexcolor = request.POST.get('hexcolor')
+            team.save()
+            sports_selected = [int(sport_id) for sport_id in list_sport]
+            current_sports = Team_sport.objects.filter(team=team).values_list('sport', flat=True)
+
+            to_add = set(sports_selected) - set(current_sports)
+            to_remove = set(current_sports) - set(sports_selected)
+
+            for sport_id in to_add:
+                Team_sport.objects.create(team=team, sport=sport_id) 
+
+            for sport_id in to_remove:
+                Team_sport.objects.filter(team=team, sport=sport_id).delete()
+
+                
+        except (TypeError, ValueError): messages.error(request, 'Um valor foi informado incorretamente!')
+        except IntegrityError as e: messages.error(request, 'Algumas informações não foram preenchidas :(')
+        except Exception as e: messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
+    return redirect('team_manage') 
 
 @login_required(login_url="login")
 def team_players_manage(request, id):
@@ -228,13 +354,12 @@ def team_players_manage(request, id):
         team = get_object_or_404(Team_sport, id=id)
         if request.method == "GET":
             player_team_sport = Player_team_sport.objects.select_related('player', 'team_sport').filter(team_sport=id)
-            if not player_team_sport: messages.info(request, "Não há nenhum jogador cadastrado!")        
+            if not player_team_sport: messages.info(request, "Não há nenhum atleta cadastrado!")        
             return render(request, 'team_players_manage.html', {'player_team_sport': player_team_sport,'team': team})
         else:
             player = request.POST.getlist('input-checkbox')
-            player_sport = Player_team_sport.objects.filter(team_sport=id)
             for i in player:
-                player_filter = player_sport.filter(player=i)
+                player_filter = Player_team_sport.objects.filter(team_sport=id, player=i)                
                 player_filter.delete()
             return redirect('team_players_manage', team.id)
     except Exception as e:
@@ -242,10 +367,31 @@ def team_players_manage(request, id):
         return render(request, 'team_players_manage.html')
 
 @login_required(login_url="login")
+def add_player_team(request, id):
+    team = get_object_or_404(Team_sport, id=id)
+    players = Player.objects.all()
+    if request.method == 'GET':
+        if not players: messages.info(request, "Não tem nenhum jogador cadastrado no sistema!")
+        return render(request, 'add_players_team.html', {'players': players,'team': team}) 
+    else:
+        try:
+            player = request.POST.getlist('input-checkbox')
+            for i in player:
+                player = Player.objects.get(id=i)
+                Player_team_sport.objects.create(player=player, team_sport=team)
+        except (TypeError, ValueError):
+            messages.error(request, 'Um valor foi informado incorretamente!')
+        except IntegrityError as e:
+            messages.error(request, 'Algumas informações não foram preenchidas :(')
+        except Exception as e:
+            messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
+        return redirect('team_players_manage', id=team.id)
+
+@login_required(login_url="login")
 def matches_manage(request):
     try:
         matchs = Match.objects.all().prefetch_related('teams__team')
-        sport = Sport.objects.all()
+        sport = Sport_types.choices
         context = [
             {
                 'match': match,
@@ -282,7 +428,7 @@ def matches_edit(request, id):
         team_match_a = team_matchs[0]
         team_match_b = team_matchs[1]
         match = get_object_or_404(Match, id=id)
-        sport = Sport.objects.all()
+        sport = Sport_types.choices
         if match.sexo != 1 or 0:
             match_disable = True
         else:
@@ -302,15 +448,15 @@ def matches_edit(request, id):
             if 'excluir' in request.POST:
                 print("certin")
                 match.delete()
-                if match.sport.sets:
+                if match.sport == 1:
                     volley_match = Volley_match.objects.get(id=match.volley_match.id)
                     volley_match.delete()
                 team_match_a.delete()
                 team_match_b.delete()
                 return redirect('matches_manage')
             else:
-                sport_select = request.POST.get('sport')
-                sport = get_object_or_404(Sport, id=sport_select)
+                sport_select = int(request.POST.get('sport'))
+                match.sport = sport_select
                 match.sport = sport
                 match.sexo = request.POST.get('sexo')
                 match.time_match = request.POST.get('datatime')
@@ -335,13 +481,12 @@ def matches_edit(request, id):
 @login_required(login_url="login")
 def matches_register(request):
     team = Team.objects.all()
-    sport = Sport.objects.all()
+    sport = Sport_types.choices
     if request.method ==  "GET":
         return render(request, 'matches_register.html',{'team': team,'sport': sport,})
     else:
         try:
-            id= request.POST.get('sport')
-            sport = get_object_or_404(Sport, id=id)
+            sport_id = int(request.POST.get('sport'))
             sexo = request.POST.get('sexo')
             team_a_id = request.POST.get('time_a')
             team_b_id = request.POST.get('time_b')
@@ -351,13 +496,13 @@ def matches_register(request):
             team_a = Team.objects.get(id=team_a_id)
             team_b = Team.objects.get(id=team_b_id)
             datetime = request.POST.get('datetime')
-            if sport.sets:
+            if sport_id == 1:
                 volley_match = Volley_match.objects.create(status=0)
                 volley_match.save()
                 print("O esporte tem sets, blz? :)")
-                match = Match.objects.create(sport=sport, sexo=sexo, time_match=datetime, volley_match=volley_match)
+                match = Match.objects.create(sport=sport_id, sexo=sexo, time_match=datetime, volley_match=volley_match)
             else:    
-                match = Match.objects.create(sport=sport, sexo=sexo, time_match=datetime)  
+                match = Match.objects.create(sport=sport_id, sexo=sexo, time_match=datetime)  
             match.save()
             Team_match.objects.create(match=match, team=team_a)
             Team_match.objects.create(match=match, team=team_b)
@@ -375,172 +520,18 @@ def matches_register(request):
             return redirect('matches_register')
         return redirect('matches_manage')
 
-@login_required(login_url="login")
-def add_player_team(request, id):
-    team = get_object_or_404(Team_sport, id=id)
-    players = Player.objects.all()
-    if request.method == 'GET':
-        if not players: messages.info(request, "Não tem nenhum jogador cadastrado no sistema!")
-        return render(request, 'add_players_team.html', {'players': players,'team': team}) 
-    else:
-        try:
-            player = request.POST.getlist('input-checkbox')
-            for i in player:
-                player = Player.objects.get(id=i)
-                Player_team_sport.objects.create(player=player, team_sport=team)
-        except (TypeError, ValueError):
-            messages.error(request, 'Um valor foi informado incorretamente!')
-        except IntegrityError as e:
-            messages.error(request, 'Algumas informações não foram preenchidas :(')
-        except Exception as e:
-            messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
-        return redirect('team_players_manage', id=team.id)
-
-@login_required(login_url="login")
-def player_register(request):
-    if request.method == 'GET':
-        return render(request, 'player_register.html')
-    else:
-        try:
-            name = request.POST.get('name')
-            instagram = request.POST.get('instagram')
-            sexo = request.POST.get('sexo')
-            if request.FILES.get('photo'):
-                photo = request.FILES.get('photo')
-                player = Player.objects.create(name=name, instagram=instagram, sexo=sexo, photo=photo)
-            else:
-                player = Player.objects.create(name=name, instagram=instagram, sexo=sexo)
-            player.save()
-        except (TypeError, ValueError):
-            messages.error(request, 'Um valor foi informado incorretamente!')
-        except IntegrityError as e:
-            messages.error(request, 'Algumas informações não foram preenchidas :(')
-        except Exception as e:
-            messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
-        return redirect('player_register')
-
-@login_required(login_url="login")
-def team_register(request):
-    sport = Sport.objects.all()
-    if request.method == 'GET':
-        return render(request, 'team_register.html', {'sport': sport,})
-    else:
-        try:
-            print(request.POST)
-            if not request.POST.getlist('input-checkbox'):
-                messages.error(request, "Você precisa escolher pelo menos um esporte!")
-                return redirect('team_register')
-            name = request.POST.get('name')
-            hexcolor = request.POST.get('hexcolor')
-            list_sport = request.POST.getlist('input-checkbox')
-            # sexo = request.POST.get('sexo')
-            if request.FILES.get('photo'):
-                photo = request.FILES.get('photo')
-                team = Team.objects.create(name=name, hexcolor=hexcolor, photo=photo)
-            else:
-                messages.info(request,f"Você não informou uma logo para o time: {name}, então a logo será a padrão do sistema.")
-                team = Team.objects.create(name=name, hexcolor=hexcolor)
-            team.save()
-            for i in list_sport:
-                sport_name = Sport.objects.get(id=i)
-                Team_sport.objects.create(team=team, sport=sport_name)
-        except (TypeError, ValueError):
-            messages.error(request, 'Um valor foi informado incorretamente!')
-        except IntegrityError as e:
-            messages.error(request, 'Algumas informações não foram preenchidas :(')
-        except Exception as e:
-            messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
-        return redirect('team_register')
-
-@login_required(login_url="login")
-def player_edit(request, id):
-    player = get_object_or_404(Player, id=id)
-    if request.method == 'GET':
-        if player.sexo != 1 or 0:
-            player_disable = True
-            return render(request, 'player_edit.html', {'player': player,'player_disable':player_disable})
-        else:
-            player_disable = False
-            return render(request, 'player_edit.html', {'player': player})            
-    elif 'excluir' in request.POST:
-        if player.photo:
-            player.photo.delete()
-        player.delete()
-        return redirect('player_manage')
-    else:
-        try:
-            player.name = request.POST.get('name')
-            player.instagram = request.POST.get('instagram')
-            player.sexo = request.POST.get('sexo')
-            if request.FILES.get('photo'):
-                if player.photo: player.photo.delete()
-                player.photo = request.FILES.get('photo')
-            player.save()
-        except (TypeError, ValueError):
-            messages.error(request, 'Um valor foi informado incorretamente!')
-        except IntegrityError as e:
-            messages.error(request, 'Algumas informações não foram preenchidas :(')
-        except Exception as e:
-            messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
-        return redirect('player_manage')
-    
-@login_required(login_url="login")
-def team_edit(request, id):
-    team = get_object_or_404(Team, id=id)
-    sport = Sport.objects.all()
-    sport_ids = Team_sport.objects.filter(team=team).values_list('sport_id', flat=True)
-    if request.method == 'GET': 
-        return render(request, 'team_edit.html', { 'team': team, 'sport': sport, 'sport_ids': sport_ids })
-    elif 'excluir' in request.POST:
-        try:
-            if team.photo:
-                team.photo.delete()
-            Team_sport.objects.filter(team=team).delete()
-
-            team.delete()
-            return redirect('team_manage')
-        except Exception as e:
-            messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
-    else:
-        try:
-            team.name = request.POST.get('name')
-            if request.FILES.get('photo'):
-                if team.photo: team.photo.delete()
-                team.photo = request.FILES.get('photo')
-            list_sport = request.POST.getlist('input-checkbox')
-            team.hexcolor = request.POST.get('hexcolor')
-            team.save()
-            sports_selected = [int(sport_id) for sport_id in list_sport]
-            current_sports = Team_sport.objects.filter(team=team).values_list('sport_id', flat=True)
-
-            to_add = set(sports_selected) - set(current_sports)
-            to_remove = set(current_sports) - set(sports_selected)
-
-            for sport_id in to_add:
-                sport = get_object_or_404(Sport, id=sport_id)
-                Team_sport.objects.create(team=team, sport=sport)
-            for sport_id in to_remove:
-                Team_sport.objects.filter(team=team, sport_id=sport_id).delete()
-        except (TypeError, ValueError): messages.error(request, 'Um valor foi informado incorretamente!')
-        except IntegrityError as e: messages.error(request, 'Algumas informações não foram preenchidas :(')
-        except Exception as e: messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
-    return redirect('team_manage') 
-
 def games(request):
-    if request.user.is_authenticated == False:
-        return redirect('login')
-    else:
-        matchs = Match.objects.all().prefetch_related('teams__team').order_by('time_match')
-        context = [
-            {
-                'match': match,
-                'times': list(match.teams.all()),
-                'points_a': Point.objects.filter(team_match=match.teams.first()).count(),
-                'points_b': Point.objects.filter(team_match=match.teams.last()).count(),
-            }
-            for match in matchs
-        ]
-        return render(request, 'games.html',{'context': context})
+    matchs = Match.objects.all().prefetch_related('teams__team').order_by('time_match')
+    context = [
+        {
+            'match': match,
+            'times': list(match.teams.all()),
+            'points_a': Point.objects.filter(team_match=match.teams.first()).count(),
+            'points_b': Point.objects.filter(team_match=match.teams.last()).count(),
+        }
+        for match in matchs
+    ]
+    return render(request, 'games.html',{'context': context})
 
 def technician_manage(request):
     try:
@@ -612,80 +603,6 @@ def technician_edit(request, id):
             user.save()
             if request.FILES.get('photo'):
                 if technician.photo: technician.photo.delete()
-                technician.photo = request.FILES.get('photo')
-            technician.save()
-            return redirect('technician_manage')
-          
-@login_required(login_url="login")
-def sport_manage(request):
-    sport = Sport.objects.all()
-    if request.method == "GET":
-        if not sport:
-            print("Não há nenhum time cadastrado!")
-        return render(request, 'sport_manage.html',{'sport': sport,})
-    else:
-        sport_id = request.POST.get('sport_delete')
-        sport_delete = Sport.objects.get(id=sport_id)
-        sport_delete.delete()
-        return redirect('sport_manage')
-
-@login_required(login_url="login")
-def sport_edit(request, id):
-    sport = get_object_or_404(Sport, id=id)
-    if request.method == "GET":
-        return render(request, 'sport_edit.html', {'sport': sport,})
-    elif 'excluir' in request.POST:
-        sport.delete()
-        return redirect('sport_manage')
-    else:
-        try:
-            if request.POST.get('sets') and request.POST.get('logs') == 'True':
-                messages.error(request, "Erro, o esporte está recebendo sets e logs como verdadeiros, você está informar somente um como verdadeiro.")
-                return redirect('sport_edit', sport.id)
-            elif sport.sets == 'True' and sport.logs == 'True':
-                messages.error(request, "o  esporte está recebendo sets e logs como verdadeiros, você está informar somente um como verdadeiro.")
-                return redirect('sport_edit', sport.id) 
-            sport.name = request.POST.get('name')
-            sport.max_titulares = request.POST.get('max_titulares')
-            if request.POST.get('sets') == 'True' or 'False':
-                sport.sets = request.POST.get('sets')
-                sport.save()
-            if request.POST.get('logs') == 'True' or 'False':
-                sport.logs = request.POST.get('logs')
-                sport.save()
-        except (TypeError, ValueError):
-            messages.error(request, 'Um valor foi informado incorretamente!')
-            return redirect('sport_edit', sport.id)
-        except IntegrityError as e:
-            messages.error(request, 'Algumas informações não foram preenchidas :(')
-            return redirect('sport_edit', sport.id)
-        except Exception as e:
-            messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
-            return redirect('sport_edit', sport.id)
-        return redirect('sport_manage')
-
-@login_required(login_url="login")
-def sport_register(request):
-    if request.method =="GET":
-        return render(request, 'sport_register.html')
-    else:
-        try:
-            name = request.POST.get('name')
-            max_titulares = request.POST.get('max_titulares')
-            if request.POST.get('sets') != 'False':
-                sets = request.POST.get('sets')
-                Sport.objects.create(name=name, max_titulares=max_titulares, sets=sets)
-            elif request.POST.get('logs') != 'False':
-                logs = request.POST.get('logs')
-                Sport.objects.create(name=name, max_titulares=max_titulares, logs=logs)
-            else:
-                Sport.objects.create(name=name, max_titulares=max_titulares)
-            
-            print(request.POST)
-        except (TypeError, ValueError): messages.error(request, 'Um valor foi informado incorretamente!')
-        except IntegrityError as e: messages.error(request, 'Algumas informações não foram preenchidas :(')
-        except Exception as e: messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
-        return redirect('sport_register')
     
 @login_required(login_url="login")
 def general_data(request, id):
@@ -749,7 +666,7 @@ def general_data(request, id):
                             match.Winner_team = team_match_a.team
                         elif point_b > point_a:
                             match.Winner_team = team_match_b.team
-                        if match.sport.sets:
+                        if match.sport == 1:
                             volley_match = Volley_match.objects.get(id=match.volley_match.id)
                             volley_match.status = 2
                             volley_match.save()
@@ -759,7 +676,7 @@ def general_data(request, id):
                         team_matchs = Team_match.objects.filter(match=match)
                         if team_matchs[0] and team_matchs[1]:
                             if team_matchs[0].team.photo and team_matchs[1].team.photo:
-                                if match.sport.sets:
+                                if match.sport == 1:
                                     volley_match = Volley_match.objects.get(id=match.volley_match.id)
                                     print(volley_match)
                                     volley_match.status = 1
@@ -771,7 +688,7 @@ def general_data(request, id):
                         match.save()
                         return redirect('scoreboard')
                     elif match.status == '0':
-                        if match.sport.sets:
+                        if match.sport == 1:
                             volley_match = Volley_match.objects.get(id=match.volley_match.id)
                             volley_match.status = 0
                             volley_match.save()
@@ -792,13 +709,51 @@ def Events_time(name, details):
 def players_in_teams(request, id):
     match = get_object_or_404(Match, id=id)
     team_match = Team_match.objects.filter(match=match)
-    team_match_a = team_match[0]
-    team_match_b = team_match[1]
+    team_match_a = Team_match.objects.get(id=team_match[0].id)
+    team_match_b = Team_match.objects.get(id=team_match[1].id)
+    team_sport_a = Team_sport.objects.get(team=team_match_a.team, sport=team_match_a.match.sport)
+    team_sport_b = Team_sport.objects.get(team=team_match_b.team, sport=team_match_b.match.sport)
+    player_team_sport_a = Player_team_sport.objects.filter(team_sport=team_sport_a)
+    player_team_sport_b = Player_team_sport.objects.filter(team_sport=team_sport_b)
+    for i in player_team_sport_a:
+        if not Player_match.objects.filter(player=i.player, match=match, team_match=team_match_a).exists():
+            Player_match.objects.create(player=i.player, match=match, team_match=team_match_a)
+    for i in player_team_sport_b:
+        if not Player_match.objects.filter(player=i.player, match=match, team_match=team_match_b).exists():
+            Player_match.objects.create(player=i.player, match=match, team_match=team_match_b)
+    player_match_a = Player_match.objects.filter(match=match, team_match=team_match_a)
+    player_match_b = Player_match.objects.filter(match=match, team_match=team_match_b)
     context = {
+        'player_match_a':player_match_a,
+        'player_match_b':player_match_b,
         'team_match_a':team_match_a,
         'team_match_b':team_match_b,
     }
-    return render(request, 'players_in_teams.html', context)
+    if request.method == "GET":
+        return render(request, 'players_in_teams.html', context)
+    else:
+        if 'player_delete' in request.POST:
+            player_id = request.POST.get('player_delete')
+            print(player_id)
+            player = Player_match.objects.get(id=player_id)
+            player.delete()
+        if 'team-a' in request.POST:
+            for i in player_match_a:
+                number = request.POST.get(f'number_a_{i.id}')        
+                player = get_object_or_404(Player_match, id=i.id) 
+                if number != '': 
+                    if int(number) >= 0:
+                        player.player_number = number
+                player.save()
+        if 'team-b' in request.POST:
+            for i in player_match_b:
+                number = request.POST.get(f'number_b_{i.id}')          
+                player = get_object_or_404(Player_match, id=i.id)
+                if number != '': 
+                    if int(number) >= 0:
+                        player.player_number = number
+                player.save()
+        return redirect('players_in_teams', match.id)
 
 @login_required(login_url="login")
 def players_match(request, id):
@@ -847,6 +802,8 @@ def players_match(request, id):
             print(f'Um erro inesperado aconteceu: {str(e)}')
         return redirect('players_match', team_match.id)
             
+def manage(request):
+    return render(request, 'new/manage.html')
 
 @login_required(login_url="login")
 def add_players_match(request, id):
@@ -1024,7 +981,7 @@ def scoreboard(request):
                 Point.objects.filter(team_match=team_match_b)
             ).order_by('time')
             matches = Match.objects.filter(status=0)
-            if match.sport.sets:
+            if match.sport == 1:
                 point_a = Point.objects.filter(team_match=team_match_a,point_types=1).count()
                 point_b = Point.objects.filter(team_match=team_match_b,point_types=1).count()
             else:
@@ -1072,7 +1029,7 @@ def scoreboard(request):
                     elif 'team_b_sets_add' in request.POST:
                         print("gg")
                         player_select = request.POST.get('player_point')
-                        if player_select == "0" :
+                        if player_select == "0":
                             Point.objects.create(team_match=team_match_b, point_types=2)
                         else:
                             player = Player.objects.get(id=player_select)
@@ -1094,42 +1051,42 @@ def scoreboard(request):
                         player_select = request.POST.get('player_point')
                         print(player_select)
                         if player_select == "0":
-                            if match.sport.sets: Point.objects.create(team_match=team_match_a, point_types=1)  
+                            if match.sport == 1: Point.objects.create(team_match=team_match_a, point_types=1)  
                             else: Point.objects.create(team_match=team_match_a, point_types=0)    
                         else:
                             player = Player.objects.get(id=player_select)
-                            if match.sport.sets: Point.objects.create(team_match=team_match_a, point_types=1, player=player)  
+                            if match.sport == 1: Point.objects.create(team_match=team_match_a, point_types=1, player=player)  
                             else: 
                                 point = Point.objects.create(team_match=team_match_a, point_types=0, player=player) 
                                 point.save()  
-                                if match.sport.logs:
+                                if match.sport == 0:
                                     Events_time('Gol', f'() {point.player.name} do {team_match_a.team.name} marcou um gol!')                    
                         return redirect('scoreboard')
                     elif 'team_b_add' in request.POST:
                         player_select = request.POST.get('player_point')
                         if player_select == "0" :
                             
-                            if match.sport.sets: Point.objects.create(team_match=team_match_b, point_types=1)  
+                            if match.sport == 1: Point.objects.create(team_match=team_match_b, point_types=1)  
                             else: 
                                 point = Point.objects.create(team_match=team_match_b, point_types=0) 
                                 point.save()  
-                                if match.sport.logs:
+                                if match.sport == 0:
                                     Events_time('Gol', f'() {point.player.name} do {team_match_b.team.name} marcou um gol!')
                         else:
                             player = Player.objects.get(id=player_select)
-                            if match.sport.sets: Point.objects.create(team_match=team_match_b, point_types=1, player=player)  
+                            if match.sport == 1: Point.objects.create(team_match=team_match_b, point_types=1, player=player)  
                             else: Point.objects.create(team_match=team_match_b, point_types=0, player=player)                                     
                         return redirect('scoreboard')
                     elif 'team_a_remove' in request.POST:
                         if Point.objects.filter(team_match=team_match_a , point_types=0) or Point.objects.filter(team_match=team_match_a , point_types=1):
-                            if match.sport.sets: point_a_remove = Point.objects.filter(team_match=team_match_a, point_types=1)
+                            if match.sport == 1: point_a_remove = Point.objects.filter(team_match=team_match_a, point_types=1)
                             else: point_a_remove = Point.objects.filter(team_match=team_match_a, point_types=0)
                             point_a_remove_last = point_a_remove.last()
                             point_a_remove_last.delete()
                         return redirect('scoreboard')
                     elif 'team_b_remove' in request.POST:
                         if Point.objects.filter(team_match=team_match_b , point_types=0) or Point.objects.filter(team_match=team_match_b , point_types=1):
-                            if match.sport.sets: point_b_remove = Point.objects.filter(team_match=team_match_b, point_types=1)
+                            if match.sport == 1: point_b_remove = Point.objects.filter(team_match=team_match_b, point_types=1)
                             else: point_b_remove = Point.objects.filter(team_match=team_match_b, point_types=0)
                             point_b_remove_last = point_b_remove.last()
                             point_b_remove_last.delete()
@@ -1178,9 +1135,8 @@ def scoreboard(request):
                         messages.info(request, "Sucesso!")
                         return redirect('scoreboard')
                     elif 'create_sets' in request.POST:
-                        if match.sport.sets:
+                        if match.sport == 1:
                             volley_match = Volley_match.objects.get(status=1)
-                            sport = get_object_or_404(Sport, id=match.sport.id)
                             match.status = 2
                             match.save()
                             if points_a > points_b:
@@ -1190,7 +1146,7 @@ def scoreboard(request):
                             volley_match.save()
                             print("CRIANDO NOVO SET")
                             print("1:: ",volley_match)
-                            new_match = Match.objects.create(sport=sport, sexo=match.sexo, status=5, volley_match=volley_match,time_match=time_now2)
+                            new_match = Match.objects.create(sport=1, sexo=match.sexo, status=5, volley_match=volley_match,time_match=time_now2)
                             print(new_match)
                             new_match.save()
                             team_a_match = Team_match.objects.create(match=new_match, team=team_match_a.team)
@@ -1221,7 +1177,7 @@ def scoreboard(request):
                         print("chegou na primeira parte")
                         next_match_id = request.POST.get('finally_start_match')
                         next_match = Match.objects.get(id=next_match_id)
-                        if Volley_match.objects.filter(status=1) or match.sport.sets:
+                        if Volley_match.objects.filter(status=1) or match.sport == 1:
                             print("A partida anterios é de vollei")
                             volley_match = get_object_or_404(Volley_match, status=1)
                             print("volley: ",volley_match)
@@ -1238,7 +1194,7 @@ def scoreboard(request):
                             match.status = 2
                             match.save()
                             print("Foi finalizada!", match.get_status_display())
-                        if next_match.sport.sets:
+                        if next_match.sport == 1:
                             print("A proxima é de vollei tb")
                             volley_match = Volley_match.objects.get(id=next_match.volley_match.id)
                             print(volley_match)
@@ -1344,7 +1300,7 @@ def scoreboard(request):
                         else:
                             print("o cronometro precisa ser iniciado, para ser finalizado!")
                             return redirect('scoreboard')
-                    return redirect('games')
+                    return redirect('scoreboard')
                 except (TypeError, ValueError):
                     messages.error(request, 'Um valor foi informado incorretamente!')
                 except IntegrityError as e:
@@ -1487,6 +1443,7 @@ def scoreboard_public(request):
     except Exception as e:
         messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
         return render(request, 'scoreboard_public.html')
+    
 def scoreboard_projector(request):
     try:
         if Volley_match.objects.filter(status=1):
@@ -1629,8 +1586,6 @@ def scoreboard_projector(request):
     except Exception as e:
         messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
         return render(request, 'scoreboard_projector.html')
-        
-
     
 def timer(match):
     print("kkkkkkkkkk")

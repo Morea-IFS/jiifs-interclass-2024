@@ -33,7 +33,7 @@
                         <ul>
                             <li class="cards"><img src="{% static 'images/cards.svg'%}" alt="" aria-hidden="true"><p id="card-a" class="card-count">{% if card_a %} {{card_a}} {% else %} 0 {% endif %}</p></li>
                             <li class="whistle"><img src="{% static 'images/whistle.svg'%}" alt="" aria-hidden="true"><p id="lack-a" class="whistle-count">{% if lack_a %} {{lack_a}} {% else %} 0 {% endif %}</p></li>
-                            <li class="aces"><img id="aces-img-a" style="{% if match.sport.sets %}display: flex;{% else %}display: none;{% endif %}" src="{% static 'images/ball-ace.svg'%}" alt="" aria-hidden="true"><p id="aces-a" style="{% if match.sport.sets %}display: flex;{% else %}display: none;{% endif %}" class="ace-count">{{aces_a}}</p></li>
+                            <li class="aces"><img id="aces-img-a" style="{% if match.sport == 1 %}display: flex;{% else %}display: none;{% endif %}" src="{% static 'images/ball-ace.svg'%}" alt="" aria-hidden="true"><p id="aces-a" style="{% if match.sport == 1 %}display: flex;{% else %}display: none;{% endif %}" class="ace-count">{{aces_a}}</p></li>
 
                         </ul>
                     </div>
@@ -54,7 +54,7 @@
                         <ul>
                             <li class="cards"><img src="{% static 'images/cards.svg'%}" alt="" aria-hidden="true"><p id="card-b" class="card-count">{% if card_a %} {{card_a}} {% else %} 0 {% endif %}</p></li>
                             <li class="whistle"><img src="{% static 'images/whistle.svg'%}" alt="" aria-hidden="true"><p id="lack-b" class="whistle-count">{% if lack_b %} {{lack_b}} {% else %} 0 {% endif %}</p></li>
-                            <li class="aces"><img id="aces-img-b" style="{% if match.sport.sets %} display: flex; {% else %} display: none; {% endif %}" src="{% static 'images/ball-ace.svg'%}" alt="" aria-hidden="true"><p id="aces-b" style="{% if match.sport.sets %} display: flex; {% else %} display: none; {% endif %}" class="ace-count">{{aces_b}}</p></li>
+                            <li class="aces"><img id="aces-img-b" style="{% if match.sport == 1 %} display: flex; {% else %} display: none; {% endif %}" src="{% static 'images/ball-ace.svg'%}" alt="" aria-hidden="true"><p id="aces-b" style="{% if match.sport == 1 %} display: flex; {% else %} display: none; {% endif %}" class="ace-count">{{aces_b}}</p></li>
 
                         </ul>
                     </div>
@@ -70,7 +70,7 @@
                 <p style="color: black;" id="name-scoreboard">{% if name_scoreboard %} {{name_scoreboard}} {% else %} Placar {% endif %}</p>
             </div>
             <p class="time">
-                <span id="timer" class="sets">{% if match %} {{time_sets_a}} {% else %} 00:00 {% endif %}</span> <span id="sets-team-b"  style="{% if match.sport.sets %}display: flex;{% else %}display: none;{% endif %}" class="sets">{% if match %} {{sets_b}} {% else %} 0 {% endif %}</span>
+                <span id="timer" class="sets">{% if match %} {{time_sets_a}} {% else %} 00:00 {% endif %}</span> <span id="sets-team-b"  style="{% if match.sport == 1 %}display: flex;{% else %}display: none;{% endif %}" class="sets">{% if match %} {{sets_b}} {% else %} 0 {% endif %}</span>
             </p>
         </div>
         <div class="ball-sport">

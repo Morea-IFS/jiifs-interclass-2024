@@ -50,7 +50,7 @@
                         <th>TEMPO</th>
                         <th>SEXO</th>
                         <th>ESPORTE</th>
-                        <th>VENCEDOR</th>
+                        {% if i.match.winner_team %}<th>VENCEDOR</th>{% endif %}
                         <th>DELETAR</th>
                     </tr>
                     {% for i in context %}
@@ -58,11 +58,11 @@
                         <td><a href="{% url 'matches_edit' i.match.id %}">{{i.match.id}}</a></td>
                         <td>{{ i.times.0.team.name }}</td>
                         <td>{{ i.times.1.team.name }}</td>
-                        <td>{% if i.match.status == 0 %} Em breve {% elif i.match.status == 1 %} Acontecendo {% elif i.match.status == 2 %} Finalizada {% elif i.match.status == 3 %} Cancelada {% elif i.match.status == 4 %} Pausada {% else %} ---- {% endif %}</td>
-                        <td>{{i.match.time_match}}</td>
-                        <td>{% if i.match.sexo == 0 %} Masculino {% else %} Feminino {% endif %} </td>
-                        <td>{{i.match.sport}}</td>
-                        <td>{% if i.match.winner_team %} {{match.Winner_team}} {% else %} ---- {% endif %}</td>
+                        <td>{{i.match.get_status_display}}</td>
+                        <td>{{i.match.time_match|date:"d/m/Y - H:i"}}</td>
+                        <td>{{ i.match.get_sexo_display }}</td>
+                        <td>{{i.match.get_sport_display}}</td>
+                        {% if i.match.winner_team %}<td>{{match.Winner_team}}</td>{% endif %}
                         <td>
                             <form method="POST" action="">
                                 {% csrf_token %}

@@ -56,7 +56,7 @@
                             <a href="{% url 'team_edit' team_sport.team.id %}">{% if team_sport.team.name %} {{ team_sport.team.name }} {% else %} ---- {% endif %}</a>
                         </td>
                         <td>{{ team_sport.team.hexcolor }}</td>
-                        <td>{{ team_sport.sport.name }}</td>
+                        <td>{{ team_sport.get_sport_display }}</td>
                         <td>{% if team_sport.team.photo %} <img src="{% static 'images/icon-true.svg' %}"> {% else %} <img src="{% static 'images/icon-false.svg' %}"> {% endif %}</td>
                         <td>
                             <a href="{% url 'team_players_manage' team_sport.id %}">ACESSAR</a>

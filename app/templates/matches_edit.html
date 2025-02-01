@@ -45,9 +45,9 @@
                         <option selected disabled value="None">
                             Selecione o esporte
                         </option>
-                        {% for i in sport %}
-                        <option {% if match.sport.id == i.id %} selected {% endif %} value="{{i.id}}">
-                            {{i.name}}
+                        {% for value, name in sport %}
+                        <option {% if match.sport == value %} selected {% endif %} value="{{ value }}">
+                            {{ name }}
                         </option>
                         {% endfor %}
 

@@ -44,13 +44,11 @@
                             </th>
                             <th>SELECIONE O ESPORTE</th>
                         </tr>
-                        {% for sport in sport %}
+                        {% for value, name in sport %}
                         <tr>
+                            <td><input type="checkbox" name="input-checkbox" value="{{ value }}" {% if sport.id in sport_ids %} checked {% endif %}></input></td>
                             <td>
-                                <input type="checkbox" name="input-checkbox" value="{{ sport.id }}" {% if sport.id in sport_ids %} checked {% endif %}>
-                            </td>
-                            <td>
-                                {% if sport.name %} {{ sport.name }} {% else %} ---- {% endif %}
+                                {{ name }}
                             </td>
                         </tr>
                         {% endfor %}

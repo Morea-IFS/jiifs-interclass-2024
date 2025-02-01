@@ -52,13 +52,13 @@
                                 <th><input type="checkbox" name="sports" onclick="toggle_checkbox(this)"></input></th>
                                 <th>SELECIONE O TIME</th>
                             </tr>
-                            {% for sport in sport %}
+                            {% for value, name in sport %}
                             <tr>
                                 <td>
-                                    <input type="checkbox" name="input-checkbox" value="{{ sport.id }}" {% if sport.id in sport_ids %} checked {% endif %}></input>
+                                    <input type="checkbox" name="input-checkbox" value="{{ value }}" {% if value in sport_ids %} checked {% endif %}></input>
                                 </td>
                                 <td>
-                                    {% if sport.name %} {{ sport.name }} {% else %} ---- {% endif %}
+                                    {{ name }}
                                 </td>
                             </tr>
                             {% endfor %}
