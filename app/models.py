@@ -12,6 +12,17 @@ class Status(models.IntegerChoices):
     paused = 4, "Pausada"
     empty = 5, "Nenhum"
 
+class Sport_types(models.IntegerChoices):
+    futsal = 0, "Futsal"
+    volleyball = 1, "Voleibol"
+    volley_sitting = 2, "Voleibol sentado"
+    handball = 3, "Handebol"
+    chess = 4, "Xadrez"
+    table_tennis = 5, "Tênis de mesa"
+    race = 6, "Corrida"
+    high_jump = 7, "Salto em altura"
+    burnt = 8, "Queimado"
+
 class Point_types(models.IntegerChoices):
     goal = 0, "Gol"
     point = 1, "Ponto"
@@ -65,18 +76,9 @@ class Team(models.Model):
     def __str__(self):    
         return f"{self.name}"
 
-class Sport(models.Model):
-    name = models.CharField(max_length=50)
-    max_titulares = models.IntegerField(validators=[MaxValueValidator(50)])
-    sets = models.BooleanField(default=False, null=True, blank=True)
-    logs = models.BooleanField(default=False, null=True, blank=True)
-
-    def __str__(self):    
-        return f"{self.name}"
-
 class Team_sport(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
-    sport = models.ForeignKey(Sport, on_delete=models.CASCADE)
+    sport = models.IntegerField(choices=Sport_types.choices)
 
     def __str__(self):    
         return f"{self.team} | {self.sport}"
@@ -104,7 +106,7 @@ class Volley_match(models.Model):
         return f"{self.status} | {self.sets_team_a} | {self.sets_team_b}"
 
 class Match(models.Model):
-    sport = models.ForeignKey(Sport, on_delete=models.CASCADE)
+    sport = models.IntegerField(choices=Sport_types.choices)
     status = models.IntegerField(choices=Status.choices, default=Status.shortly)
     time_start = models.TimeField(blank=True, null=True)
     time_end = models.TimeField(blank=True, null=True)

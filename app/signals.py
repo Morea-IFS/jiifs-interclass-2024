@@ -141,7 +141,7 @@ def generate_score_data():
         else: 
             img_sexo = static('images/icon-male.svg')
             sexo_color = '#3a7bd5'
-        if match.sport.sets:
+        if match.sport == 1:
             name_scoreboard = 'Sets'
             ball_sport = static('images/ball-of-volley.png')
         else:

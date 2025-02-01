@@ -35,8 +35,10 @@
                     <div>
                         <select id="esporte" name="sport">
                             <option selected disabled value="None">Selecione o esporte</option>
-                            {% for sport in sport %}
-                            <option value="{{sport.id}}">{{sport.name}}</option>
+                            {% for value, name in sport %}
+                            <tr>
+                                <option value="{{value }}">{{ name }}</option>
+                            </tr>
                             {% endfor %}
                         </select>
                         <select id="sexos" name="sexo">

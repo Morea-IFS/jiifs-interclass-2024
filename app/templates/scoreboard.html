@@ -225,11 +225,11 @@
                         </form>
                     </div>
                 </div>
-                {% if match.sport.sets %}
-                <div class="title-scoreboard" id="scoreboard-1" style="{% if match.sport.sets %} display: flex; {% else %} display: none; {% endif %}">
+                {% if match.sport == 1 %}
+                <div class="title-scoreboard" id="scoreboard-1" style="{% if match.sport == 1 %} display: flex; {% else %} display: none; {% endif %}">
                     <h2>ACES</h2>
                 </div>
-                <div class="scoreboard-bottom" id="scoreboard-2" style="{% if match.sport.sets %} display: flex; {% else %} display: none; {% endif %}">
+                <div class="scoreboard-bottom" id="scoreboard-2" style="{% if match.sport == 1 %} display: flex; {% else %} display: none; {% endif %}">
                     <div class="buttons-scoreboard">
                         <form method="post">
                             {% csrf_token %}
