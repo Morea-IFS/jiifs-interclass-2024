@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
@@ -41,6 +42,16 @@ class Player(models.Model):
     name = models.CharField(max_length=100)
     instagram = models.CharField(max_length=100, blank=True)
     photo = models.ImageField(upload_to='photo_player/', default='defaults/person.png', blank=True)
+    sexo = models.IntegerField(choices=Sexo.choices, default=Sexo.empty)
+
+    def __str__(self):    
+        return f"{self.name} | {self.sexo}"
+    
+class Technician(models.Model):
+    name = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    siape = models.CharField(max_length=100, blank=True)
+    photo = models.ImageField(upload_to='photo_technician/', default='defaults/person.png', blank=True)
     sexo = models.IntegerField(choices=Sexo.choices, default=Sexo.empty)
 
     def __str__(self):    

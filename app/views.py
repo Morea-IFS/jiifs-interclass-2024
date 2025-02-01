@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponse
-from .models import Config, Volley_match, Player, Penalties, Events, Time_pause, Team, Sport, Point, Team_sport, Player_team_sport, Match, Team_match, Player_match, Assistance,  Banner
+from .models import Config, Volley_match, Player, Technician, Penalties, Events, Time_pause, Team, Sport, Point, Team_sport, Player_team_sport, Match, Team_match, Player_match, Assistance,  Banner
 from django.db.models import Count
 from django.contrib import messages
 from django.db import IntegrityError
@@ -191,6 +191,7 @@ def home_public(request):
 
 def about_us(request):
     return render(request, 'about_us.html')
+
 def player_manage(request):
     try:
         if request.user.is_authenticated == False:
@@ -566,82 +567,79 @@ def games(request):
         ]
         return render(request, 'games.html',{'context': context})
 
-def sport_manage(request):
-    if request.user.is_authenticated == False:
-        return redirect('login')
-    else:
-        sport = Sport.objects.all()
-        if request.method == "GET":
-            if not sport:
-                print("Não há nenhum time cadastrado!")
-            return render(request, 'sport_manage.html',{'sport': sport,})
+def technician_manage(request):
+    try:
+        if request.user.is_authenticated == False:
+            return redirect('login')
         else:
-            sport_id = request.POST.get('sport_delete')
-            sport_delete = Sport.objects.get(id=sport_id)
-            sport_delete.delete()
-            return redirect('sport_manage')
+            technician = Technician.objects.all()
+            if request.method == "GET":
+                if not technician:
+                    print("Não há nenhum jogador cadastrado!")
+                return render(request, 'technician_manage.html', {'technician': technician})
+            else:
+                technician_id = request.POST.get('technician_delete')
+                technician_delete = technician.objects.get(id=technician_id)
+                technician_delete.delete()
+                return redirect('technician_manage')
+    except Exception as e:
+        messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
+        return render(request, 'technician_manage.html')
 
-def sport_edit(request, id):
+def technician_register(request):
     if request.user.is_authenticated == False:
         return redirect('login')
     else:
-        sport = get_object_or_404(Sport, id=id)
-        if request.method == "GET":
-            return render(request, 'sport_edit.html', {'sport': sport,})
-        elif 'excluir' in request.POST:
-            sport.delete()
-            return redirect('sport_manage')
+        if request.method == 'GET':
+            return render(request, 'technician_register.html')
         else:
             try:
-                if request.POST.get('sets') and request.POST.get('logs') == 'True':
-                    messages.error(request, "Erro, o esporte está recebendo sets e logs como verdadeiros, você está informar somente um como verdadeiro.")
-                    return redirect('sport_edit', sport.id)
-                elif sport.sets == 'True' and sport.logs == 'True':
-                    messages.error(request, "o  esporte está recebendo sets e logs como verdadeiros, você está informar somente um como verdadeiro.")
-                    return redirect('sport_edit', sport.id) 
-                sport.name = request.POST.get('name')
-                sport.max_titulares = request.POST.get('max_titulares')
-                if request.POST.get('sets') == 'True' or 'False':
-                    sport.sets = request.POST.get('sets')
-                    sport.save()
-                if request.POST.get('logs') == 'True' or 'False':
-                    sport.logs = request.POST.get('logs')
-                    sport.save()
+                print(request.POST)
+                name = request.POST.get('name')
+                siape = request.POST.get('siape')
+                sexo = int(request.POST.get('sexo'))
+                photo = request.FILES.get('photo')
+                password = request.POST.get('password')
+                user = User.objects.create_user(username=name, password=password)
+                if photo:
+                    technician = Technician.objects.create(name=name, user=user, siape=siape, sexo=sexo, photo=photo)
+                else:
+                    print("saiu co  rabo entre as pernas")
+                    technician = Technician.objects.create(name=name, user=user, siape=siape, sexo=sexo)
+                    print("k: ",technician)
+                technician.save()
             except (TypeError, ValueError):
                 messages.error(request, 'Um valor foi informado incorretamente!')
-                return redirect('sport_edit', sport.id)
             except IntegrityError as e:
                 messages.error(request, 'Algumas informações não foram preenchidas :(')
-                return redirect('sport_edit', sport.id)
             except Exception as e:
                 messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
-                return redirect('sport_edit', sport.id)
-            return redirect('sport_manage')
+            return redirect('technician_register')
 
-def sport_register(request):
+def technician_edit(request, id):
     if request.user.is_authenticated == False:
         return redirect('login')
     else:
-        if request.method =="GET":
-            return render(request, 'sport_register.html')
+        technician = get_object_or_404(Technician, id=id)
+        if request.method == 'GET':
+                return render(request, 'technician_edit.html', {'technician': technician})            
+        elif 'excluir' in request.POST:
+            if technician.photo:
+                technician.photo.delete()
+            technician.delete()
+            return redirect('technician_manage')
         else:
-            try:
-                name = request.POST.get('name')
-                max_titulares = request.POST.get('max_titulares')
-                if request.POST.get('sets') != 'False':
-                    sets = request.POST.get('sets')
-                    Sport.objects.create(name=name, max_titulares=max_titulares, sets=sets)
-                elif request.POST.get('logs') != 'False':
-                    logs = request.POST.get('logs')
-                    Sport.objects.create(name=name, max_titulares=max_titulares, logs=logs)
-                else:
-                    Sport.objects.create(name=name, max_titulares=max_titulares)
-                
-                print(request.POST)
-            except (TypeError, ValueError): messages.error(request, 'Um valor foi informado incorretamente!')
-            except IntegrityError as e: messages.error(request, 'Algumas informações não foram preenchidas :(')
-            except Exception as e: messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
-            return redirect('sport_register')
+            print(request.POST)
+            user = get_object_or_404(User, id=technician.user.id)
+            technician.name = request.POST.get('name')
+            technician.siape = request.POST.get('siape')
+            technician.sexo = int(request.POST.get('sexo'))
+            user.save()
+            if request.FILES.get('photo'):
+                if technician.photo: technician.photo.delete()
+                technician.photo = request.FILES.get('photo')
+            technician.save()
+            return redirect('technician_manage')
     
 def general_data(request, id):
     if request.user.is_authenticated == False:
