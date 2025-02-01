@@ -18,8 +18,8 @@
 <a href="{% url 'matches_manage' %}">
     <button class="side-bar-buttons-items">PARTIDAS</button>
 </a>
-<a href="{% url 'sport_manage' %}">
-    <button class="side-bar-buttons-items">ESPORTES</button>
+<a href="{% url 'technician_manage' %}">
+    <button class="side-bar-buttons-items">TÉCNICOS</button>
 </a>
 {% endblock navbar %}
 
@@ -42,7 +42,7 @@
             <input type="search" id="search-input" onkeyup="search_table()" placeholder="Pesquisar os times" />
             <section class="all-table">
                 <table id="search-table">
-                    <tr class="hidden error" >
+                    <tr class="hidden error">
                         <th>NOME</th>
                         <th>COLOR-HEX</th>
                         <th>ESPORTE</th>
@@ -61,7 +61,14 @@
                         <td>
                             <a href="{% url 'team_players_manage' team_sport.id %}">ACESSAR</a>
                         </td>
-                        <td><form method="POST" action="">{% csrf_token %}<button name="team_sport_delete" value="{{team_sport.id}}" style="background-color: transparent; border: none;"><img src="{% static 'images/icon-trash.svg' %}" style="color: blue;" alt=""></button></form></td>
+                        <td>
+                            <form method="POST" action="">
+                                {% csrf_token %}
+                                <button name="team_sport_delete" value="{{team_sport.id}}" style="background-color: transparent; border: none;">
+                                    <img src="{% static 'images/icon-trash.svg' %}" style="color: blue;" alt="">
+                                </button>
+                            </form>
+                        </td>
 
                     </tr>
                     {% empty %}

@@ -18,8 +18,8 @@
 <a href="{% url 'matches_manage' %}">
     <button class="side-bar-buttons-items">PARTIDAS</button>
 </a>
-<a href="{% url 'sport_manage' %}">
-    <button class="side-bar-buttons-items">ESPORTES</button>
+<a href="{% url 'technician_manage' %}">
+    <button class="side-bar-buttons-items">TÉCNICOS</button>
 </a>
 {% endblock navbar %}
 
@@ -42,8 +42,7 @@
                         <option value="0">Masculino</option>
                         <option value="1">Feminino</option>
                     </select>
-                    <label for="fotos" id="label-foto" class="custom-file-button">Adicione uma
-                        imagem</label>
+                    <label for="fotos" id="label-foto" class="custom-file-button">Adicione uma imagem</label>
                     <input type="file" name="photo" id="fotos" accept=".jpg, .jpeg, .png" onchange="trocarTextoLabel()">
                     {% if messages %}
                     {% for m in messages %}
