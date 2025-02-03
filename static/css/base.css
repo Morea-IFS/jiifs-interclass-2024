@@ -64,6 +64,10 @@
         background-color: var(--global-sixth-color);
     }
 
+    input[type=search] {
+        color: var(--global-color-white);
+    }
+
     .title-scoreboard h2 {
         color: var(--global-color-white);
     }
