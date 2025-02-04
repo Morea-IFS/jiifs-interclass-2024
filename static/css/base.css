@@ -26,11 +26,13 @@
     --global-eleventh-color: #004903;
     --global-twelfth-color: #2B2C2F;
     --global-thirteenth-color: #03009F;
+    --global-fourteenth-color: #3C3D3C;
 }
 
 .dark-mode {
 
     /* VARIAVEIS / CORES */
+    
     --global-color-white: #f1f1f1;
     --global-primary-color: #e2e2e2;
     --global-secondary-color: #232323;
@@ -45,6 +47,7 @@
     --global-eleventh-color: #004903;
     --global-twelfth-color: #2B2C2F;
     --global-thirteenth-color: #03009F;
+    --global-fourteenth-color: #b9b9b9;
 
     /* CSS */
 
@@ -453,7 +456,7 @@ tr:nth-child(even) {
 .block-service-config {
     display: flex;
     background-color: var(--global-ninth-color);
-    max-width: 55em;
+    max-width: 50em;
     width: 75vw;
     height: 4.5em;
     border-radius: 15px;
@@ -474,7 +477,7 @@ tr:nth-child(even) {
 }
 
 .icon {
-    color: var(--global-primary-color);
+    color: var(--global-fourteenth-color);
     font-size: 22px;
 }
 
