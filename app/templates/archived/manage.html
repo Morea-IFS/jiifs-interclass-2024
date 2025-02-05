@@ -1,0 +1,54 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static 'images/morea-sports.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/navbar-layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/manage.css' %}">
+    <title>GERENCIAMENTO</title>
+</head>
+
+<body>
+    <main>
+        <div class="all">
+            <div class="theme-mode-button" id="theme-toggle">
+                <i class="fas fa-sun" id="theme-icon"></i>
+            </div>
+            <div class="page-top">
+                <h1 class="title">GERENCIAMENTO</h1>
+                <p class="subtitle">CADASTRO, EDIÇÃO E VISUALIZAÇÃO DE INFORMAÇÕES.</p>
+            </div>
+            <div class="page-center">
+                <div class="card">
+                    <h2 class="title2">GUIADO</h2>
+                    <button class="button-card">
+                        <a href="">ACESSAR</a>
+                    </button>
+                    <p class="subtitle2">
+                        ESSE MODO É PARA QUEM NÃO TEM TANTA FAMILIARIDADE COM O SISTEMA.
+                        ACONSELHAMOS QUE O UTILIZE!
+                    </p>
+                </div>
+                <div class="card">
+                    <h2 class="title2">MANUAL</h2>
+                    <button class="button-card">
+                        <a href="">ACESSAR</a>
+                    </button>
+                    <p class="subtitle2">
+                        ESSE MODO É PARA QUEM TEM MAIS FAMILIARIDADE COM O SISTEMA.
+                        UTILIZE APENAS SE TIVER FAMILIARIDADE COM O SISTEMA!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+
+</html>
