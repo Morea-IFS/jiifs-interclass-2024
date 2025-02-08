@@ -32,7 +32,7 @@
 .dark-mode {
 
     /* VARIAVEIS / CORES */
-    
+
     --global-color-white: #f1f1f1;
     --global-primary-color: #e2e2e2;
     --global-secondary-color: #232323;
@@ -194,7 +194,8 @@ input[type=number] {
     font-size: 14px;
 }
 
-input[type=text], input[type=password],
+input[type=text],
+input[type=password],
 select {
     padding-block: 1em;
     border: none;
