@@ -37,6 +37,7 @@ urlpatterns = [
     path('players_in_teams/<int:id>', views.players_in_teams, name = "players_in_teams"),
     path('settings', views.settings, name="settings"),
     path('timer/<int:id>', views.timer_page, name = "timer"),
+    path('termos-de-uso/', views.termos_uso, name='termos_uso'),
     path('erro404', views.page_in_erro404),
     path('manage', views.manage, name="manage")
 ]

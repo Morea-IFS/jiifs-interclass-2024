@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.utils.timezone import localtime
 
 # Create your models here.
 
@@ -191,3 +192,15 @@ class Banner(models.Model):
     status = models.IntegerField(choices=Type_Banner.choices, default=Type_Banner.empty)
     def __str__(self):    
         return f"{self.id} | {self.name} | {self.status}"
+
+class Terms_Use(models.Model):
+    usuario = models.ForeignKey("auth.User", on_delete=models.CASCADE)
+    date_accept = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def date_accept_local(self):
+        """Retorna a data e hora ajustada para o fuso horário local."""
+        return localtime(self.date_accept)
+
+    def __str__(self):
+        return f"{self.usuario} - {self.date_accept_local.strftime('%d/%m/%Y %H:%M:%S')}"

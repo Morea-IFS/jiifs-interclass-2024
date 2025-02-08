@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . models import Config, Volley_match, Events, Player, Technician, Assistance, Penalties, Time_pause, Team, Point, Team_sport, Player_team_sport, Match, Team_match, Player_match, Banner
+from . models import Config, Volley_match, Events, Player, Technician, Assistance, Penalties, Time_pause, Team, Point, Team_sport, Player_team_sport, Match, Team_match, Player_match, Banner, Terms_Use
 
 # Register your models here.
 
@@ -82,3 +82,7 @@ class ConfigAdmin(admin.ModelAdmin):
 class BannerAdmin(admin.ModelAdmin):
     list_display = ('id','name','status')
     search_fields = ('id','name','status')
+
+@admin.register(Terms_Use)
+class Terms_UseAdmin(admin.ModelAdmin):
+    list_display = ('usuario', 'date_accept_local')
