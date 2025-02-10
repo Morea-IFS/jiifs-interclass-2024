@@ -1,16 +1,18 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponse
-from .models import Config, Volley_match, Player, Sport_types, Technician, Penalties, Events, Time_pause, Team, Point, Team_sport, Player_team_sport, Match, Team_match, Player_match, Assistance,  Banner
+from .models import Config, Volley_match, Player, Sport_types, Technician, Penalties, Events, Time_pause, Team, Point, Team_sport, Player_team_sport, Match, Team_match, Player_match, Assistance,  Banner, Terms_Use
 from django.db.models import Count
 from django.contrib import messages
 from django.db import IntegrityError
 from django.templatetags.static import static
-from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login as auth_login, authenticate, logout
+from django.template.loader import render_to_string
+from .forms import Terms_UseForm
 from datetime import date
-import time
+from reportlab.pdfgen import canvas
+import time, pdfkit
 # Create your views here.
 @login_required(login_url="login")
 def index(request):
@@ -912,7 +914,20 @@ def banner_manage(request):
                 return redirect('banner_manage')
         except Exception as e: messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
         return redirect('banner_manage')
-    
+
+@login_required
+def termos_uso(request):
+    if Terms_Use.objects.filter(usuario=request.user).exists():
+        return redirect('Home')  # Se já aceitou, redireciona para a home
+
+    if request.method == "POST":
+        # Verifica se o termo foi aceito
+        if 'accept' in request.POST:
+            Terms_Use.objects.create(usuario=request.user)
+            return redirect('Home')  # Substitua 'home' pela URL desejada após aceitação
+
+    return render(request, "termos_uso.html")
+
 def projector_register(request):
     if request.user.is_authenticated == False:
         return redirect('login')
