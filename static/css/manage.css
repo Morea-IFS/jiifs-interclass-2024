@@ -59,8 +59,8 @@ body {
   margin: 16px 0 18px;
 }
 .card-list .card-link .badge-return {
-  color: #ffffff;
-  background: #003cff;
+  color: #003cff;
+  background: #ffffff;
 }
 .card-list .card-link .badge-player {
   color: #ffffff;
