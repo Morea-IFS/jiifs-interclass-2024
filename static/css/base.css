@@ -79,6 +79,23 @@
 
 }
 
+.custom-buttons-sport-nav{
+    background-color: var(--global-tenth-color); 
+    margin-top: 20px; 
+    padding: 5px; 
+    padding-left: 10px; 
+    padding-right: 10px; 
+    border: 0; 
+    border-radius: 7px; 
+    font-weight: 600;
+    font-size: 25px;
+    cursor: pointer;
+}
+.custom-buttons-sport-nav a{
+    font-size: 25px;
+    color: #ffffff;
+}
+
 a {
     color: var(--global-tenth-color);
     text-decoration: none;

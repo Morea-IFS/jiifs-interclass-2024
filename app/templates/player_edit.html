@@ -18,18 +18,17 @@
 <div class="all-block">
     <section class="block1">
         <div class="title">
-            <h1>EDITAR JOGADOR</h1>
+            <h1>EDITAR JOGADOR DO CAMPUS <span style="color: #0051ff;">{{player.get_campus_display|upper}}</span></h1>
         </div>
         <div>
             <form id="function_validate_form" class="block-inputs" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="block-inputs-form">
                     <div>
-                        {% if player.name %} placeholder="{{ player.name }}" {% else %} placeholder="Nome do jogador*" {% endif %} value="{{ player.name }}" required />
-                        <input type="text" autocomplete="on" autocorrect="on" name="registration"
-                        {% if player.registration %} placeholder="{{ player.registration }}" value="{{ player.registration }}" {% else %} placeholder="Matrícula" {% endif %} required>
-                        <input type="text" autocomplete="on" autocorrect="on" name="campus"
-                        {% if player.campus %} placeholder="{{ player.campus }}" value="{{ player.campus }}" {% else %} placeholder="Campus" {% endif %} required>
+                        <input type="text" autocomplete="on" autocorrect="on" name="name" {% if player.name %} placeholder="{{ player.name }}" {% else %} placeholder="Nome do jogador*" {% endif %} value="{{ player.name }}" required />
+                        
+                        <input type="text" autocomplete="on" autocorrect="on" name="registration" {% if player.registration %} placeholder="{{ player.registration }}" value="{{ player.registration }}" {% else %} placeholder="Matrícula" {% endif %} required>
+
                         <select id="sexos" name="sexo">
                             <option {% if player_disable %} selected disabled {% endif %} value="2"> Selecione o sexo
                             </option>
@@ -37,6 +36,14 @@
                             </option>
                             <option {% if player.sexo == 1 %} selected {% endif %} value="1">Feminino</option>
                         </select>
+                        {% if user.is_staff %}
+                        <select name="campus" required>
+                            <option selected disabled>Selecione o campus</option required>
+                            {% for value, name in campus %}
+                            <option value="{{value}}" {% if player.campus == value %} selected {% endif %}>{{name}}</option>
+                            {% endfor %}
+                        </select>
+                        {% endif %}
                         <label for="fotos" id="label-foto" class="custom-file-button">{% if player.photo %} Trocar imagem {% else %} Adicione uma imagem {% endif %}</label>
                         <input type="file" name="photo" id="fotos" accept=".jpg, .jpeg, .png" onchange="trocarTextoLabel()" />
                         {% if messages %}

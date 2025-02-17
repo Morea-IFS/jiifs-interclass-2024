@@ -19,21 +19,30 @@
     <div class="card-wrapper">
       <ul class="card-list swiper-wrapper">
         <li class="card-item swiper-slide">
-          <a href="{% url 'Home' %}" class="card-link">
-            <img src="{% static 'images/logo-morea-sports.svg' %}" alt="Card Image" class="card-image">
+          <a href="{% url 'Home' %}" class="card-link" style="background-color: #003cff;">
+            <img src="{% static 'images/door-open-solid.svg' %}" alt="Card Image" class="card-image">
             <p class="badge badge-return">VOLTAR</p>
-            <h2 class="card-title">A pagina  que você está agora é utilizada para o gerenciamento de atletas, times, partidas, técnicos, banners, certificados e crachás! <span style="color: red;">clique aqui para sair</span></h2>
+            <h2 class="card-title" style="color: #ffffff;">A pagina  que você está agora é utilizada para o gerenciamento de atletas, times, partidas, técnicos, banners, certificados e crachás! <span style="color: #2bff00e1;">clique aqui para sair</span></h2>
             <button class="card-button material-symbols-rounded">arrow_forward</button>
           </a>
         </li>
         <li class="card-item swiper-slide">
           <a href="{% url 'team_manage' %}" class="card-link">
             <img src="{% static 'images/logo-morea-sports.svg' %}" alt="Card Image" class="card-image">
-            <p class="badge badge-team">TIMES</p>
-            <h2 class="card-title">Aqui você poderá cadastrar, editar e também ver os time que já foram cadastrados e seus esportes. Você também poderá cadastrar os seus jogadores!</h2>
+            <p class="badge badge-team">CAMPUS</p>
+            <h2 class="card-title">Aqui você poderá cadastrar e ver os esporte em que seu campus que está inscritos. Você também poderá cadastrar os seus jogadores!</h2>
             <button class="card-button material-symbols-rounded">arrow_forward</button>
           </a>
         </li>
+        <li class="card-item swiper-slide">
+          <a href="{% url 'team_manage' %}" class="card-link">
+            <img src="{% static 'images/logo-morea-sports.svg' %}" alt="Card Image" class="card-image">
+            <p class="badge badge-technician">SUA EQUIPE</p>
+            <h2 class="card-title">Aqui você poderá cadastrar os seus voluntarios e a equipe de organização! Para posteriormente gerar os crachás na pagina 'crachá'</h2>
+            <button class="card-button material-symbols-rounded">arrow_forward</button>
+          </a>
+        </li>
+        {% if user.is_staff %}
         <li class="card-item swiper-slide">
           <a href="{% url 'player_manage' %}" class="card-link">
             <img src="{% static 'images/logo-morea-sports.svg' %}" alt="Card Image" class="card-image">
@@ -50,7 +59,6 @@
             <button class="card-button material-symbols-rounded">arrow_forward</button>
           </a>
         </li>
-        {% if user.is_staff %}
         <li class="card-item swiper-slide">
           <a href="{% url 'technician_manage' %}" class="card-link">
             <img src="{% static 'images/logo-morea-sports.svg' %}" alt="Card Image" class="card-image">

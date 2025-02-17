@@ -21,9 +21,24 @@ class Sport_types(models.IntegerChoices):
     handball = 3, "Handebol"
     chess = 4, "Xadrez"
     table_tennis = 5, "Tênis de mesa"
-    race = 6, "Corrida 100 M"
-    high_jump = 7, "Salto em altura"
-    burnt = 8, "Queimado"
+    race = 6, "100 M"
+    high_jump = 7, "Salto em distância"
+    launch_dart = 8, "Lançamento de dardo"
+    pitch_weight = 9, "Lançamento de peso"
+
+
+class Campus_types(models.IntegerChoices):
+    aracaju = 0, "Aracaju"
+    estancia = 1, "Estância"
+    gloria = 2, "Glória"
+    itabaiana = 3, "Itabaiana"
+    lagarto = 4, "Lagarto"
+    poco_redondo = 5, "Poço Redondo"
+    propria = 6, "Propriá"
+    sao_cristovao = 7, "São Cristovão"
+    socorro = 8, "Socorro"
+    tobias_barreto = 9, "Tobias Barreto"
+    reitoria = 10, "Reitoria"
 
 class Point_types(models.IntegerChoices):
     goal = 0, "Gol"
@@ -55,9 +70,11 @@ class Player(models.Model):
     name = models.CharField(max_length=100)
     instagram = models.CharField(max_length=100, blank=True)
     photo = models.ImageField(upload_to='photo_player/', default='defaults/person.png', blank=True)
+    bulletin = models.FileField(upload_to='bulletins/')
     sexo = models.IntegerField(choices=Sexo_types.choices, default=Sexo_types.mixed)
-    campus = models.CharField(max_length=50, default="Reitoria")
+    campus = models.IntegerField(choices=Campus_types.choices, default=Campus_types.reitoria)
     registration = models.CharField(max_length=15, default="0000000000")
+    cpf = models.CharField(max_length=11, default="00000000000")
     date_nasc = models.DateField(default=timezone.now)
     admin = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
@@ -69,7 +86,18 @@ class Technician(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     siape = models.CharField(max_length=100, blank=True)
     photo = models.ImageField(upload_to='photo_technician/', default='defaults/person.png', blank=True)
+    campus = models.IntegerField(choices=Campus_types.choices, default=Campus_types.reitoria)
     sexo = models.IntegerField(choices=Sexo_types.choices, default=Sexo_types.mixed)
+
+    def __str__(self):    
+        return f"{self.name} | {self.sexo}"
+    
+class Voluntary(models.Model):
+    name = models.CharField(max_length=100)
+    photo = models.ImageField(upload_to='photo_technician/', default='defaults/person.png', blank=True)
+    campus = models.IntegerField(choices=Campus_types.choices, default=Campus_types.reitoria)
+    cpf = models.CharField(max_length=11, default="00000000000")
+    admin = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):    
         return f"{self.name} | {self.sexo}"
@@ -78,6 +106,7 @@ class Team(models.Model):
     name = models.CharField(max_length=100, blank=True)
     photo = models.ImageField(upload_to='logo_team/', default='defaults/team.png', blank=True)
     hexcolor = models.CharField(max_length=7, null=True, blank=True)
+    campus = models.IntegerField(choices=Campus_types.choices, default=Campus_types.reitoria)
 
     def __str__(self):    
         return f"{self.name}"
@@ -104,7 +133,6 @@ class Team_sport(models.Model):
     sport = models.IntegerField(choices=Sport_types.choices)
     admin = models.ForeignKey(User, on_delete=models.CASCADE)
     sexo = models.IntegerField(choices=Sexo_types.choices)
-    situation = models.BooleanField(default=False)
 
     def __str__(self):    
         return f"{self.team} | {self.get_sport_display()}"

@@ -38,8 +38,110 @@ def generate_certificates(players, user):
         certificate.file.save(arquivo_saida, ContentFile(buffer.read()))
         certificate.save()
 
+def draw_circular_image(c, image_path, center_x, center_y, diameter):
+    img = ImageReader(image_path)
+    c.saveState()
+    path = c.beginPath()
+    path.circle(center_x, center_y, diameter / 2)
+    c.clipPath(path, stroke=0, fill=0)
+    c.drawImage(
+        img,
+        center_x - diameter / 2,
+        center_y - diameter / 2,
+        width=diameter,
+        height=diameter,
+        mask="auto",
+    )
+    c.restoreState()
+    
+def generate_badges(players, userr, type):
+    path = os.path.join("results/nametags", "nametags.pdf")
+    w, h = A4
+    nametag_width = (w - 3 * 20) / 2
+    nametag_height = (h - 3 * 20) / 2
+    positions = [
+        (20, h - 20 - nametag_height),
+        (20 * 2 + nametag_width, h - 20 - nametag_height),
+        (20, 20),
+        (20 * 2 + nametag_width, 20),
+    ]
+    if not os.path.exists("results/nametags"):
+        os.makedirs("results/nametags")
+    c = canvas.Canvas(path, pagesize=A4)
+    for j, user in enumerate(players):
+        if j % 4 == 0 and j > 0:
+            c.showPage()
+        x, y = positions[j % 4]
 
-def generate_badges(players, user):
+        c.rect(x, y, nametag_width, nametag_height)
+        base_nametag = ImageReader( os.path.join(settings.BASE_DIR, 'static/images/generators/base_nametag__' + str(type) + '.png'))
+        c.drawImage(base_nametag, x, y, width=nametag_width, height=nametag_height)
+
+        if user.player.photo:
+            try:
+                photo_diameter = nametag_width / 2 + 20
+                center_x = x + nametag_width / 2
+                center_y = y + nametag_height - photo_diameter + 43
+                draw_circular_image(c, user.player.photo, center_x, center_y, photo_diameter)
+                print(user.player.photo)
+                print(user.player.photo.url)
+            except:
+                print("f")
+
+        c.setFont("Helvetica-Bold", 28)
+        c.drawCentredString(
+            x + nametag_width / 2,
+            y + nametag_height / 2 - 30,
+            (
+                user.player.name.upper()
+                if len(user.player.name) < 15
+                else f"{user.player.name.split()[0].upper()} {next((w[0].upper() + '.' for w in user.player.name.split()[1:] if w.lower() not in ['de', 'da', 'dos', 'das', 'do']), '')}"
+            ),
+        )
+
+        c.setFont("Helvetica", 18)
+        c.drawCentredString(
+            x + nametag_width / 2,
+            y + nametag_height / 2 - 50,
+            str(user.player.registration),
+        )
+
+        c.setFont("Helvetica-Bold", 18)
+        c.drawCentredString(
+            x + nametag_width / 2,
+            y + nametag_height / 2 - 70,
+            "CAMPUS: " + user.player.campus,
+        )
+        print(user.team_sport.get_sport_display().lower())
+        print(os.listdir( os.path.join(settings.BASE_DIR, 'static/images/sports')))
+        if user.team_sport.get_sport_display().lower() in [
+            file.replace(".png", "") for file in os.listdir( os.path.join(settings.BASE_DIR, 'static/images/sports'))
+        ]:
+            print("eitam")
+            sport = ImageReader( os.path.join(settings.BASE_DIR, 'static/images/sports/' + user.team_sport.get_sport_display().lower() + '.png'))
+            c.drawImage(
+                sport,
+                x + nametag_width / 2 + 10,
+                y + 17,
+                width=110,
+                height=35,
+                mask="auto",
+            )
+        else:
+            print("af")
+            print(user.team_sport.get_sport_display().lower())
+            c.drawImage(
+                os.path.join(settings.BASE_DIR, 'static/images/logo_ifs.png'),
+                x + nametag_width / 2 + 55,
+                y + 15,
+                width=34,
+                height=45,
+                mask="auto",
+            )
+
+    c.save()
+
+def generate_nametags(players, user):
     buffer = BytesIO() 
     c = canvas.Canvas(buffer, pagesize=A4)
     w, h = A4

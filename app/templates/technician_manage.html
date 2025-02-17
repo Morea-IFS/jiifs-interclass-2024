@@ -53,7 +53,7 @@
                             <a href="{% url 'technician_edit' technician.id %}">{{ technician.name }}</a>
                         </td>
                         <td>{{technician.siape}}</td>
-                        <td>{% if technician.sexo == 0 %} Masculino {% elif technician.sexo == 1 %} Feminino {% else %} ---- {% endif %}</td>
+                        <td>{{technician.get_sexo_display}}</td>
                         <td>{% if technician.photo %} <img src="{% static 'images/icon-true.svg' %}"> {% else %} <img src="{% static 'images/icon-false.svg' %}"> {% endif %}</td>
                         <td>
                             <a href="{% url 'technician_edit' technician.id %}">
