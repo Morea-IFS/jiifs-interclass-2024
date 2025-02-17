@@ -2,11 +2,13 @@
 
 a {
     text-decoration: none;
-    font-size: 14px;
+    text-align: center;
+    font-size: 16px;
+    width: 100%;
 }
 
 .invisible-side-bar {
-    width: 10em;
+    min-width: 10em;
     height: 100%;
 }
 
@@ -29,9 +31,10 @@ a {
     flex-direction: column;
     justify-content: space-evenly;
     background-color: var(--global-secondary-color);
+    min-width: 10em;
     position: fixed;
+    overflow: auto;
     height: 100%;
-    width: 10em;
 }
 
 .side-bar .hamburguer-menu {
@@ -43,8 +46,11 @@ a {
     display: flex;
     align-items: center;
     flex-direction: column;
+    width: 100%;
+    margin-top: 2em;
     gap: 1em;
 }
+
 
 .side-bar-logo {
     height: 7em;
@@ -52,25 +58,30 @@ a {
 
 .user-admin {
     text-align: center;
-    width: 7em;
+    margin-inline: 1em;
     padding: 5px;
     color: white;
     border-radius: 10px;
     background-color: var(--global-ninth-color);
 }
 
+.user-admin p {
+    font-size: 16px;
+}
+
 .side-bar-buttons {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    width: 100%;
+    gap: 20px;
 }
 
 .side-bar-buttons-items {
     border: none;
     background-color: var(--global-ninth-color);
-    padding-block: 0.5em;
-    width: 9em;
+    padding-block: 0.7em;
+    width: 80%;
     border-radius: 0.5em;
 }
 
@@ -146,7 +157,6 @@ a {
         opacity: 0;
         display: flex;
         transition: all 0.4s ease 0s;
-        overflow: hidden;
     }
 
     .change .first-line {
