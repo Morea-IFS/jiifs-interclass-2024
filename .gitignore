@@ -8,4 +8,5 @@ media/logo_team/*
 media/photo_player/*
 media/photos_config/*
 media/photos_technician/*
+media/bulletins/*
 .env

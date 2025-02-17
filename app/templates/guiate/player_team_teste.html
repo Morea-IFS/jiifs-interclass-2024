@@ -16,47 +16,34 @@
             <div class="all-block" style="width: 100vw;">
                 <div class="block1">
                     <div class="title" style="display: flex; flex-direction: column; color: white;">
-                        <h1>SELECIONE OS SEUS ATLETAS</h1>
-                        <p style="color: #1be900;">{{avise}}.</p>
+                        <h1>ADICIONE ATLETAS NO TIME DE <span style="color: #0051ff; ">{{team_sport.get_sport_display|upper}} {{team_sport.get_sexo_display|upper}}</span> DO CAMPUS <span style="color: #0051ff;">{{team_sport.team.name|upper}}</span></h1>
                     </div>
-                    <section class="block-inputs" style="flex-direction: column; justify-content: center; align-items: center;" >
-                        <h2 class="sub-title" style="color: #007eec;">CADASTRO COM PLANILHA</h2>
-                        <form class="block-inputs" method="post" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <div class="block-inputs-form" style="width: 40vw;">
-                                <label for="spreadsheet" id="label-spreadsheet" class="custom-file-button">Selecione uma planilha</label>
-                                <input type="file" name="spreadsheet" id="spreadsheet" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" onchange="trocarTextoLabelspreadsheetv()">
-                                <input class="input-confirm" type="submit" value="Confirmar" style="cursor: pointer;">
-                            </div>
-                        </form>
-                    </section>
-                    <br><br>
-                    <span style="background-color: white; width: 45vw; height: 3px;"></span>
-                    <br><br>
                     <form id="function_validate_form" class="block-inputs" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="block-inputs-form">
-                            <h2 class="sub-title" style="color: #007eec;">CADASTRO MANUAL</h2>
                             <div>
                                 <label for="name">Nome do jogador</label>
                                 <input type="text" autocomplete="on" autocorrect="on" id="name" name="name" placeholder="Nome do jogador*"
                                     required>
-                                <label for="registration">Matrícula</label>
-                                <input type="text" autocomplete="on" autocorrect="on" id="registration" name="registration"
-                                    placeholder="Matrícula*" required>
-                                <label for="campus">Campus</label>
-                                <input type="text" autocomplete="on" autocorrect="on" id="campus" name="campus"
-                                    placeholder="Campus*" required>
                                 <label for="date" >Data de nascimento</label>
                                 <input type="date" autocomplete="on" autocorrect="on" name="date" id="date"
                                         placeholder="Data de nascimento*" required>
+                                <label for="registration">Matrícula</label>
+                                <input type="text" autocomplete="on" autocorrect="on" id="registration" name="registration"
+                                    placeholder="Matrícula*" required>
+                                {% if team_sport.sport == 2 %}
                                 <label for="sexos">Sexo</label>
                                 <select id="sexos" name="sexo">
                                     <option selected disabled value="None">Selecione o sexo</option>
                                     <option value="0">Masculino</option>
                                     <option value="1">Feminino</option>
                                 </select>
-                                <label for="fotos" id="label-foto" class="custom-file-button">Adicione uma imagem</label>
+                                {% endif %}
+                                <label for="Boletin">Boletim</label>
+                                <label for="bulletin" id="label-foto" class="custom-file-button">Clique aqui e adicione o boletim escolar</label>
+                                <input type="file" name="bulletin" id="bulletin" accept=".pdf" required onchange="trocarTextoLabel()">
+                                <label for="Fotografia">Fotografia</label>
+                                <label for="fotos" id="label-foto" class="custom-file-button">Clique aqui e adicione uma fotografia</label>
                                 <input type="file" name="photo" id="fotos" accept=".jpg, .jpeg, .png" required onchange="trocarTextoLabel()">
                                 {% if messages %}
                                 {% for m in messages %}
@@ -65,26 +52,20 @@
                                 {% endif %}
                             </div>
                             <div>
-                                <input class="input-confirm" type="submit" value="Confirmar"></input>
+                                <button class="side-bar-buttons-items2 custom-buttons-sport-nav" style="background-color: var(--global-tenth-color);">
+                                    CONFIRMAR
+                                </button>
                             </div>
                         </div>
                     </form>
                     <br><br>
                     <span style="background-color: white; width: 45vw; height: 3px;"></span>
                     <br><br>
-                    <div style="display: flex; width: auto; height: auto; flex-direction: row; gap: 10px; margin-bottom: 5vw;">
-                        <form id="function_validate_form_delete" class="block-inputs" method="post">
-                            {% csrf_token %}
-                            <div class="block-inputs-form">
-                                <input class="input-delete" type="submit" value="Cancelar" name="Cancelar" />
-                                
-                            </div>
-                        </form>
-                        <a href="{% url 'guiate_players_list' team_sport.team.name team_sport.get_sexo_display team_sport.get_sport_display %}">
-                            <div class="block-inputs-form">
-                                <input class="input-delete" style="background-color: green;" type="submit" value="Finalizar" name="Finalizar" />
-                            </div>
-                        </a>
+                    <div style="display: flex; width: auto; height: auto; justify-content: center; align-items: center; gap: 15px; margin-bottom: 5vw;">                            
+                        <button class="side-bar-buttons-items2 custom-buttons-sport-nav" style="background-color: var(--global-color-green);">
+                            <a href="{% url 'guiate_players_list' team_sport.team.name team_sport.get_sexo_display team_sport.get_sport_display %}">VER JOGADORES</a>
+                        </button>
+
                     </div>
                     
                 </div>
@@ -93,5 +74,11 @@
     </main>
 
     <script src="{% static 'js/script.js' %}"></script>
+    <script>
+        const input = document.getElementById('bulletin')
+        input.addEventListener('change', () =>{
+            console.log(input.value)
+        })
+    </script>
 </body>
 </html>

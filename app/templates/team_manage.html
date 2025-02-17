@@ -20,12 +20,12 @@
         <div class="title">
             <h1>GERENCIAMENTO DE TIMES</h1>
         </div>
-        <button class="side-bar-buttons-items2">
-            <a href="{% url 'guiate_register_team' %}">CADASTRO DE TIMES</a>
+        <button class="side-bar-buttons-items2 custom-buttons-sport-nav">
+            <a href="{% url 'guiate_register_team' %}">CADASTRO DE CAMPUS</a>
         </button>
         <br><br>
         <div class="all-manage">
-            <input type="search" id="search-input" onkeyup="search_table()" placeholder="Pesquisar os times" />
+            <input type="search" class="hidden" id="search-input" onkeyup="search_table()" placeholder="Pesquisar os times" />
             <section class="all-table">
                 <table id="search-table">
                     <tr class="hidden error">
@@ -33,8 +33,9 @@
                         <th>ESPORTE</th>
                         <th>SEXO</th>
                         <th>JOGADORES</th>
+                        {% if user.is_staff %}
                         <th>EDITAR</th>
-                        <th>SITUAÇÃO</th>
+                        {% endif %}
                         <th>DELETAR</th>
                     </tr>
                     {% for team_sport in team_sports %}
@@ -47,12 +48,13 @@
                         <td>
                             <a href="{% url 'team_players_manage' team_sport.id %}">ACESSAR</a>
                         </td>
+                        {% if user.is_staff %}
                         <td>
                             <a href="{% url 'team_edit' team_sport.team.id %}">
                                 <img src="{% static 'images/icon-edit.svg' %}">
                             </a>
                         </td>
-                        <td>{% if team_sport.situation %} <img src="{% static 'images/icon-true.svg' %}"> {% else %} <img src="{% static 'images/icon-false.svg' %}"> {% endif %}</td>
+                        {% endif %}
                         <td>
                             <form method="POST">
                                 {% csrf_token %}
@@ -71,12 +73,12 @@
                     </style>
                     <img class="image-no-players" src="{% static 'images/setup-animate.svg' %}">
                     <div class="title2">
-                        <h2>NENHUM TIME FOI ENCONTRADO <br> <span style="font-size: 20px;">Realize o cadastro do seu time!</span></h2>
+                        <h2>O SEU CAMPUS NÃO ESTÁ CADASTRADO <br> <span style="font-size: 20px;">Realize o cadastro!</span></h2>
                     </div>
                     {% endfor %}
                 </table>
             </section>
-            <button class="side-bar-buttons-items2" style="background-color: var(--global-seventh-color); margin-top: 20px;">
+            <button class="side-bar-buttons-items2 custom-buttons-sport-nav" style="background-color: var(--global-seventh-color);">
                 <a href="{% url 'manage' %}">VOLTAR</a>
             </button>
         </div>

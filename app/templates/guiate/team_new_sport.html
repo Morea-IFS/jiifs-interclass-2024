@@ -16,29 +16,33 @@
             <div class="all-block" style="width: 100vw;">
                 <section class="block1">
                     <div class="title">
-                        <h1>ADICIONAR NOVO ESPORTE A <span style="color: #0059ff;">{{team.name|upper}}</span></h1>
+                        <h1>ADICIONE UMA NOVA MODALIDADE AO CAMPUS <span style="color: #0059ff;">{{team.name|upper}}</span></h1>
                     </div>
                     <form id="function_validate_form" class="block-inputs" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="block-inputs-form">
                             <div class="block-inputs-form">
                             <div>
-                                <select id="sexos" name="sexo" required>
-                                    <option selected disabled>Selecione o sexo*</option required>
-                                    {% for value, name in sexo %}
-                                    <option value="{{value}}">{{name}}</option>
-                                    {% endfor %}
-                                </select>
+                                <label for="">Esporte</label>
                                 <select name="sport_id">
                                     <option value="None" selected disabled>Selecione o esporte*</option>
                                     {% for value, name in sport %}
                                     <option value="{{value}}">{{name}}</option>
                                     {% endfor %}
                                 </select>
+                                <label for="">sexo</label>
+                                <select id="sexos" name="sexo" required>
+                                    <option selected disabled>Selecione o sexo*</option required>
+                                    {% for value, name in sexo %}
+                                    <option value="{{value}}">{{name}}</option>
+                                    {% endfor %}
+                                </select>
                                 <br>
                             </div>
                             <div>
-                                <input class="input-confirm" type="submit" value="Confirmar" style="cursor: pointer;">
+                                <button class="side-bar-buttons-items2 custom-buttons-sport-nav" style="background-color: var(--global-tenth-color);">
+                                    CONFIRMAR
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -56,8 +60,8 @@
                     {% endfor %}
                     <br>
                     {% endif %}
-                    <button class="side-bar-buttons-items2" style="background-color: var(--global-seventh-color); margin-top: 40px; padding: 10px; border: 0; border-radius: 10px; font-weight: 600;">
-                        <a href="{% url 'manage' %}" style="color: #ffffff;">VOLTAR</a>
+                    <button class="side-bar-buttons-items2" style="background-color: var(--global-seventh-color); margin-top: 20px; padding: 5px; padding-left: 10px; padding-right: 10px; border: 0; border-radius: 7px; font-weight: 600;">
+                        <a href="{% url 'manage' %}" style="color: #ffffff; font-size: 25px;">VOLTAR</a>
                     </button>
                 </section>
             </div>

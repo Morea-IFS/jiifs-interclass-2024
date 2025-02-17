@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponse
-from .models import Sexo_types, Badge, Certificate, Config, Volley_match, Player, Sport_types, Technician, Penalties, Events, Time_pause, Team, Point, Team_sport, Player_team_sport, Match, Team_match, Player_match, Assistance,  Banner, Terms_Use
+from .models import Sexo_types, Campus_types, Badge, Certificate, Config, Volley_match, Player, Sport_types, Technician, Penalties, Events, Time_pause, Team, Point, Team_sport, Player_team_sport, Match, Team_match, Player_match, Assistance,  Banner, Terms_Use
 from django.db.models import Count
 from django.contrib import messages
 from django.db import IntegrityError
@@ -231,42 +231,44 @@ def player_manage(request):
         return render(request, 'player_manage.html', {'player': player})
     else:
         try:
-            player_id = request.POST.get('player_delete')
-            player_delete = Player.objects.get(id=player_id)
-            player_delete.delete()
+            print(request.POST)
+            if 'player_delete' in request.POST:
+                player_id = request.POST.get('player_delete')
+                player_delete = Player.objects.get(id=player_id)
+                player_delete.photo.delete()
+                player_delete.delete()
             return redirect('player_manage')
         except Exception as e:
             messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
-            return render(request, 'player_manage.html')
+            return redirect('player_manage')
     
 @login_required(login_url="login")
 def player_edit(request, id):
+    campus = Campus_types.choices
     player = get_object_or_404(Player, id=id)
     if request.method == 'GET':
-        return render(request, 'player_edit.html', {'player': player})            
+        return render(request, 'player_edit.html', {'player': player, 'campus': campus})            
     else:
-        try:
-            player.name = request.POST.get('name')
-            player.sexo = request.POST.get('sexo')
-            player.campus = request.POST.get('campus')
-            player.registration = request.POST.get('registration')
-            if request.FILES.get('photo'):
-                if player.photo: player.photo.delete()
-                player.photo = request.FILES.get('photo')
-            player.save()
-        except (TypeError, ValueError):
-            messages.error(request, 'Um valor foi informado incorretamente!')
-        except IntegrityError as e:
-            messages.error(request, 'Algumas informações não foram preenchidas :(')
-        except Exception as e:
-            messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
+        print(request.FILES)
+
+        player.name = request.POST.get('name')
+        player.sexo = request.POST.get('sexo')
+        player.registration = request.POST.get('registration')
+        
+        photo = request.FILES.get('photo')
+        if photo:
+            player.photo = photo
+        campus_id = request.POST.get('campus')
+        if campus_id:
+            player.campus = campus_id
+        player.save()
         return redirect('player_manage')
 
 @login_required(login_url="login")
 def team_manage(request):
     try:
-        if request.user.is_staff: team_sports = Team_sport.objects.all()
-        else: team_sports = Team_sport.objects.filter(admin__id=request.user.id)
+        if request.user.is_staff: team_sports = Team_sport.objects.all().order_by('sport','-sexo')
+        else: team_sports = Team_sport.objects.filter(admin__id=request.user.id).order_by('sport','-sexo')
         if request.method == "GET":
             return render(request, 'team_manage.html', {'team_sports': team_sports})
         else:
@@ -322,7 +324,7 @@ def team_players_manage(request, id):
             return redirect('team_players_manage', team.id)
     except Exception as e:
         messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
-        return render(request, 'team_players_manage.html')
+        return redirect('team_players_manage', team.id)
 
 @login_required(login_url="login")
 def add_player_team(request, id):
@@ -510,57 +512,58 @@ def technician_manage(request):
 
 @login_required(login_url="login")
 def technician_register(request):
-    if request.user.is_authenticated == False:
-        return redirect('login')
+    campus = Campus_types.choices
+    if request.method == 'GET':
+        return render(request, 'technician_register.html',{'campus':campus})
     else:
-        if request.method == 'GET':
-            return render(request, 'technician_register.html')
-        else:
-            try:
-                print(request.POST)
-                name = request.POST.get('name')
-                siape = request.POST.get('siape')
-                sexo = int(request.POST.get('sexo'))
-                photo = request.FILES.get('photo')
-                password = request.POST.get('password')
-                user = User.objects.create_user(username=name, password=password)
-                if photo:
-                    technician = Technician.objects.create(name=name, user=user, siape=siape, sexo=sexo, photo=photo)
-                else:
-                    print("saiu co  rabo entre as pernas")
-                    technician = Technician.objects.create(name=name, user=user, siape=siape, sexo=sexo)
-                    print("k: ",technician)
-                technician.save()
-            except (TypeError, ValueError):
-                messages.error(request, 'Um valor foi informado incorretamente!')
-            except IntegrityError as e:
-                messages.error(request, 'Algumas informações não foram preenchidas :(')
-            except Exception as e:
-                messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
-            return redirect('technician_register')
+        try:
+            print(request.POST)
+            name = request.POST.get('name')
+            siape = request.POST.get('siape')
+            photo = request.FILES.get('photo')
+            password = request.POST.get('password')
+            campus_id = request.POST.get('campus')
+            user = User.objects.create_user(username=name, password=password)
+            if photo:
+                technician = Technician.objects.create(name=name, user=user, siape=siape, photo=photo, campus=campus_id)
+            else:
+                print("saiu co  rabo entre as pernas")
+                technician = Technician.objects.create(name=name, user=user, siape=siape, campus=campus_id)
+            technician.save()
+        except (TypeError, ValueError):
+            messages.error(request, 'Um valor foi informado incorretamente!')
+        except IntegrityError as e:
+            messages.error(request, 'Algumas informações não foram preenchidas :(')
+        except Exception as e:
+            messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
+        return redirect('technician_register')
 
 @login_required(login_url="login")
 def technician_edit(request, id):
-    if request.user.is_authenticated == False:
-        return redirect('login')
+    technician = get_object_or_404(Technician, id=id)
+    if request.method == 'GET':
+            return render(request, 'technician_edit.html', {'technician': technician,'sexo':Sexo_types.choices, 'campus':Campus_types.choices})            
+    elif 'excluir' in request.POST:
+        if technician.photo:
+            technician.photo.delete()
+        technician.delete()
+        return redirect('technician_manage')
     else:
-        technician = get_object_or_404(Technician, id=id)
-        if request.method == 'GET':
-                return render(request, 'technician_edit.html', {'technician': technician})            
-        elif 'excluir' in request.POST:
-            if technician.photo:
-                technician.photo.delete()
-            technician.delete()
-            return redirect('technician_manage')
-        else:
-            print(request.POST)
-            user = get_object_or_404(User, id=technician.user.id)
+        print(request.POST)
+        user = get_object_or_404(User, id=technician.user.id)
+        if technician.name != request.POST.get('name') and len(request.POST.get('name')) >= 8:
             technician.name = request.POST.get('name')
-            technician.siape = request.POST.get('siape')
-            technician.sexo = int(request.POST.get('sexo'))
-            user.save()
-            if request.FILES.get('photo'):
-                if technician.photo: technician.photo.delete()
+            user = User.objects.get(id=technician.user.id)
+            user.username = str(request.POST.get('name'))
+        
+        technician.siape = request.POST.get('siape')
+        technician.campus = request.POST.get('campus')
+        technician.sexo = int(request.POST.get('sexo'))
+        technician.save()
+        user.save()
+        if request.FILES.get('photo'):
+            if technician.photo: technician.photo.delete()
+        return redirect('technician_manage')
     
 @login_required(login_url="login")
 def general_data(request, id):
@@ -1584,19 +1587,22 @@ def generator_badge(request):
             if team_badge.isdigit(): 
                 team_sport = get_object_or_404(Team_sport, id=team_badge) 
                 players = Player_team_sport.objects.filter(team_sport=team_sport)
+                type = 1
             else:
                 if team_badge == 'all_player':
                     players = Player_team_sport.objects.all()
+                    type = 1
                 else:
                     for choice in Sport_types.choices:
                         if choice[1] == team_badge:
                             sport_value = choice[0]
                             break
+                    type = 1
                     players = Player_team_sport.objects.filter(team_sport__sport=sport_value)
             print(players)
             user_id = request.user.id
             user = User.objects.get(id=user_id)
-            generate_badges(players, user)
+            generate_badges(players, user, type)
             return redirect('badge')
         return redirect('badge')
 
@@ -1650,19 +1656,33 @@ def generator_certificate(request):
 def register_team(request):
     sport = Sport_types.choices
     sexo = Sexo_types.choices
+    campus = Campus_types.choices
+    if Technician.objects.filter(user__id=request.user.id).exists(): 
+        technician = Technician.objects.get(user__id=request.user.id)
+        context = {'sport': sport, 'sexo':sexo, 'campus':campus, 'campusField':False,'technician':technician}
+    else: 
+        context = {'sport': sport, 'sexo':sexo, 'campus':campus, 'campusField':True}
+
     if request.method == 'GET':
-        return render(request, 'guiate/team_register_teste.html', {'sport': sport, 'sexo':sexo})
+        return render(request, 'guiate/team_register_teste.html', context)
     else:
         print(request.POST)
-        name = request.POST.get('name')
         sexo = request.POST.get('sexo')
-        hexcolor = request.POST.get('hexcolor')
         sport_id = request.POST.get('sport_id')
-        photo = request.FILES.get('photo')
-        if photo: team = Team.objects.create(name=name, hexcolor=hexcolor, photo=photo)
-        else: team = Team.objects.create(name=name, hexcolor=hexcolor)
-        team.save()
-        team_sport = Team_sport.objects.create(team=team, sport=int(sport_id), sexo=int(sexo), admin=User.objects.get(id=request.user.id))
+        if request.POST.get('campus'):
+            campus_id = int(request.POST.get('campus'))
+            campus_name = Campus_types(campus_id).name
+            if not Team.objects.filter(name=campus_name).exists():
+                team = Team.objects.create(name=campus_name)  
+            else:
+                team = Team.objects.get(name=campus_name)
+        else:
+            technician = Technician.objects.get(user__id=request.user.id)  
+            team = Team.objects.create(name=technician.get_campus_display(), campus=technician.campus)
+        if not Team_sport.objects.filter(team=team, sport=int(sport_id), sexo=int(sexo)).exists():
+            team_sport = Team_sport.objects.create(team=team, sport=int(sport_id), sexo=int(sexo), admin=User.objects.get(id=request.user.id))
+        else:
+            team_sport = Team_sport.objects.get(team=team, sport=int(sport_id), sexo=int(sexo))
         return redirect('guiate_players_team', team_sport.team.name, team_sport.get_sexo_display(), team_sport.get_sport_display())
         
 @login_required(login_url="login")
@@ -1674,75 +1694,11 @@ def players_team(request, team_name, team_sexo, sport_name):
     sexo = sexo_team[team_sexo]
     team_sport = Team_sport.objects.get(team__name=team_name, sexo=sexo, sport=sport)
     players = Player.objects.all()
-    match team_sport.sport:
-        case 0:
-            avise = "para que o time esteja inscrito é preciso cadastrar entre 5 e 12 atletas no time"
-        case 1 | 2:
-            avise = "para que o time esteja inscrito é preciso cadastrar entre 6 e 12 atletas no time"
-        case 3:
-            avise = "para que o time esteja inscrito é preciso cadastrar entre 7 e 12 atletas no time"
-        case 8:
-            avise = "para que o time esteja inscrito é preciso cadastrar entre 10 e 20 atletas no time"
-        case _:
-            avise = "para que o time esteja inscrito é preciso cadastrar entre 1 e 4 atletas no time"
     if request.method == 'GET':
         if not players: messages.info(request, "Não tem nenhum jogador cadastrado no sistema!")
-        return render(request, 'guiate/player_team_teste.html', {'players': players,'team_sport': team_sport,'avise': avise}) 
+        return render(request, 'guiate/player_team_teste.html', {'players': players,'team_sport': team_sport}) 
     else:
-        user = User.objects.get(id=request.user.id)
-        if request.FILES.get('spreadsheet'):
-            spreadsheet = request.FILES.get('spreadsheet')
-            df = pd.read_excel(spreadsheet)
-            if 0 > 1:
-                df['DATA_NASCIMENTO'] = pd.to_datetime(df['DATA_NASCIMENTO'], errors='coerce').dt.date
-                for _, row in df.iterrows():
-                    sexo = str(row['SEXO']).lower()
-                    if sexo == "masculino" or sexo == "m": sexo = 0
-                    elif  sexo == "feminino" or sexo == "f": sexo = 1
-                    print("data nascimento: ",row['DATA_NASCIMENTO'])
-                    if not Player.objects.filter(name=row['NOME'], sexo=sexo, campus=row['CAMPUS'], date_nasc=row['DATA_NASCIMENTO'], registration=row['MATRICULA'], admin=user).exists():
-                        player = Player.objects.create(name=row['NOME'], sexo=sexo, campus=row['CAMPUS'], date_nasc=row['DATA_NASCIMENTO'], registration=row['MATRICULA'], admin=user)
-                    else:
-                        player = Player.objects.get(name=row['NOME'], sexo=sexo, campus=row['CAMPUS'], date_nasc=row['DATA_NASCIMENTO'], registration=row['MATRICULA'], admin=user)
-                    if not Player_team_sport.objects.filter(player=player, team_sport=team_sport).exists():
-                        Player_team_sport.objects.create(player=player, team_sport=team_sport)
-            for _, row in df.iterrows():
-
-                i = 1
-                print("HOII", request.FILES)
-                while f"Nome do aluno   (atleta {i}):" in row:
-                    if pd.notna(row[f"Nome do aluno   (atleta {i}):"]): 
-                        print("NOME: ", row[f"Nome do aluno   (atleta {i}):"])
-                        nome = row[f"Nome do aluno   (atleta {i}):"]
-                        print(nome)
-                        data = pd.Timestamp(row[f"Data de nascimento  (atleta {i}):"])  
-                        data_str = str(data)
-                        data_nasc = datetime.strptime(data_str, "%Y-%m-%d %H:%M:%S").date()
-                        print(data_nasc)
-                        campi = row[f'Unidade (Campus)']
-                        print(campi)
-                        if pd.notna(row.get(f"Anexar foto (atleta {i}):")):
-                            imag_url = row[f"Anexar foto (atleta {i}):"]
-                            try:
-                                match = re.search(r"[-\w]{25,}", imag_url)  # Extrai o ID do arquivo
-                                if match:
-                                    image_url = f"https://drive.google.com/uc?export=download&id={match.group(0)}"
-                                response = requests.get(image_url, stream=True)
-                                if response.status_code == 200:
-                                    file_name = f"player_{nome}.png"
-                                    player = Player.objects.create(name=nome, sexo=2, campus=campi, date_nasc=data_nasc, registration="2025120230", admin=user)
-                                    player.photo.save(file_name, ContentFile(response.content))
-                                    Player_team_sport.objects.create(player=player, team_sport=team_sport)
-
-                                    print(f"Imagem salva: {file_name}")
-                            except Exception as e:
-                                print(f"Erro ao baixar a imagem de {nome}: {e}")
-                                player = Player.objects.create(name=nome, sexo=2, campus=campi, date_nasc=data_nasc, registration="2025120230", admin=user)
-                                Player_team_sport.objects.create(player=player, team_sport=team_sport)
-                    i += 1
-                    
-            return redirect('guiate_players_list', team_sport.team.name, team_sport.get_sexo_display(), team_sport.get_sport_display())
-        elif 'Cancelar' in request.POST:
+        if 'Cancelar' in request.POST:
             if Player_team_sport.objects.filter(team_sport=team_sport).exists():
                 player_t_s = Player_team_sport.objects.filter(team_sport=team_sport)
                 for i in player_t_s:
@@ -1752,13 +1708,19 @@ def players_team(request, team_name, team_sexo, sport_name):
                 Team.objects.get(id=team_sport.team.id).delete()
             return redirect('team_manage')
         elif 'name' in request.POST:
+            user = User.objects.get(id=request.user.id)
             name = request.POST.get('name')
-            sexo = request.POST.get('sexo')
             date_nasc = datetime.strptime(request.POST.get('date'), "%Y-%m-%d")
-            campus = request.POST.get('campus')
             registration = request.POST.get('registration')
             photo = request.FILES.get('photo')
-            player = Player.objects.create(name=name, sexo=sexo, campus=campus, date_nasc=date_nasc, registration=registration, photo=photo, admin=user)
+            bulletin = request.FILES.get('bulletin')
+            print(team_sport.team.campus)
+            if request.POST.get('sexo'):
+                sexo = request.POST.get('sexo')
+                player = Player.objects.create(name=name, sexo=sexo, campus=team_sport.team.campus, date_nasc=date_nasc, bulletin=bulletin, registration=registration, photo=photo, admin=user)
+            else:
+                player = Player.objects.create(name=name, sexo=team_sport.sexo, campus=team_sport.team.campus, date_nasc=date_nasc, bulletin=bulletin, registration=registration, photo=photo, admin=user)
+                print(player.campus)
             Player_team_sport.objects.create(player=player, team_sport=team_sport)
             return redirect('guiate_players_list', team_sport.team.name, team_sport.get_sexo_display(), team_sport.get_sport_display())
         return redirect('guiate_players_team', team_sport.team.name, team_sport.get_sexo_display(), team_sport.get_sport_display())
@@ -1768,6 +1730,7 @@ def guiate_escolha(request, id):
     team_sport = Team_sport.objects.get(id=id)
     return render(request, 'guiate/escolha.html', {'team_sport':team_sport})
 
+@login_required(login_url="login")
 def players_list(request, team_name, team_sexo, sport_name):
     sport_team = {label: value for value, label in Sport_types.choices}
     sexo_team = {label: value for value, label in Sexo_types.choices}
@@ -1783,6 +1746,15 @@ def players_list(request, team_name, team_sexo, sport_name):
             player = Player_team_sport.objects.get(id=player_id)
             player.delete()
             return redirect('guiate_players_list', team_sport.team.name, team_sport.get_sexo_display(), team_sport.get_sport_display())
+        if 'Cancelar' in request.POST:
+            if Player_team_sport.objects.filter(team_sport=team_sport).exists():
+                player_t_s = Player_team_sport.objects.filter(team_sport=team_sport)
+                for i in player_t_s:
+                    i.delete()
+            team_sport.delete()
+            if not Team_sport.objects.filter(team=team_sport.team.id):
+                Team.objects.get(id=team_sport.team.id).delete()
+            return redirect('team_manage')
         elif 'Finalizar' in request.POST:
             player_count = Player_team_sport.objects.filter(team_sport=team_sport).count()
             match team_sport.sport:

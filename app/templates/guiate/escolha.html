@@ -13,30 +13,30 @@
 <body>
     <main>
         <div class="all">
-            <div class="all-block" style="width: 100vw; display: flex; justify-content: center; align-items: center; flex-direction: column;">
+            <div class="all-block" style="width: 100vw; display: flex; justify-content: center; align-items: center; flex-direction: column; text-align: center;">
                 <br>
                 <h1 style="color: white;">SELECIONE A OPÇÃO</h1>
                 <br>
                 <div class="block-general">
                     <a href="{% url 'guiate_register_new_sport' team_sport.team.name %}">
-                        <div class="block-g-2">
-                            <p>CADASTRAR UM NOVO ESPORTE NO TIME</p>
+                        <div class="block-g block-g-2">
+                            <p>CADASTRAR UMA NOVA MODALIDADE</p>
                             <br>
                             <img src="{% static 'images/player_team.png' %}" alt="">
                             
                         </div>
                     </a>
-                    <a href="{% url 'guiate_register_team' %}">
-                        <div class="block-g-1">
-                            <p>CADASTRAR UM NOVO TIME</p>
+                    <a href="{% url 'team_manage' %}">
+                        <div class="block-g block-g-1">
+                            <p>VER OS MEUS TIMES</p>
                             <br>
                             <img src="{% static 'images/new_team.png' %}" alt="">
                         </div>
                     </a>
                 </div>
                 <br>
-                <button class="side-bar-buttons-items2" style="background-color: var(--global-seventh-color); margin-top: 20px; padding: 10px; padding-left: 20px; padding-right: 20px; border: 0; border-radius: 10px; font-weight: 600;">
-                    <a href="{% url 'team_manage' %}" style="color: #ffffff; font-size: 30px;">SAIR</a>
+                <button class="side-bar-buttons-items2 custom-buttons-sport-nav" style="background-color: var(--global-seventh-color);">
+                    <a href="{% url 'team_manage' %}">SAIR</a>
                 </button>
             </div>
         </div>
@@ -54,8 +54,37 @@
         display: flex;
         flex-direction: row;
     }
+    @media (max-width: 600px) {
+        .block-general{
+        width: 80vw;
+        background-color: cornflowerblue;
+        height: 60vh;
+        border-radius: 40px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        }
+        .block-g-1{
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+        }
+        .block-g-2{
+            border-top-left-radius: 40px;
+            border-top-right-radius: 40px;
+        }
+    }
+    @media (min-width: 601px) {
+        .block-g-1{
+            border-bottom-right-radius: 40px;
+            border-top-right-radius: 40px;
+        }
+        .block-g-2{
+            border-bottom-left-radius: 40px;
+            border-top-left-radius: 40px;
+        }
+    }
     a{
-        width: 50%;
+        width: 100%;
         height: 100%;
     }
     .block-general p{
@@ -67,29 +96,21 @@
 
     }
     .block-g-1{
-        padding: 30px;
         background-color: #0036c9;
-        width: 100%;
-        height: 100%;
-        border-top-right-radius: 40px;
-        border-bottom-right-radius: 40px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
         color: #ffffff;
     }
     .block-g-2{
-        padding: 30px;
         background-color: #ffffff;
+        color: #0036c9;
+    }
+    .block-g{
+        text-align: center;
+        padding: 30px;
         width: 100%;
         height: 100%;
-        border-top-left-radius: 40px;
-        border-bottom-left-radius: 40px;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        color: #0036c9;
     }
 </style>

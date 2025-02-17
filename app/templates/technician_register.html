@@ -35,6 +35,12 @@
                         <option value="0">Masculino</option>
                         <option value="1">Feminino</option>
                     </select>
+                    <select name="campus" required>
+                        <option selected disabled>Selecione o campus</option required>
+                        {% for value, name in campus %}
+                        <option value="{{value}}">{{name}}</option>
+                        {% endfor %}
+                    </select>
                     <label for="fotos" id="label-foto" class="custom-file-button">Adicione uma imagem</label>
                     <input type="file" name="photo" id="fotos" accept=".jpg, .jpeg, .png" onchange="trocarTextoLabel()">
                     {% if messages %}

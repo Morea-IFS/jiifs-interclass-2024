@@ -14,7 +14,8 @@
     <main>
         <div class="all">
             <div class="all-block" style="width: 100vw; display: flex; align-items: center; justify-content: center;">
-                <div style="width: auto; height: auto; display: flex; flex-direction: column; align-items: center;">
+                <div style="width: auto; height: auto; display: flex; flex-direction: column; align-items: center; text-align: center;" >
+                    <h1 style="color: white;">JOGADORES DO CAMPUS <span style="color: #0051ff;">{{team_sport.team.name|upper}}</span> - <span style="color: #0051ff;">{{team_sport.get_sport_display|upper}}</span> {{team_sport.get_sexo_display|upper}}</h1>
                     <section class="all-table" style="padding-top: 5vh;">
                         <table id="search-table">
                             <tr class="hidden">
@@ -24,6 +25,7 @@
                                 <th>SEXO</th>
                                 <th>DATA NASC.</th>
                                 <th>FOTO</th>
+                                <th>BOLETIM</th>
                                 <th>EDITAR</th>
                                 <th>DELETAR</th>
                             </tr>
@@ -33,10 +35,11 @@
                                     {{ i.player.name }}
                                 </td>
                                 <td>{{i.player.registration}}</td>
-                                <td>{{i.player.campus}}</td>
+                                <td>{{i.player.get_campus_display}}</td>
                                 <td>{{i.player.get_sexo_display}}</td>
                                 <td>{{i.player.date_nasc}}</td>
                                 <td>{% if i.player.photo %} <img src="{% static 'images/icon-true.svg' %}"> {% else %} <img src="{% static 'images/icon-false.svg' %}"> {% endif %}</td>
+                                <td>{% if i.player.bulletin %} <img src="{% static 'images/icon-true.svg' %}"> {% else %} <img src="{% static 'images/icon-false.svg' %}"> {% endif %}</td>
                                 <td>
                                     <a href="{% url 'player_edit' i.player.id %}">
                                         <img src="{% static 'images/icon-edit.svg' %}">
@@ -59,24 +62,20 @@
                             </style>
                             <img class="image-no-players" src="{% static 'images/setup-animate.svg' %}">
                             <div class="title2">
-                                <h2>NENHUM JOGADOR FOI ENCONTRADO <br> <span style="font-size: 20px;">Realize o cadastro dos seus jogadores!</span></h2>
+                                <h2>NENHUM JOGADOR FOI ENCONTRADO <br> <span style="font-size: 20px;">Para que o time esteja inscrito cadastre o número mínimo de jogadores!</span></h2>
                                 
                             </div>
                             
                             {% endfor %}
                         </table>
-                        <div style="display: flex; width: auto; height: auto; justify-content: center; align-items: center; gap: 15px;">
-                            <button class="side-bar-buttons-items2" style="background-color: var(--global-seventh-color); margin-top: 20px; padding: 5px; padding-left: 10px; padding-right: 10px; border: 0; border-radius: 7px; font-weight: 600;">
-                                <a href="{% url 'manage' %}" style="color: #ffffff; font-size: 30px;">CANCELAR</a>
-                            </button>
-                            <button class="side-bar-buttons-items2" style="background-color: var(--global-color-green); margin-top: 20px; padding: 5px; padding-left: 10px; padding-right: 10px; border: 0; border-radius: 7px; font-weight: 600;">
-                                <a href="{% url 'guiate_players_team' team_sport.team.name team_sport.get_sexo_display team_sport.get_sport_display %}" style="color: #ffffff; font-size: 30px;">ADICIONAR MAIS</a>
+                        <div style="display: flex; width: auto; height: auto; justify-content: center; align-items: center; gap: 15px;">                            
+                            <button class="side-bar-buttons-items2 custom-buttons-sport-nav" style="background-color: var(--global-color-green);">
+                                <a href="{% url 'guiate_players_team' team_sport.team.name team_sport.get_sexo_display team_sport.get_sport_display %}">ADICIONAR MAIS</a>
                             </button>
                             
-                            <button class="side-bar-buttons-items2 cursor-block" style="background-color: var(--global-tenth-color); margin-top: 20px; padding: 5px; padding-left: 10px; padding-right: 10px; border: 0; border-radius: 7px; font-weight: 600;">
-                                <a {% if players|length > 3 and players|length < 12 %} href="{% url 'guiate_escolha' team_sport.id %}" {% endif %} style="color: #ffffff; font-size: 30px;">CONFIRMAR</a>
+                            <button class="side-bar-buttons-item2 custom-buttons-sport-nav">
+                                <a href="{% url 'guiate_escolha' team_sport.id %}">CONFIRMAR</a>
                             </button>
-
                         </div>
                         
                     </section>
@@ -84,9 +83,6 @@
             </div>
         </div>
     </main>
-    {% if not players|length > 3 and players|length < 12 %}
-    <style>  .cursor-block{cursor: not-allowed;}  </style>
-    {% endif %}
     <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>

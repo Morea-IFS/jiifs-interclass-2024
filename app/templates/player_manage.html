@@ -25,29 +25,47 @@
             <section class="all-table">
                 <table id="search-table">
                     <tr class="hidden">
+                        <th>FOTO</th>
                         <th>NOME</th>
                         <th>MATRICULA</th>
                         <th>CAMPUS</th>
                         <th>SEXO</th>
                         <th>DATA NASC.</th>
-                        <th>FOTO</th>
                         <th>EDITAR</th>
+                        {% if user.is_staff %}
+                        <th>
+                            <form method="POST" action="">
+                                {% csrf_token %}
+                                <button name="player_delete_all" style="background-color: transparent; border: none;">
+                                    <img src="{% static 'images/icon-trash.svg' %}" style="color: blue;" alt="">
+                                </button>
+                            </form>
+                        </th>
+                        {% endif %}
                     </tr>
                     {% for player in player %}
                     <tr>
-                        <td>
-                            <a href="{% url 'player_edit' player.id %}">{{ player.name }}</a>
-                        </td>
+                        <td>{% if player.photo %} <img src="{{ player.photo.url }}" style="width: 2em;"> {% else %} <img src="{% static 'images/icon-false.svg' %}"> {% endif %}</td>
+                        <td>{{ player.name }}</td>
                         <td>{{player.registration}}</td>
-                        <td>{{player.campus}}</td>
+                        <td>{{player.get_campus_display}}</td>
                         <td>{{player.get_sexo_display}}</td>
                         <td>{{player.date_nasc}}</td>
-                        <td>{% if player.photo %} <img src="{% static 'images/icon-true.svg' %}"> {% else %} <img src="{% static 'images/icon-false.svg' %}"> {% endif %}</td>
                         <td>
                             <a href="{% url 'player_edit' player.id %}">
                                 <img src="{% static 'images/icon-edit.svg' %}">
                             </a>
                         </td>
+                        {% if user.is_staff %}
+                        <td>
+                            <form method="POST" action="">
+                                {% csrf_token %}
+                                <button name="player_delete" value="{{player.id}}" style="background-color: transparent; border: none;">
+                                    <img src="{% static 'images/icon-trash.svg' %}" style="color: blue;" alt="">
+                                </button>
+                            </form>
+                        </td>
+                        {% endif %}
                     </tr>
                     {% empty %}
                     <style>
@@ -62,8 +80,8 @@
                     {% endfor %}
                 </table>
             </section>
-            <button class="side-bar-buttons-items2" style="background-color: var(--global-seventh-color); margin-top: 40px;">
-                <a href="{% url 'manage' %}">VOLTAR</a>
+            <button class="side-bar-buttons-items2" style="background-color: var(--global-seventh-color); margin-top: 20px; margin-bottom: 5vw; padding: 5px; padding-left: 10px; padding-right: 10px; border: 0; border-radius: 7px; font-weight: 600;">
+                <a href="{% url 'manage' %}" style="color: #ffffff; font-size: 25px;">VOLTAR</a>
             </button>
         </div>
     </div>

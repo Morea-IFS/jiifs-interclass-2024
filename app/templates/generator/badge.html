@@ -31,11 +31,6 @@
                                 <option value="all_player">Todos os atletas</option>
                                 <option value="all_technician">Todos os Técnicos</option>
                             </optgroup>
-                            <optgroup label="Esportes">
-                            {% for value, name in sport %}
-                            <option value="{{name}}">{{name}}</option>
-                            {% endfor %}
-                            </optgroup>
                             <optgroup label="Times">
                             {% for i in team_sport %}
                             <option value="{{i.id}}">{{i.team.name}} - {{i.get_sport_display}}</option>
