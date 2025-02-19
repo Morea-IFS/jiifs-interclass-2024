@@ -114,7 +114,7 @@ button {
 
 .all-block {
     display: flex;
-    width: calc(100vw - 9em);
+    flex: 1;
     background-color: var(--global-third-color);
 }
 

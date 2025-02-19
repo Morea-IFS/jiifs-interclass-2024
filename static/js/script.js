@@ -1,3 +1,31 @@
+document.addEventListener("DOMContentLoaded", function () {
+    const sidebar = document.querySelector(".side-bar");
+    const invisibleSidebar = document.querySelector(".invisible-side-bar");
+
+    if (!sidebar || !invisibleSidebar) return; // Evita erros se os elementos não existirem
+
+    // Função para atualizar a largura da "invisible-side-bar" e adicionar +1em
+    function updateInvisibleSidebar() {
+        const sidebarWidth = sidebar.offsetWidth; // Obtém a largura da sidebar
+        invisibleSidebar.style.width = `${sidebarWidth - 1}px`; // Aplica a nova largura
+    }
+
+    // Executa a função imediatamente
+    updateInvisibleSidebar();
+
+    // Atualiza sempre que a janela for redimensionada
+    window.addEventListener("resize", updateInvisibleSidebar);
+
+    // Usa MutationObserver para detectar mudanças na sidebar
+    const observer = new MutationObserver(updateInvisibleSidebar);
+    observer.observe(sidebar, { attributes: true, childList: true, subtree: true });
+
+    // Garante que o script rode mesmo após um F5
+    window.addEventListener("load", updateInvisibleSidebar);
+});
+
+
+
 // Obtém os elementos necessários
 // Light mode and dark mode Script
 const themeToggle = document.getElementById("theme-toggle");
