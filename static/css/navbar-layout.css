@@ -58,11 +58,11 @@ a {
 
 .user-admin {
     text-align: center;
-    margin-inline: 1em;
     padding: 5px;
     color: white;
     border-radius: 10px;
     background-color: var(--global-ninth-color);
+    margin-inline: 16px;
 }
 
 .user-admin p {
