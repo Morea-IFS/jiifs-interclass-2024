@@ -18,32 +18,31 @@
 <div class="all-block">
     <section class="block1">
         <div class="title">
-            <h1>EDITAR TÉCNICO</h1>
+            <h1>EDITAR VOLUNTÁRIO</h1>
         </div>
         <form id="function_validate_form" class="block-inputs" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="block-inputs-form">
                 <div>
-                    <input type="text" autocomplete="on" autocorrect="on" name="name"
-                        placeholder="{{ technician.name }}" value="{{ technician.name }}" required />
-                    <input type="text" autocomplete="on" autocorrect="on" name="siape"
-                        placeholder="{{ technician.siape }}" value="{{ technician.siape }}" />
-                    <select id="sexos" name="sexo" required>
-                        <option selected disabled>Selecione o sexo</option required>
-                        {% for value, name in sexo %}
-                        <option {% if technician.sexo == value %} selected {% endif %} value="{{value}}">{{name}}</option>
-                        {% endfor %}
+                    <input type="text" autocomplete="on" autocorrect="on" name="name" placeholder="{{ voluntary.name }}"
+                    value="{{ voluntary.name }}" required />
+                    <input type="text" autocomplete="on" autocorrect="on" name="registration"
+                    placeholder="{{ voluntary.registration }}" value="{{ voluntary.registration }}" />
+                    <select name="type_voluntary">
+                        <option selected disabled>Selecione o tipo de voluntário</option required>
+                        <option {% if voluntary.type_voluntary == 0 %} selected {% endif %} value="0">Voluntário</option>
+                        <option {% if voluntary.type_voluntary == 1 %} selected {% endif %} value="1">Equipe de organização</option>
                     </select>
                     <select name="campus" required>
                         <option selected disabled>Selecione o campus</option required>
                         {% for value, name in campus %}
-                        <option {% if technician.campus == value %} selected {% endif %} value="{{value}}">{{name}}
+                        <option {% if voluntary.campus == value %} selected {% endif %} value="{{value}}">{{name}}
                         </option>
                         {% endfor %}
                     </select>
-                    <label for="fotos" id="label-foto" class="custom-file-button">{% if technician.photo %} Trocar imagem {% else %} Adicione uma imagem {% endif %}</label>
-                    <input type="file" name="photo" id="fotos" accept=".jpg, .jpeg, .png"
-                        onchange="trocarTextoLabel()" />
+                    <label for="fotos" id="label-foto" class="custom-file-button" required>{% if voluntary.photo %}
+                        Trocar imagem {% else %} Adicione uma imagem {% endif %}</label>
+                    <input type="file" name="photo" id="fotos" accept=".jpg, .jpeg, .png" onchange="trocarTextoLabel()" />
                     {% if messages %}
                     {% for m in messages %}
                     <p style="color: red;">{{m}}</p>
@@ -56,7 +55,7 @@
             </div>
         </form>
         <button class="side-bar-buttons-items2" style="background-color: var(--global-seventh-color); margin-top: 40px;">
-            <a href="{% url 'technician_manage' %}">VOLTAR</a>
+            <a href="{% url 'voluntary_manage' %}">VOLTAR</a>
         </button>
     </section>
 </div>

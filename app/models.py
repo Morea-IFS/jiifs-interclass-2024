@@ -66,6 +66,11 @@ class Type_Banner(models.IntegerChoices):
     In_use = 0, "Em uso"
     empty = 1, "Nenhum"
 
+class Type_service(models.IntegerChoices):
+    voluntary = 0, "Voluntario"
+    organization = 1, "Organização"
+    technician = 3, "Técnico"
+
 class Player(models.Model):
     name = models.CharField(max_length=100)
     instagram = models.CharField(max_length=100, blank=True)
@@ -94,10 +99,11 @@ class Technician(models.Model):
     
 class Voluntary(models.Model):
     name = models.CharField(max_length=100)
-    photo = models.ImageField(upload_to='photo_technician/', default='defaults/person.png', blank=True)
+    photo = models.ImageField(upload_to='photo_voluntary/', default='defaults/person.png', blank=True)
     campus = models.IntegerField(choices=Campus_types.choices, default=Campus_types.reitoria)
-    cpf = models.CharField(max_length=11, default="00000000000")
+    registration = models.CharField(max_length=11, default="00000000000")
     admin = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    type_voluntary = models.IntegerField(choices=Type_service.choices, default=Type_service.voluntary)
 
     def __str__(self):    
         return f"{self.name} | {self.sexo}"

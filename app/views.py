@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponse
-from .models import Sexo_types, Campus_types, Badge, Certificate, Config, Volley_match, Player, Sport_types, Technician, Penalties, Events, Time_pause, Team, Point, Team_sport, Player_team_sport, Match, Team_match, Player_match, Assistance,  Banner, Terms_Use
+from .models import Sexo_types, Campus_types, Badge, Certificate, Config, Volley_match, Player, Sport_types, Technician, Voluntary, Penalties, Events, Time_pause, Team, Point, Team_sport, Player_team_sport, Match, Team_match, Player_match, Assistance,  Banner, Terms_Use
 from django.db.models import Count
 from django.contrib import messages
 from django.db import IntegrityError
@@ -13,8 +13,7 @@ from .forms import Terms_UseForm
 from datetime import date, datetime
 from reportlab.pdfgen import canvas
 from .generators import generate_certificates, generate_badges, generate_events, generate_timer
-import time, requests
-import pandas as pd
+import time
 from django.core.files.base import ContentFile
 # Create your views here.
 @login_required(login_url="login")
@@ -499,7 +498,7 @@ def technician_manage(request):
             technician = Technician.objects.all()
             if request.method == "GET":
                 if not technician:
-                    print("Não há nenhum jogador cadastrado!")
+                    print("Não há nenhum tecnico cadastrado!")
                 return render(request, 'technician_manage.html', {'technician': technician})
             else:
                 technician_id = request.POST.get('technician_delete')
@@ -565,6 +564,72 @@ def technician_edit(request, id):
             if technician.photo: technician.photo.delete()
         return redirect('technician_manage')
     
+@login_required(login_url="login")
+def voluntary_manage(request):
+    try:
+        if request.user.is_authenticated == False:
+            return redirect('login')
+        else:
+            voluntary = Voluntary.objects.all()
+            if request.method == "GET":
+                if not voluntary:
+                    print("Não há nenhum voluntário cadastrado!")
+                return render(request, 'voluntary_manage.html', {'voluntary': voluntary})
+            else:
+                voluntary_id = request.POST.get('voluntary_delete')
+                voluntary_delete = voluntary.objects.get(id=voluntary_id)
+                voluntary_delete.delete()
+                return redirect('voluntary_manage')
+    except Exception as e:
+        messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
+        return render(request, 'voluntary_manage.html')
+    
+@login_required(login_url="login")
+def voluntary_register(request):
+    campus = Campus_types.choices
+    if request.method == 'GET':
+        return render(request, 'voluntary_register.html',{'campus':campus})
+    else:
+        try:
+            name = request.POST.get('name')
+            registration = request.POST.get('registration')
+            type_voluntary = request.POST.get('type_voluntary')
+            photo = request.FILES.get('photo')
+            campus_id = request.POST.get('campus')
+            if photo:
+                voluntary = Voluntary.objects.create(type_voluntary=type_voluntary, name=name, registration=registration, photo=photo, campus=campus_id)
+            else:
+                voluntary = Voluntary.objects.create(type_voluntary=type_voluntary, name=name, registration=registration, campus=campus_id)
+            voluntary.save()
+        except (TypeError, ValueError):
+            messages.error(request, 'Um valor foi informado incorretamente!')
+        except IntegrityError as e:
+            messages.error(request, 'Algumas informações não foram preenchidas :(')
+        except Exception as e:
+            messages.error(request, f'Um erro inesperado aconteceu: {str(e)}')
+        return redirect('voluntary_register')
+
+@login_required(login_url="login")
+def voluntary_edit(request, id):
+    voluntary = get_object_or_404(Voluntary, id=id)
+    if request.method == 'GET':
+        return render(request, 'voluntary_edit.html', {'voluntary': voluntary, 'campus':Campus_types.choices})
+    elif 'excluir' in request.POST:
+        if voluntary.photo:
+            voluntary.photo.delete()
+        voluntary.delete()
+        return redirect('voluntary_manage')
+    else:
+        print(request.POST)
+        voluntary.name = request.POST.get('name')
+        voluntary.registration = request.POST.get('registration')
+        voluntary.type_voluntary = request.POST.get('type_voluntary')
+        voluntary.campus = request.POST.get('campus')
+        voluntary.save()
+        if request.FILES.get('photo'):
+            if voluntary.photo: voluntary.photo.delete()
+        return redirect('voluntary_manage')
+
 @login_required(login_url="login")
 def general_data(request, id):
     try:
