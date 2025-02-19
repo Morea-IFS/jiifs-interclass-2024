@@ -9,4 +9,5 @@ media/photo_player/*
 media/photos_config/*
 media/photos_technician/*
 media/bulletins/*
+media/photo_voluntary/*
 .env
