@@ -6,18 +6,14 @@
 {% endblock head %}
 
 {% block navbar %}
+
 <a href="{% url 'Home' %}">
     <button class="side-bar-buttons-items">HOME</button>
 </a>
-<a href="{% url 'games' %}">
-    <button class="side-bar-buttons-items">JOGOS</button>
+<a href="{% url 'manage' %}">
+    <button class="side-bar-buttons-items">GERENCIAMENTO</button>
 </a>
-<a href="{% url 'settings_manage' %}">
-    <button class="side-bar-buttons-items">CONFIGURAÇÕES</button>
-</a>
-<a href="{% url 'banner_manage' %}">
-    <button class="side-bar-buttons-items">BANNERS</button>
-</a>
+
 {% endblock navbar %}
 
 {% block content %}
@@ -49,6 +45,9 @@
                 </div>
             </div>
         </form>
+        <button class="side-bar-buttons-items2" style="background-color: var(--global-seventh-color); margin-top: 40px;">
+            <a href="{% url 'banner_manage' %}">VOLTAR</a>
+        </button>
     </section>
 </div>
 {% endblock content %}

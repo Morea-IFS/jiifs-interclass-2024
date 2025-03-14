@@ -1,12 +1,27 @@
 from django.contrib import admin
-from . models import Config, Volley_match, Events, Player, Assistance, Penalties, Time_pause, Team, Sport, Point, Team_sport, Player_team_sport, Match, Team_match, Player_match, Banner
+from . models import Certificate, Badge, Config, Volley_match, Events, Player, Technician, Assistance, Penalties, Time_pause, Team, Point, Team_sport, Player_team_sport, Match, Team_match, Player_match, Banner, Terms_Use
 
 # Register your models here.
 
 @admin.register(Player)
 class PlayerAdmin(admin.ModelAdmin):
-    list_display = ('id','name','sexo')
-    search_fields = ('id','name','sexo')
+    list_display = ('id','name','sexo','campus','registration','date_nasc','bulletin','photo')
+    search_fields = ('id','name','sexo','campus','registration','date_nasc','bulletin','photo')
+
+@admin.register(Badge)
+class BadgevAdmin(admin.ModelAdmin):
+    list_display = ('id','name','user','file')
+    search_fields = ('id','name','user','file')
+
+@admin.register(Certificate)
+class CertificatevAdmin(admin.ModelAdmin):
+    list_display = ('id','name','user','file')
+    search_fields = ('id','name','user','file')
+
+@admin.register(Technician)
+class TechnicianAdmin(admin.ModelAdmin):
+    list_display = ('id','name','sexo', 'siape','campus')
+    search_fields = ('id','name','sexo', 'siape','campus')
 
 @admin.register(Volley_match)
 class Volley_matchAdmin(admin.ModelAdmin):
@@ -18,15 +33,10 @@ class TeamAdmin(admin.ModelAdmin):
     list_display = ('id','name','hexcolor')
     search_fields = ('id','name','hexcolor')
 
-@admin.register(Sport)
-class SportAdmin(admin.ModelAdmin):
-    list_display = ('id','name','max_titulares')
-    search_fields = ('id','name','max_titulares')    
-
 @admin.register(Team_sport)
 class Team_sportAdmin(admin.ModelAdmin):
-    list_display = ('id','team','sport')
-    search_fields = ('id','team','sport')
+    list_display = ('id','team','sport','sexo','admin')
+    search_fields = ('id','team','sport','sexo','admin')
 
 @admin.register(Match)
 class MatchAdmin(admin.ModelAdmin):
@@ -82,3 +92,7 @@ class ConfigAdmin(admin.ModelAdmin):
 class BannerAdmin(admin.ModelAdmin):
     list_display = ('id','name','status')
     search_fields = ('id','name','status')
+
+@admin.register(Terms_Use)
+class Terms_UseAdmin(admin.ModelAdmin):
+    list_display = ('usuario', 'date_accept_local')

@@ -10,17 +10,8 @@
 <a href="{% url 'Home' %}">
     <button class="side-bar-buttons-items">HOME</button>
 </a>
-<a href="{% url 'player_manage' %}">
-    <button class="side-bar-buttons-items">JOGADORES</button>
-</a>
-<a href="{% url 'team_manage' %}">
-    <button class="side-bar-buttons-items">TIMES</button>
-</a>
-<a href="{% url 'matches_manage' %}">
-    <button class="side-bar-buttons-items">PARTIDAS</button>
-</a>
-<a href="{% url 'sport_manage' %}">
-    <button class="side-bar-buttons-items">ESPORTES</button>
+<a href="{% url 'manage' %}">
+    <button class="side-bar-buttons-items">GERENCIAMENTO</button>
 </a>
 {% endblock navbar %}
 
@@ -58,7 +49,7 @@
                                     <input type="checkbox" name="input-checkbox" value="{{ player.id }}">
                                 </td>
                                 <td>{{ player.name }}</td>
-                                <td>{% if player.sexo %} {{ player.get_sexo_display }} {% else %} ---- {% endif %}</td>
+                                <td>{{ player.get_sexo_display }}</td>
                             </tr>
                             {% endfor %}
                         </table>

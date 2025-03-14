@@ -12,12 +12,6 @@
 <a href="{% url 'games' %}">
     <button class="side-bar-buttons-items">JOGOS</button>
 </a>
-<a href="{% url 'settings_manage' %}">
-    <button class="side-bar-buttons-items">CONFIGURAÇÕES</button>
-</a>
-<a href="{% url 'banner_manage' %}">
-    <button class="side-bar-buttons-items">BANNERS</button>
-</a>
 {% endblock navbar %}
 
 {% block content %}
@@ -47,9 +41,9 @@
                     <div {% if i.match.sexo == 1 %} style="background-color: #ee005b;" {% endif %} class="game-score">{{ i.points_a }} x {{ i.points_b }}</div>
                 </div>
                 <div class="game-block2">
-                    <p>PARTIDA #{{i.match.id}}<br>{{i.match.get_sexo_display}}<br>{% if i.match.sport.sets %} VOLLEY {{i.match.volley_match.id}} {% endif %} </p>
-                    <h2>{{i.match.get_status_display}} - {{ i.match.sport.name }}</h2>
-                    <h3>{% if i.match.Winner_team %} Vencedor:  {{ i.match.Winner_team }} {% else %} H: {{i.match.time_match}} {% endif %}</h3>
+                    <p>PARTIDA #{{i.match.id}}<br>{{i.match.get_sexo_display}}<br>{{ i.match.get_sport_display }}</p>
+                    <h2>{{i.match.get_status_display}}</h2>
+                    <h3>{% if i.match.Winner_team %} Vencedor:  {{ i.match.Winner_team }} {% else %} {{i.match.time_match|date:"d/m/Y - H:i" }} {% endif %}</h3>
                 </div>
                 <div class="games-config">  
                     <a class="games-config-link" {% if i.match.status == 1 %} href="{% url 'scoreboard' %}" {% endif %}>
@@ -74,7 +68,9 @@
             </section>
             {% empty %}
             <img style="width: clamp(250px, 40%, 500px);" src="{% static 'images/games-empty.svg' %}">
-            <h1>NÃO HÁ NENHUMA PARTIDA CADASTRADA!</h1>
+            <div class="title2">
+                <h2>NÃO HÁ NENHUM TIME CADASTRADO!</h2>
+            </div>
             {% endfor %}
         </div>
     </div>

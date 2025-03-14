@@ -1,0 +1,84 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="{% static 'images/morea-sports.png' %}" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+    <title>JIIFS ADMIN</title>
+</head>
+<body>
+    <main>
+        <div class="all">
+            <div class="all-block" style="width: 100vw;">
+                <div class="block1">
+                    <div class="title" style="display: flex; flex-direction: column; color: white;">
+                        <h1>ADICIONE ATLETAS NO TIME DE <span style="color: #0051ff; ">{{team_sport.get_sport_display|upper}} {{team_sport.get_sexo_display|upper}}</span> DO CAMPUS <span style="color: #0051ff;">{{team_sport.team.name|upper}}</span></h1>
+                    </div>
+                    <form id="function_validate_form" class="block-inputs" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="block-inputs-form">
+                            <div>
+                                <label for="name">Nome do jogador</label>
+                                <input type="text" autocomplete="on" autocorrect="on" id="name" name="name" placeholder="Nome do jogador*"
+                                    required>
+                                <label for="date" >Data de nascimento</label>
+                                <input type="date" autocomplete="on" autocorrect="on" name="date" id="date"
+                                        placeholder="Data de nascimento*" required>
+                                <label for="registration">Matrícula</label>
+                                <input type="text" autocomplete="on" autocorrect="on" id="registration" name="registration"
+                                    placeholder="Matrícula*" required>
+                                {% if team_sport.sport == 2 %}
+                                <label for="sexos">Sexo</label>
+                                <select id="sexos" name="sexo">
+                                    <option selected disabled value="None">Selecione o sexo</option>
+                                    <option value="0">Masculino</option>
+                                    <option value="1">Feminino</option>
+                                </select>
+                                {% endif %}
+                                <label for="Boletin">Boletim</label>
+                                <label for="bulletin" id="label-foto" class="custom-file-button">Clique aqui e adicione o boletim escolar</label>
+                                <input type="file" name="bulletin" id="bulletin" accept=".pdf" required onchange="trocarTextoLabel()">
+                                <label for="Fotografia">Fotografia</label>
+                                <label for="fotos" id="label-foto" class="custom-file-button">Clique aqui e adicione uma fotografia</label>
+                                <input type="file" name="photo" id="fotos" accept=".jpg, .jpeg, .png" required onchange="trocarTextoLabel()">
+                                {% if messages %}
+                                {% for m in messages %}
+                                <p style="color: red;">{{m}}</p>
+                                {% endfor %}
+                                {% endif %}
+                            </div>
+                            <div>
+                                <button class="side-bar-buttons-items2 custom-buttons-sport-nav" style="background-color: var(--global-tenth-color);">
+                                    CONFIRMAR
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <br><br>
+                    <span style="background-color: white; width: 45vw; height: 3px;"></span>
+                    <br><br>
+                    <div style="display: flex; width: auto; height: auto; justify-content: center; align-items: center; gap: 15px; margin-bottom: 5vw;">                            
+                        <button class="side-bar-buttons-items2 custom-buttons-sport-nav" style="background-color: var(--global-color-green);">
+                            <a href="{% url 'guiate_players_list' team_sport.team.name team_sport.get_sexo_display team_sport.get_sport_display %}">VER JOGADORES</a>
+                        </button>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="{% static 'js/script.js' %}"></script>
+    <script>
+        const input = document.getElementById('bulletin')
+        input.addEventListener('change', () =>{
+            console.log(input.value)
+        })
+    </script>
+</body>
+</html>

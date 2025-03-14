@@ -9,44 +9,26 @@
 <a href="{% url 'Home' %}">
     <button class="side-bar-buttons-items">HOME</button>
 </a>
-<a href="{% url 'player_manage' %}">
-    <button class="side-bar-buttons-items">JOGADORES</button>
-</a>
-<a href="{% url 'team_manage' %}">
-    <button class="side-bar-buttons-items">TIMES</button>
-</a>
-<a href="{% url 'matches_manage' %}">
-    <button class="side-bar-buttons-items">PARTIDAS</button>
-</a>
-<a href="{% url 'sport_manage' %}">
-    <button class="side-bar-buttons-items">ESPORTES</button>
+<a href="{% url 'manage' %}">
+    <button class="side-bar-buttons-items">GERENCIAMENTO</button>
 </a>
 {% endblock navbar %}
-
-{% block register %}
-<section class="side-bar-register">
-    <h3 class="side-bar-register-title">CADASTRO</h3>
-    <button class="side-bar-buttons-items2">
-        <a href="{% url 'player_register' %}">Adicionar</a>
-    </button>
-</section>
-{% endblock register %}
 
 {% block content %}
 <div class="all-block">
     <section class="block1">
         <div class="title">
-            <h1>EDITAR JOGADOR</h1>
+            <h1>EDITAR JOGADOR DO CAMPUS <span style="color: #0051ff;">{{player.get_campus_display|upper}}</span></h1>
         </div>
         <div>
             <form id="function_validate_form" class="block-inputs" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="block-inputs-form">
                     <div>
-                        <input type="text" autocomplete="on" autocorrect="on" name="name"
-                            placeholder="{{ player.name }}" value="{{ player.name }}" required />
-                        <input type="text" autocomplete="on" autocorrect="on" name="instagram"
-                            placeholder="{{ player.instagram }}" value="{{ player.instagram }}" />
+                        <input type="text" autocomplete="on" autocorrect="on" name="name" {% if player.name %} placeholder="{{ player.name }}" {% else %} placeholder="Nome do jogador*" {% endif %} value="{{ player.name }}" required />
+                        
+                        <input type="text" autocomplete="on" autocorrect="on" name="registration" {% if player.registration %} placeholder="{{ player.registration }}" value="{{ player.registration }}" {% else %} placeholder="Matrícula" {% endif %} required>
+
                         <select id="sexos" name="sexo">
                             <option {% if player_disable %} selected disabled {% endif %} value="2"> Selecione o sexo
                             </option>
@@ -54,10 +36,16 @@
                             </option>
                             <option {% if player.sexo == 1 %} selected {% endif %} value="1">Feminino</option>
                         </select>
-                        <label for="fotos" id="label-foto" class="custom-file-button">{% if player.photo %} Trocar
-                            imagem {% else %} Adicione uma imagem {% endif %}</label>
-                        <input type="file" name="photo" id="fotos" accept=".jpg, .jpeg, .png"
-                            onchange="trocarTextoLabel()" />
+                        {% if user.is_staff %}
+                        <select name="campus" required>
+                            <option selected disabled>Selecione o campus</option required>
+                            {% for value, name in campus %}
+                            <option value="{{value}}" {% if player.campus == value %} selected {% endif %}>{{name}}</option>
+                            {% endfor %}
+                        </select>
+                        {% endif %}
+                        <label for="fotos" id="label-foto" class="custom-file-button">{% if player.photo %} Trocar imagem {% else %} Adicione uma imagem {% endif %}</label>
+                        <input type="file" name="photo" id="fotos" accept=".jpg, .jpeg, .png" onchange="trocarTextoLabel()" />
                         {% if messages %}
                         {% for m in messages %}
                         <p style="color: red;">{{m}}</p>
@@ -67,12 +55,6 @@
                     <div>
                         <input class="input-confirm" type="submit" value="Confirmar" />
                     </div>
-                </div>
-            </form>
-            <form id="function_validate_form_delete" class="block-inputs" method="post">
-                {% csrf_token %}
-                <div class="block-inputs-form">
-                    <input class="input-delete" type="submit" value="Excluir" name="excluir" />
                 </div>
             </form>
         </div>

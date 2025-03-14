@@ -9,59 +9,60 @@
 <a href="{% url 'Home' %}">
     <button class="side-bar-buttons-items">HOME</button>
 </a>
-<a href="{% url 'player_manage' %}">
-    <button class="side-bar-buttons-items">JOGADORES</button>
-</a>
-<a href="{% url 'team_manage' %}">
-    <button class="side-bar-buttons-items">TIMES</button>
-</a>
-<a href="{% url 'matches_manage' %}">
-    <button class="side-bar-buttons-items">PARTIDAS</button>
-</a>
-<a href="{% url 'sport_manage' %}">
-    <button class="side-bar-buttons-items">ESPORTES</button>
+<a href="{% url 'manage' %}">
+    <button class="side-bar-buttons-items">GERENCIAMENTO</button>
 </a>
 {% endblock navbar %}
-
-{% block register %}
-<section class="side-bar-register">
-    <h3 class="side-bar-register-title">CADASTRO</h3>
-    <button class="side-bar-buttons-items2">
-        <a href="{% url 'team_register' %}">Adicionar</a>
-    </button>
-</section>
-{% endblock register %}
 
 {% block content %}
 <div class="all-block">
     <div class="block1">
         <div class="title">
-            <h1>GERENCIAMENTO DOS TIMES</h1>
+            <h1>GERENCIAMENTO DE TIMES</h1>
         </div>
+        <button class="side-bar-buttons-items2 custom-buttons-sport-nav">
+            <a href="{% url 'guiate_register_team' %}">CADASTRO DE CAMPUS</a>
+        </button>
+        <br><br>
         <div class="all-manage">
-            <input type="search" id="search-input" onkeyup="search_table()" placeholder="Pesquisar os times" />
+            <input type="search" class="hidden" id="search-input" onkeyup="search_table()" placeholder="Pesquisar os times" />
             <section class="all-table">
                 <table id="search-table">
-                    <tr class="hidden error" >
+                    <tr class="hidden error">
                         <th>NOME</th>
-                        <th>COLOR-HEX</th>
                         <th>ESPORTE</th>
-                        <th>LOGO</th>
+                        <th>SEXO</th>
                         <th>JOGADORES</th>
+                        {% if user.is_staff %}
+                        <th>EDITAR</th>
+                        {% endif %}
                         <th>DELETAR</th>
                     </tr>
                     {% for team_sport in team_sports %}
                     <tr>
                         <td>
-                            <a href="{% url 'team_edit' team_sport.team.id %}">{% if team_sport.team.name %} {{ team_sport.team.name }} {% else %} ---- {% endif %}</a>
+                            {% if team_sport.team.name %} {{ team_sport.team.name }} {% else %} ---- {% endif %}
                         </td>
-                        <td>{{ team_sport.team.hexcolor }}</td>
-                        <td>{{ team_sport.sport.name }}</td>
-                        <td>{% if team_sport.team.photo %} <img src="{% static 'images/icon-true.svg' %}"> {% else %} <img src="{% static 'images/icon-false.svg' %}"> {% endif %}</td>
+                        <td>{{ team_sport.get_sport_display }}</td>
+                        <td>{{ team_sport.get_sexo_display }}</td>
                         <td>
                             <a href="{% url 'team_players_manage' team_sport.id %}">ACESSAR</a>
                         </td>
-                        <td><form method="POST" action="">{% csrf_token %}<button name="team_sport_delete" value="{{team_sport.id}}" style="background-color: transparent; border: none;"><img src="{% static 'images/icon-trash.svg' %}" style="color: blue;" alt=""></button></form></td>
+                        {% if user.is_staff %}
+                        <td>
+                            <a href="{% url 'team_edit' team_sport.team.id %}">
+                                <img src="{% static 'images/icon-edit.svg' %}">
+                            </a>
+                        </td>
+                        {% endif %}
+                        <td>
+                            <form method="POST">
+                                {% csrf_token %}
+                                <button name="team_sport_delete" value="{{team_sport.id}}" style="background-color: transparent; border: none;">
+                                    <img src="{% static 'images/icon-trash.svg' %}" style="color: blue;" alt="">
+                                </button>
+                            </form>
+                        </td>
 
                     </tr>
                     {% empty %}
@@ -72,12 +73,14 @@
                     </style>
                     <img class="image-no-players" src="{% static 'images/setup-animate.svg' %}">
                     <div class="title2">
-                        <h2>NÃO HÁ NENHUM TIME CADASTRADO!</h2>
+                        <h2>O SEU CAMPUS NÃO ESTÁ CADASTRADO <br> <span style="font-size: 20px;">Realize o cadastro!</span></h2>
                     </div>
                     {% endfor %}
-                
                 </table>
             </section>
+            <button class="side-bar-buttons-items2 custom-buttons-sport-nav" style="background-color: var(--global-seventh-color);">
+                <a href="{% url 'manage' %}">VOLTAR</a>
+            </button>
         </div>
     </div>
 </div>

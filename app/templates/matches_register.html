@@ -9,17 +9,8 @@
 <a href="{% url 'Home' %}">
     <button class="side-bar-buttons-items">HOME</button>
 </a>
-<a href="{% url 'player_manage' %}">
-    <button class="side-bar-buttons-items">JOGADORES</button>
-</a>
-<a href="{% url 'team_manage' %}">
-    <button class="side-bar-buttons-items">TIMES</button>
-</a>
-<a href="{% url 'matches_manage' %}">
-    <button class="side-bar-buttons-items">PARTIDAS</button>
-</a>
-<a href="{% url 'sport_manage' %}">
-    <button class="side-bar-buttons-items">ESPORTES</button>
+<a href="{% url 'manage' %}">
+    <button class="side-bar-buttons-items">GERENCIAMENTO</button>
 </a>
 {% endblock navbar %}
 
@@ -35,8 +26,10 @@
                     <div>
                         <select id="esporte" name="sport">
                             <option selected disabled value="None">Selecione o esporte</option>
-                            {% for sport in sport %}
-                            <option value="{{sport.id}}">{{sport.name}}</option>
+                            {% for value, name in sport %}
+                            <tr>
+                                <option value="{{value }}">{{ name }}</option>
+                            </tr>
                             {% endfor %}
                         </select>
                         <select id="sexos" name="sexo">
@@ -58,9 +51,11 @@
                         </select>
                         <input class="input-data" type="datetime-local" name="datetime" id="date-game" />
                     </div>
-                    {% if messages %} 
+                    {% if messages %}
                     {% for m in messages %}
-                    <div style="background-color: #c5c5c5; padding: 20px;"><p style="color: #AB0000;">{{m}}</p></div>
+                    <div style="background-color: #c5c5c5; padding: 20px;">
+                        <p style="color: #AB0000;">{{m}}</p>
+                    </div>
                     {% endfor %}
                     {% endif %}
                     <div>

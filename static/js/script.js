@@ -1,3 +1,99 @@
+document.addEventListener("DOMContentLoaded", function () {
+    const sidebar = document.querySelector(".side-bar");
+    const invisibleSidebar = document.querySelector(".invisible-side-bar");
+
+    if (!sidebar || !invisibleSidebar) return; // Evita erros se os elementos não existirem
+
+    // Função para atualizar a largura da "invisible-side-bar" e adicionar +1em
+    function updateInvisibleSidebar() {
+        const sidebarWidth = sidebar.offsetWidth; // Obtém a largura da sidebar
+        invisibleSidebar.style.width = `${sidebarWidth - 1}px`; // Aplica a nova largura
+    }
+
+    // Executa a função imediatamente
+    updateInvisibleSidebar();
+
+    // Atualiza sempre que a janela for redimensionada
+    window.addEventListener("resize", updateInvisibleSidebar);
+
+    // Usa MutationObserver para detectar mudanças na sidebar
+    const observer = new MutationObserver(updateInvisibleSidebar);
+    observer.observe(sidebar, { attributes: true, childList: true, subtree: true });
+
+    // Garante que o script rode mesmo após um F5
+    window.addEventListener("load", updateInvisibleSidebar);
+});
+
+
+
+// Obtém os elementos necessários
+// Light mode and dark mode Script
+const themeToggle = document.getElementById("theme-toggle");
+const themeIcon = document.getElementById("theme-icon");
+const body = document.body;
+
+// Função que alterna entre modo claro e modo escuro
+function toggleTheme() {
+    const isLightMode = body.classList.contains("light-mode");
+
+    // Alterna entre claro e escuro
+    if (isLightMode) {
+        body.classList.remove("light-mode");
+        body.classList.add("dark-mode");
+        themeIcon.classList.remove("fa-sun");
+        themeIcon.classList.add("fa-moon");
+        localStorage.setItem("theme", "dark");
+    } else {
+        body.classList.remove("dark-mode");
+        body.classList.add("light-mode");
+        themeIcon.classList.remove("fa-moon");
+        themeIcon.classList.add("fa-sun");
+        localStorage.setItem("theme", "light-mode");
+    }
+
+    console.log(`Modo ${isLightMode ? "escuro" : "claro"} ativado`);
+}
+
+// Função para carregar a preferência ao carregar a página
+function loadTheme() {
+    // Recupera a preferência de tema do localStorage
+    const storedTheme = localStorage.getItem("theme");
+
+    // Se não houver tema no localStorage, verifica a preferência do sistema
+    if (!storedTheme) {
+        const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+        if (prefersLight) {
+            body.classList.add("light-mode");
+            themeIcon.classList.add("fa-sun");
+            console.log("Modo claro aplicado com base no sistema operacional");
+            return;
+        }
+        body.classList.add("dark-mode");
+        themeIcon.classList.add("fa-moon");
+        console.log("Modo escuro aplicado com base no sistema operacional");
+        return;
+    }
+
+    // Aplica o tema salvo do localStorage
+    if (storedTheme === "light-mode") {
+        body.classList.add("light-mode");
+        themeIcon.classList.add("fa-sun");
+        console.log("Modo claro carregado");
+    } else {
+        body.classList.add("dark-mode");
+        themeIcon.classList.add("fa-moon");
+        console.log("Modo escuro carregado");
+    }
+}
+
+// Inicializa a função de carregar o tema ao carregar a página
+loadTheme();
+
+// Evento de clique para alternar entre os temas ao clicar no ícone
+themeToggle.addEventListener("click", toggleTheme);
+
+
+
 function trocarTextoLabel() {
     const label = document.getElementById("label-foto");
     const input = document.getElementById("fotos");
@@ -11,6 +107,18 @@ function trocarTextoLabel() {
     }
 }
 
+function trocarTextoLabelspreadsheetv(){
+    const label = document.getElementById("label-spreadsheet");
+    const input = document.getElementById("spreadsheet");
+
+    // Se um arquivo for selecionado, muda o texto do label
+    if (input.files.length > 0) {
+        label.innerHTML = "Planilha selecionada";
+    } else {
+        // Se nenhum arquivo estiver selecionado, volta para o texto padrão
+        label.innerHTML = "Selecione uma planilha";
+    }
+}
 function toggle_checkbox(source) {
     checkboxes = document.getElementsByName("input-checkbox");
     for (i = 0, n = checkboxes.length; i < n; i++) {

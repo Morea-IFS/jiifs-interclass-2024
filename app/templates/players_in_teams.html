@@ -9,37 +9,97 @@
 <a href="{% url 'Home' %}">
     <button class="side-bar-buttons-items">HOME</button>
 </a>
-<a href="{% url 'player_manage' %}">
-    <button class="side-bar-buttons-items">GERENCIAMENTO</button>
-</a>
 <a href="{% url 'games' %}">
     <button class="side-bar-buttons-items">JOGOS</button>
 </a>
-<a href="{% url 'settings_manage' %}">
+<a href="{% url 'settings' %}">
     <button class="side-bar-buttons-items">CONFIGURAÇÕES</button>
 </a>
 {% endblock navbar %}
 
 {% block content %}
 <div class="all-block">
-    <section class="block1">
-        <div class="title">
-            <h1>SELECIONE O TIME DESEJADO</h1>
+    <section class="block1 direction">
+        <div class="block-division">
+            <h1 class="title">{{team_match_a.team.name}}</h1>
+            <form method="post">
+                {% csrf_token %}
+                <button name="team-a" type="submit">ENVIAR</button>
+                <br><br>
+                <table id="search-table">
+                    <tr>
+                        <th>JOGADOR</th>
+                        <th>NUMERO</th>
+                        <th>SEXO</th>
+                    </tr>
+                    {% for i in player_match_a %}
+                    <tr>
+                        <td>{{ i.player.name }}</td>
+                        <td><input type="number" min="0" {% if i.player_number == 0 %} placeholder="Insira o número" {% else %} placeholder="{{i.player_number}}" value="{{ i.player_number }}"  {% endif %} name="number_a_{{ i.id }}"></td>
+                        <td>{{ i.player.get_sexo_display}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </form>
         </div>
-        <table class="all-table">
-            <tr>
-                <th>{{team_match_a.team.name}}</th>
-                <th>{{team_match_b.team.name}}</th>
-            </tr>
-            <tr>
-                <td>
-                    <a href="{% url 'players_match' team_match_a.id %}">CONFIGURAR JOGADORES</a>
-                </td>
-                <td>
-                    <a href="{% url 'players_match' team_match_b.id %}">CONFIGURAR JOGADORES</a>
-                </td>
-            </tr>
-        </table>
+        <div class="block-division">
+            <h1 class="title">{{team_match_b.team.name}}</h1>
+            <form method="post">
+                {% csrf_token %}
+                <button name="team-b" type="submit">ENVIAR</button>
+                <br><br>
+                <table id="search-table">
+                    <tr>
+                        <th>JOGADOR</th>
+                        <th>NUMERO</th>
+                        <th>SEXO</th>
+                    </tr>
+                    {% for i in player_match_b %}
+                    <tr>
+                        <td>{{ i.player.name }}</td>
+                        <td><input type="number" min="0" {% if i.player_number == 0 %} placeholder="Insira o número" {% else %} placeholder="{{i.player_number}}" value="{{ i.player_number }}"  {% endif %} name="number_b_{{ i.id }}"></td>
+                        <td>{{ i.player.get_sexo_display}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </form>
+        </div>
     </section>
 </div>
+
+<style>
+    .title{
+        color: white;
+    }
+    .direction{
+        flex-direction: row;
+    }
+    
+    .block-division{
+        width: 50%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 20px;
+    }
+    button{
+        width: 12em;
+        height: 3.5em;
+        background-color: darkcyan;
+        border: 0;
+        border-radius:15px;
+    }
+    @media (max-width: 700px) {
+        .direction{
+        flex-direction: column;
+        }
+    
+        .block-division{
+            width: 100%;
+
+        }
+    }
+
+    </style>
 {% endblock content %}

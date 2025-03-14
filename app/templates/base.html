@@ -7,6 +7,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="{% static 'images/morea-sports.png' %}" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
     <link rel="stylesheet" href="{% static 'css/navbar-layout.css' %}" />
     <link rel="stylesheet" href="{% static 'css/base.css' %}" />
     {% block head %}
@@ -17,10 +18,13 @@
 <body>
     <main>
         <div class="all">
-            <div class="invisible-navbar"></div>
+            <div class="invisible-side-bar"></div>
             <div class="hamburguer-menu" onclick="toggle(this)">
                 <span class="line first-line"></span>
                 <span class="line second-line"></span>
+            </div>
+            <div class="theme-mode-button" id="theme-toggle">
+                <i class="fas fa-sun" id="theme-icon"></i>
             </div>
             <section class="side-bar">
                 <div class="side-bar-top">
@@ -47,7 +51,7 @@
                 </div>
             </section>
             {% block content %}
-            
+
             {% endblock content %}
         </div>
     </main>

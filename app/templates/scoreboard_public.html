@@ -83,8 +83,7 @@
                     </div>
                     <p class="time-and-sets-counter">
                         <span id="timer">{% if match %} {{time_sets_a}} {% else %} 00:00 {% endif %}</span>
-                        <span id="sets-team-b" style="{% if match.sport.sets %}display: flex;{% else %}display: none;{% endif %}">{% if match %} {{sets_b}} {% else %} 0 {% endif %}</span>
-                    </p>
+                        <span id="sets-team-b" style="{% if match.sport == 1 %}display: flex;{% else %}display: none;{% endif %}">{% if match %} {{sets_b}} {% else %} 0 {% endif %}</span>
                 </div>
                 <div class="ball-sport">
                     <img id="ball-sport" src="{{ball_sport}}" alt="" />

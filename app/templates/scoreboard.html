@@ -16,7 +16,7 @@
 <a href="{% url 'games' %}">
     <button class="side-bar-buttons-items">JOGOS</button>
 </a>
-<a href="{% url 'settings_manage' %}">
+<a href="{% url 'settings' %}">
     <button class="side-bar-buttons-items">CONFIGURAÇÕES</button>
 </a>
 {% endblock navbar %}
@@ -124,7 +124,7 @@
                         <select name="finally_start_match" required>
                             <option selected disabled value="None">Selecione a proxima equipe</option>
                             {% for i in matches %}
-                            <option value="{{i.id}}">{{i.id}} - {{i.sport}}- {% for a in team_match_all %} {% if a.match.id == i.id %} {{a.team.name}} - {% endif %}{% empty %} - {% endfor %} {{i.get_sexo_display}}</option>
+                            <option value="{{i.id}}">{{i.id}} - {{i.get_sport_display}}- {% for a in team_match_all %} {% if a.match.id == i.id %} {{a.team.name}} - {% endif %}{% empty %} - {% endfor %} {{i.get_sexo_display}}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -225,11 +225,11 @@
                         </form>
                     </div>
                 </div>
-                {% if match.sport.sets %}
-                <div class="title-scoreboard" id="scoreboard-1" style="{% if match.sport.sets %} display: flex; {% else %} display: none; {% endif %}">
+                {% if match.sport == 1 %}
+                <div class="title-scoreboard" id="scoreboard-1" style="{% if match.sport == 1 %} display: flex; {% else %} display: none; {% endif %}">
                     <h2>ACES</h2>
                 </div>
-                <div class="scoreboard-bottom" id="scoreboard-2" style="{% if match.sport.sets %} display: flex; {% else %} display: none; {% endif %}">
+                <div class="scoreboard-bottom" id="scoreboard-2" style="{% if match.sport == 1 %} display: flex; {% else %} display: none; {% endif %}">
                     <div class="buttons-scoreboard">
                         <form method="post">
                             {% csrf_token %}

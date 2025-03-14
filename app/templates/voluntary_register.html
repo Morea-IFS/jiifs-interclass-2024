@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<title>JIIFS ADMIN</title>
+{% endblock head %}
+
+{% block navbar %}
+<a href="{% url 'Home' %}">
+    <button class="side-bar-buttons-items">HOME</button>
+</a>
+<a href="{% url 'manage' %}">
+    <button class="side-bar-buttons-items">GERENCIAMENTO</button>
+</a>
+{% endblock navbar %}
+
+{% block content %}
+<div class="all-block">
+    <section class="block1">
+        <div class="title">
+            <h1>CADASTRO DE VOLUNTÁRIOS</h1>
+        </div>
+        <form id="function_validate_form" class="block-inputs" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="block-inputs-form">
+                <div>
+                    <input type="text" autocomplete="on" autocorrect="on" name="name" placeholder="Insira o nome"
+                    required>
+                    <input type="text" autocomplete="on" autocorrect="on" name="registration"
+                    placeholder="Matricula ou siape" required>
+                    <select name="type_voluntary" required>
+                        <option selected disabled>Selecione o tipo de voluntário</option required>
+                        <option value="0">Voluntário</option>
+                        <option value="1">Equipe de organização</option>
+                    </select>
+                    <select name="campus" required>
+                        <option selected disabled>Selecione o campus</option required>
+                        {% for value, name in campus %}
+                        <option value="{{value}}">{{name}}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="fotos" id="label-foto" class="custom-file-button">Adicione uma imagem</label>
+                    <input type="file" name="photo" id="fotos" accept=".jpg, .jpeg, .png" onchange="trocarTextoLabel()">
+                    {% if messages %}
+                    {% for m in messages %}
+                    <p style="color: red;">{{m}}</p>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                <div>
+                    <input class="input-confirm" type="submit" value="Confirmar"></input>
+                </div>
+            </div>
+        </form>
+        <button class="side-bar-buttons-items2" style="background-color: var(--global-seventh-color); margin-top: 40px;">
+            <a href="{% url 'voluntary_manage' %}">VOLTAR</a>
+        </button>
+    </section>
+</div>
+{% endblock content %}
